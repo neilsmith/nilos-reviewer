@@ -1,0 +1,35 @@
+<p><a href="https://example.invalid/acme/app/tasks/4821">Task 4821</a></p>
+<h2>Team directory</h2>
+<p>Adds an optional &quot;Team directory&quot; module so workspaces can list members with
+photos, roles and short bios on their public site.</p>
+<h3>Behaviour</h3>
+<ul>
+<li><strong>Model:</strong> first name is required. Last name and image are optional. Each
+workspace's extra fields (role, bio, links…) come from its
+<code>directory.model</code> config through <code>SampleKit</code> <code>data_fields</code>, so adding a
+field needs no migration.</li>
+<li><strong>Config:</strong> a <code>directory</code> block in <code>defaultv1</code>/<code>v2</code>/<code>v3</code> with <code>enabled</code>,
+<code>noun</code>, <code>sortable</code>, <code>hide_image</code>, <code>hide_hidden_field</code> and
+<code>after_commit_callbacks</code>.</li>
+<li><strong>Admin:</strong> list, new, edit, delete and drag-to-reorder at
+<code>/admin/directory</code>, modelled on Documents and App Blocks. The image and
+hidden inputs follow <code>hide_image</code> and <code>hide_hidden_field</code>. The pages
+return a 404 when the module is off.</li>
+<li><strong>API v1:</strong> <code>/api/v1/directory</code> (index and show). It needs both
+<code>api_v1.enabled</code> and <code>directory.enabled</code>. demo-site doesn't have API v1
+turned on, so it gets a 404 there.</li>
+<li><strong>App feed:</strong> a <code>directory</code> key in <code>FeedJob</code>, only for workspaces with the
+module on. The image is left out when <code>hide_image</code> is set.</li>
+<li><strong>Fix:</strong> <code>Web::V1::BaseController</code> raised <code>NoMethodError</code> for v1/v2
+workspaces, because their configs have no <code>api_v1</code> block. They now get a
+404.</li>
+</ul>
+<h3>Test plan</h3>
+<ol>
+<li>Enable <code>directory.enabled</code> on demo-site, add three members and reorder
+them.</li>
+<li>Confirm <code>/admin/directory</code> 404s with the module off.</li>
+<li>Hit <code>/api/v1/directory</code> with and without <code>api_v1.enabled</code>.</li>
+<li>Check the demo-site app feed: <code>directory</code> should list the visible members
+in order.</li>
+</ol>

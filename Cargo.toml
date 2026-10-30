@@ -1,0 +1,47 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/pr-core",
+    "crates/pr-github",
+]
+
+[workspace.lints.clippy]
+unwrap_used = "warn"
+
+[package]
+name = "nilos-reviewer"
+version = "0.1.0"
+edition = "2024"
+publish = false
+authors = ["Neil Smith"]
+description = "NilosReviewer — a native Rust/GPUI desktop app for working through GitHub PRs awaiting your review"
+license = "MIT"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = "1"
+
+gpui-kit = { version = "0.8.0", features = ["tree-sitter-markdown-inline"] }
+htmd = "0.5.6"
+markdown = "1.0"
+pr-core = { path = "crates/pr-core" }
+pr-github = { path = "crates/pr-github" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+url = "2.5"
+
+[dev-dependencies]
+gpui = { package = "gpui-pre", version = "=0.3.10", features = ["test-support"] }
+scraper = "0.25"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

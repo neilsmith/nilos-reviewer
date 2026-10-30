@@ -1,0 +1,191 @@
+<h2>🤖 dep-scanner</h2>
+<p><strong>Decision: NEEDS HUMAN REVIEW</strong> — analysis raised concerns</p>
+<h4><code>bundler: acme-auth 3.1.0 → 3.2.0</code> (minor)</h4>
+<p>Released 2026-10-22 (4.0d ago) · release train began 2026-10-22 (4.1d ago, cooldown 0d ✅) · 🔐 security update · <a href="https://example.invalid/acme/acme-auth/compare/v3.1.0...v3.2.0">upstream diff</a> · Diff source: gem-tarball</p>
+<p><strong>Review coverage:</strong> 12/12 parts reviewed across 12 files; 3/3 calls; complete=true</p>
+<details><summary>Changed-file inventory and coverage</summary>
+<ul>
+<li><code>00-metadata.yml</code> (metadata, 2140 bytes): 1/1 parts reviewed; selection hints: network, execution, security-controls</li>
+<li><code>payload/Gemfile</code> (source-or-data, 713 bytes): 1/1 parts reviewed; selection hints: network, execution</li>
+<li><code>payload/.github/dependabot.yml</code> (source-or-data, 865 bytes): 1/1 parts reviewed; selection hints: network</li>
+<li><code>payload/.github/FUNDING.yml</code> (source-or-data, 293 bytes): 1/1 parts reviewed</li>
+<li><code>payload/.github/workflows/main.yml</code> (source-or-data, 2083 bytes): 1/1 parts reviewed; selection hints: network, sensitive-data</li>
+<li><code>payload/lib/acme_auth/session.rb</code> (source-or-data, 1935 bytes): 1/1 parts reviewed; selection hints: network</li>
+<li><code>payload/lib/acme_auth/token_store.rb</code> (source-or-data, 1149 bytes): 1/1 parts reviewed; selection hints: network, sensitive-data</li>
+<li><code>payload/lib/acme_auth/strategies/basic.rb</code> (source-or-data, 1005 bytes): 1/1 parts reviewed; selection hints: network</li>
+<li><code>payload/lib/acme_auth/strategy.rb</code> (source-or-data, 8344 bytes): 1/1 parts reviewed; selection hints: network, sensitive-data, execution, security-controls</li>
+<li><code>payload/lib/acme_auth.rb</code> (source-or-data, 2737 bytes): 1/1 parts reviewed</li>
+<li><code>payload/LICENSE.md</code> (documentation, 485 bytes): 1/1 parts reviewed</li>
+<li><code>payload/README.md</code> (documentation, 8901 bytes): 1/1 parts reviewed; selection hints: network, sensitive-data, execution, security-controls</li>
+</ul>
+</details>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unexpected external destinations</td>
+<td>0.28 ✅</td>
+</tr>
+<tr>
+<td>Executes downloaded code</td>
+<td>0.11 ✅</td>
+</tr>
+<tr>
+<td>Touches credential paths</td>
+<td>0.05 ✅</td>
+</tr>
+<tr>
+<td>Adds network listeners</td>
+<td>0.18 ✅</td>
+</tr>
+<tr>
+<td>Reads environment secrets</td>
+<td>0.07 ✅</td>
+</tr>
+<tr>
+<td>Writes outside gem dir</td>
+<td>0.22 ✅</td>
+</tr>
+<tr>
+<td>Obfuscated strings present</td>
+<td>0.09 ✅</td>
+</tr>
+<tr>
+<td>New runtime dependencies</td>
+<td>0.54 (informational)</td>
+</tr>
+<tr>
+<td>Native extensions added</td>
+<td>0.31 (informational)</td>
+</tr>
+<tr>
+<td>Scripts run at install</td>
+<td>0.12 (informational)</td>
+</tr>
+<tr>
+<td>Changes public API</td>
+<td>0.44 (informational)</td>
+</tr>
+<tr>
+<td>Is a security fix</td>
+<td>0.60 (informational)</td>
+</tr>
+<tr>
+<td>License changed</td>
+<td>0.02 ✅</td>
+</tr>
+<tr>
+<td>Files removed upstream</td>
+<td>0.15 (informational)</td>
+</tr>
+<tr>
+<td>Test coverage included</td>
+<td>0.83 (informational)</td>
+</tr>
+<tr>
+<td>Breaks normal usage</td>
+<td>0.57 (advisory)</td>
+</tr>
+<tr>
+<td>Exfiltrates data</td>
+<td>0.04 ✅</td>
+</tr>
+<tr>
+<td>Depends on network at load</td>
+<td>0.26 ✅</td>
+</tr>
+<tr>
+<td>Change nature</td>
+<td>security (0.86)</td>
+</tr>
+<tr>
+<td>Risk (advisory only)</td>
+<td>medium (0.70)</td>
+</tr>
+<tr>
+<td>Verdict (advisory only)</td>
+<td>escalate (0.87)</td>
+</tr>
+<tr>
+<td>Confidence</td>
+<td>0.91</td>
+</tr>
+</tbody>
+</table>
+<details><summary>Per-packet findings and raw model answers</summary>
+<pre><code class="language-json">[
+  {
+    &quot;number&quot;: 1,
+    &quot;files&quot;: [
+      &quot;PR-release-notes&quot;,
+      &quot;00-metadata.yml&quot;,
+      &quot;payload/acme_auth.gemspec&quot;,
+      &quot;payload/LICENSE.md&quot;,
+      &quot;payload/README.md&quot;,
+      &quot;payload/.github/workflows/main.yml&quot;,
+      &quot;payload/Gemfile&quot;,
+      &quot;payload/lib/acme_auth.rb&quot;,
+      &quot;payload/lib/acme_auth/session.rb&quot;,
+      &quot;payload/lib/acme_auth/token_store.rb&quot;
+    ],
+    &quot;decision&quot;: &quot;approve&quot;,
+    &quot;answers&quot;: {
+      &quot;behavior_defaults_changed&quot;: {
+        &quot;type&quot;: &quot;score&quot;,
+        &quot;score&quot;: 0.75
+      },
+      &quot;breaks_normal_usage&quot;: {
+        &quot;type&quot;: &quot;score&quot;,
+        &quot;score&quot;: 0.57
+      }
+    }
+  },
+  {
+    &quot;number&quot;: 2,
+    &quot;files&quot;: [
+      &quot;payload/lib/acme_auth/strategy.rb&quot;,
+      &quot;payload/lib/acme_auth/strategies/basic.rb&quot;,
+      &quot;payload/lib/acme_auth/version.rb&quot;
+    ],
+    &quot;decision&quot;: &quot;review&quot;,
+    &quot;answers&quot;: {
+      &quot;breaks_normal_usage&quot;: {
+        &quot;type&quot;: &quot;score&quot;,
+        &quot;score&quot;: 0.52
+      },
+      &quot;exfiltrates_data&quot;: {
+        &quot;type&quot;: &quot;score&quot;,
+        &quot;score&quot;: 0.04
+      }
+    }
+  },
+  {
+    &quot;number&quot;: 3,
+    &quot;files&quot;: [
+      &quot;payload/Gemfile.lock&quot;,
+      &quot;payload/.rubocop.yml&quot;,
+      &quot;payload/test/session_test.rb&quot;
+    ],
+    &quot;decision&quot;: &quot;approve&quot;,
+    &quot;answers&quot;: {
+      &quot;behavior_defaults_changed&quot;: {
+        &quot;type&quot;: &quot;score&quot;,
+        &quot;score&quot;: 0.18
+      }
+    },
+    &quot;state_bytes&quot;: 36000,
+    &quot;literal_evidence_bytes&quot;: 26761,
+    &quot;shared_text_lines&quot;: 18
+  }
+]
+</code></pre>
+</details>
+<p><strong>Flagged:</strong> packet 1: breaks_normal_usage=0.57, packet 2: breaks_normal_usage=0.52</p>
+<p><em>Reasons: breaks_normal_usage flagged marginal on 2 packets</em></p>
+<p>Requesting review from @dev-mara, team @acme/security (analysis escalated).</p>
+<p><sub>evaluated 2026-10-26 16:22 UTC · verdicts cached for reuse across repos</sub></p>
