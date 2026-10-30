@@ -14,6 +14,17 @@ jobs:
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+      # gpui's Linux backend needs fontconfig/xcb/wayland dev packages.
+      - name: System dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libfontconfig-dev libxkbcommon-dev libwayland-dev \
+            libx11-xcb-dev libxcb-xkb-dev libxcb-render0-dev \
+            libxcb-shape0-dev libxcb-xfixes0-dev libxcb-util-dev \
+            libxcb-cursor-dev libxcb-randr0-dev libxcb-keysyms1-dev \
+            libasound2-dev libvulkan-dev xvfb
       - run: cargo fmt --all -- --check
       - run: cargo clippy --workspace --all-targets -- -D warnings
-      - run: cargo test --workspace
+      # Native gpui tests open windows — run under a virtual display.
+      - run: xvfb-run -a cargo test --workspace
