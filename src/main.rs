@@ -11,6 +11,7 @@ mod preview;
 mod service;
 mod store;
 mod themes;
+mod update;
 
 use app::ApproverView;
 
@@ -36,6 +37,7 @@ fn main() {
     };
     application().with_assets(AppAssets).run(|cx| {
         init(cx);
+        update::spawn();
         if omarchy::install(cx).is_none() {
             themes::install(cx);
         }

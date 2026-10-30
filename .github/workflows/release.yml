@@ -1,0 +1,46 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-13
+            target: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }}
+      - name: Package
+        shell: bash
+        run: |
+          asset="nilos-reviewer-${{ matrix.target }}.tar.gz"
+          tar -czf "$asset" -C "target/${{ matrix.target }}/release" nilos-reviewer
+          mkdir -p out
+          mv "$asset" out/
+          if command -v sha256sum >/dev/null; then
+            (cd out && sha256sum "$asset" > "$asset.sha256")
+          else
+            (cd out && shasum -a 256 "$asset" > "$asset.sha256")
+          fi
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: out/*
+          name: ${{ github.ref_name }}
