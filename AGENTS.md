@@ -11,6 +11,7 @@ review by their teams. Standalone app.
 - Format: `cargo fmt --all`
 - Tests: `cargo test --workspace` (14 tests; rendering suite alone: `cargo test --test rendering`, native GPUI: `cargo test --test native_rendering`)
 - Run: `./target/debug/nilos-reviewer`
+- Release: `scripts/release.sh <version>` — bumps `[package].version` in all three manifests + Cargo.lock, commits, tags `v<version>`, pushes (the tag triggers the release workflow)
 - Offline rendering preview (no auth/network): `./target/debug/nilos-reviewer --render-fixture <name>` — side-by-side GitHub-HTML vs app Markdown for every fixture, Left/Right switches fixture.
 - GitHub auth: reuses `gh` CLI session via `gh auth token` — never add a credential flow or store tokens (`src/store.rs` must never persist secrets).
 
