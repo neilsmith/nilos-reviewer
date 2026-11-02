@@ -10,7 +10,7 @@ unwrap_used = "warn"
 
 [package]
 name = "nilos-reviewer"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 publish = false
 authors = ["Neil Smith"]
