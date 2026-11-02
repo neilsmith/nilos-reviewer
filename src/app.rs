@@ -1,5 +1,5 @@
 use crate::service::{ServiceCommand, ServiceEvent, ServiceHandle};
-use crate::{browser, omarchy, store};
+use crate::{browser, omarchy, store, update};
 use gpui_kit::assets::IconName;
 use gpui_kit::base::{StyledExt, h_flex, v_flex};
 use gpui_kit::component::button::{Button, ButtonVariants as _};
@@ -19,6 +19,7 @@ use pr_core::{
 };
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
+use std::sync::mpsc;
 use std::time::{Duration, Instant};
 
 const UI_POLL: Duration = Duration::from_millis(100);
@@ -48,6 +49,7 @@ enum DetailState {
 
 pub struct ApproverView {
     service: ServiceHandle,
+    update_events: mpsc::Receiver<String>,
     queue: Vec<PrSummary>,
     scan_queue: Vec<PrSummary>,
     selected: Option<PrKey>,
@@ -197,6 +199,7 @@ impl ApproverView {
         let scan_generation = service.current_generation();
         let view = Self {
             service,
+            update_events: update::spawn(),
             queue: Vec::new(),
             scan_queue: Vec::new(),
             selected: None,
@@ -273,6 +276,10 @@ impl ApproverView {
             self.persist_state();
         }
         let mut changed = false;
+        while let Ok(version) = self.update_events.try_recv() {
+            self.notice = Some(format!("Updated to {version} — restart to apply"));
+            changed = true;
+        }
         while let Ok(event) = self.service.events.try_recv() {
             // Scan-scoped events from a superseded scan must not merge into
             // the current queue — drop them. Detail/review events carry the

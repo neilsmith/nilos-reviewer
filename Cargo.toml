@@ -22,16 +22,15 @@ workspace = true
 
 [dependencies]
 anyhow = "1"
-axoupdater = "0.10.3"
 
 gpui-kit = { version = "0.8.0", features = ["tree-sitter-markdown-inline"] }
 htmd = "0.5.6"
 markdown = "1.0"
 pr-core = { path = "crates/pr-core" }
 pr-github = { path = "crates/pr-github" }
+self_update = "=1.3.2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tokio = "1.54.1"
 url = "2.5"
 
 [dev-dependencies]
