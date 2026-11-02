@@ -243,6 +243,49 @@ pub fn group_by_repository(prs: &[PrSummary]) -> Vec<RepoGroup> {
         .collect()
 }
 
+/// One direct child of the queue's scroll container — a group header or a PR
+/// row. The sidebar renders these as flat siblings so a child's index in this
+/// list is also its index in the scroll handle's child bounds.
+#[derive(Debug, Clone)]
+pub enum QueueItem {
+    Header(RepoGroup),
+    Row(Box<PrSummary>),
+}
+
+/// Flatten groups into header + row items in the order rendered as direct
+/// children of the queue's scroll container. Collapsed groups contribute only
+/// their header.
+pub fn flattened_children(groups: &[RepoGroup], collapsed: &HashSet<String>) -> Vec<QueueItem> {
+    groups
+        .iter()
+        .flat_map(|group| {
+            std::iter::once(QueueItem::Header(group.clone())).chain(
+                if collapsed.contains(&group.name) {
+                    Vec::new()
+                } else {
+                    group
+                        .rows
+                        .iter()
+                        .cloned()
+                        .map(|pr| QueueItem::Row(Box::new(pr)))
+                        .collect()
+                },
+            )
+        })
+        .collect()
+}
+
+/// Index of the `flat_pr_ix`-th `Row` within the flattened children — i.e. the
+/// DOM child index for a flat PR index, accounting for header items.
+pub fn pr_child_index(children: &[QueueItem], flat_pr_ix: usize) -> Option<usize> {
+    children
+        .iter()
+        .enumerate()
+        .filter(|(_, item)| matches!(item, QueueItem::Row(_)))
+        .map(|(ix, _)| ix)
+        .nth(flat_pr_ix)
+}
+
 /// Flatten filtered groups into the order rendered in the sidebar.
 pub fn flattened_rows(groups: &[RepoGroup], collapsed: &HashSet<String>) -> Vec<PrSummary> {
     groups
@@ -425,5 +468,46 @@ mod tests {
                 .number,
             1
         );
+    }
+
+    #[test]
+    fn flattened_children_interleave_headers_and_rows() {
+        let queue = vec![pr(1, "a"), pr(2, "a"), pr(3, "b")];
+        let groups = group_by_repository(&queue);
+        let children = flattened_children(&groups, &HashSet::new());
+        assert_eq!(children.len(), 5);
+        assert!(matches!(&children[0], QueueItem::Header(g) if g.name == "o/a"));
+        assert!(matches!(&children[1], QueueItem::Row(pr) if pr.key.number == 1));
+        assert!(matches!(&children[2], QueueItem::Row(pr) if pr.key.number == 2));
+        assert!(matches!(&children[3], QueueItem::Header(g) if g.name == "o/b"));
+        assert!(matches!(&children[4], QueueItem::Row(pr) if pr.key.number == 3));
+    }
+
+    #[test]
+    fn flattened_children_emit_headers_for_collapsed_groups() {
+        let queue = vec![pr(1, "a"), pr(2, "a"), pr(3, "b")];
+        let groups = group_by_repository(&queue);
+        let collapsed = HashSet::from(["o/b".to_string()]);
+        let children = flattened_children(&groups, &collapsed);
+        // Collapsed group contributes its header only — PR 3 is hidden.
+        assert_eq!(children.len(), 4);
+        assert!(matches!(&children[3], QueueItem::Header(g) if g.name == "o/b"));
+        assert!(
+            !children
+                .iter()
+                .any(|c| matches!(c, QueueItem::Row(pr) if pr.key.number == 3))
+        );
+    }
+
+    #[test]
+    fn pr_child_index_offsets_by_preceding_headers() {
+        let queue = vec![pr(1, "a"), pr(2, "a"), pr(3, "b")];
+        let groups = group_by_repository(&queue);
+        let children = flattened_children(&groups, &HashSet::new());
+        // Flat PR index counts rows only; child index counts headers too.
+        assert_eq!(pr_child_index(&children, 0), Some(1));
+        assert_eq!(pr_child_index(&children, 1), Some(2));
+        assert_eq!(pr_child_index(&children, 2), Some(4));
+        assert_eq!(pr_child_index(&children, 3), None);
     }
 }

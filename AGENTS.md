@@ -35,7 +35,7 @@ review by their teams. Standalone app.
 
 `nav_key` in app.rs is bound via `capture_key_down` + `track_focus` on the root:
 
-- `Up`/`Down` ALWAYS move the queue cursor AND select the row (detail loads as you arrow) — except while the composer is focused, where arrows stay for caret movement.
+- `Up`/`Down` ALWAYS move the queue cursor AND select the row (detail loads as you arrow) — except while the composer is focused, where arrows stay for caret movement. `scroll_to_item` indexes the scroll container's DIRECT children (`child_bounds`), NOT flat PR rows — so the queue MUST render `pr_core::flattened_children` (Header + Row `QueueItem`s) as flat siblings, and nav must map `list_cursor` through `pr_child_index`. Re-nesting rows inside group wrappers makes selection scroll out of view (was a real bug).
 - `PageUp`/`PageDown` ALWAYS page the detail pane, any pane.
 - `Ctrl+A`/`Ctrl+C`/`Ctrl+R`/`Ctrl+B` = Approve/Comment/RequestChanges/Blocked → confirmation → `Ctrl+Enter` submits. Ignored while composer/filter focused (they're text-editing keys there).
 - While the FILTER is focused it owns the keyboard: `nav_key` early-returns so `/` and ordinary typing reach the field; only Enter/Escape are intercepted (they hand focus back). Without this guard `capture_key_down` swallows filter input.

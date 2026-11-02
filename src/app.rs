@@ -14,8 +14,9 @@ use gpui_kit::prelude::FluentBuilder;
 use gpui_kit::*;
 use nilos_reviewer::render;
 use pr_core::{
-    DiscussionEntry, DiscussionKind, HandledPr, PrDetails, PrKey, PrSummary, ReviewKind,
-    SyncProgress, filtered_groups, flattened_rows, group_by_repository, next_unhandled,
+    DiscussionEntry, DiscussionKind, HandledPr, PrDetails, PrKey, PrSummary, QueueItem, ReviewKind,
+    SyncProgress, filtered_groups, flattened_children, flattened_rows, group_by_repository,
+    next_unhandled, pr_child_index,
 };
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
@@ -704,14 +705,20 @@ impl ApproverView {
             // the detail loads as you arrow. The composer keeps arrows for
             // caret movement.
             ("up" | "down", _) if !self.composer.read(cx).focus_handle(cx).is_focused(window) => {
-                let rows = self.visible_rows(cx);
+                let groups = self.groups(cx);
+                let rows = flattened_rows(&groups, &self.collapsed);
                 if !rows.is_empty() {
                     self.list_cursor = if key == "up" {
                         self.list_cursor.saturating_sub(1)
                     } else {
                         (self.list_cursor + 1).min(rows.len() - 1)
                     };
-                    self.queue_scroll.scroll_to_item(self.list_cursor);
+                    // scroll_to_item indexes the scroll container's direct
+                    // children — headers included — not the flat PR cursor.
+                    let children = flattened_children(&groups, &self.collapsed);
+                    if let Some(child_ix) = pr_child_index(&children, self.list_cursor) {
+                        self.queue_scroll.scroll_to_item(child_ix);
+                    }
                     if let Some(pr) = rows.get(self.list_cursor).cloned() {
                         self.select_pr(&pr.key, window, cx);
                     }
@@ -878,94 +885,25 @@ impl ApproverView {
                     .id("review-queue")
                     .flex_1()
                     .min_h_0()
+                    .gap_1()
                     .overflow_y_scroll()
                     .track_scroll(&self.queue_scroll)
                     .px_2()
                     .pb_2()
-                    .children(groups.iter().map(|group| {
-                        let group_name = group.name.clone();
-                        let collapsed = self.collapsed.contains(&group_name);
-                        let remaining = group
-                            .rows
-                            .iter()
-                            .filter(|pr| !self.handled.contains_key(&pr.key))
-                            .count();
-                        v_flex()
-                            .w_full()
-                            .gap_1()
-                            .child(
-                                div()
-                                    .id(ElementId::Name(format!("repo-{group_name}").into()))
-                                    .px_2()
-                                    .py_2()
-                                    .rounded_md()
-                                    .cursor_pointer()
-                                    .hover(|style| style.bg(theme.list_hover))
-                                    .on_click(cx.listener(move |this, _, _, cx| {
-                                        if this.collapsed.contains(&group_name) {
-                                            this.collapsed.remove(&group_name);
-                                        } else {
-                                            this.collapsed.insert(group_name.clone());
-                                        }
-                                        cx.notify();
-                                    }))
-                                    .child(
-                                        h_flex()
-                                            .items_center()
-                                            .justify_between()
-                                            .child(
-                                                h_flex()
-                                                    .items_center()
-                                                    .gap_2()
-                                                    .child(
-                                                        Icon::new(if collapsed {
-                                                            IconName::ChevronRight
-                                                        } else {
-                                                            IconName::ChevronDown
-                                                        })
-                                                        .size_3p5()
-                                                        .text_color(theme.muted_foreground),
-                                                    )
-                                                    .child(
-                                                        div()
-                                                            .text_xs()
-                                                            .font_semibold()
-                                                            .text_color(theme.muted_foreground)
-                                                            .overflow_hidden()
-                                                            .whitespace_nowrap()
-                                                            .child(group.name.clone()),
-                                                    ),
-                                            )
-                                            .child(
-                                                div()
-                                                    .text_xs()
-                                                    .text_color(theme.muted_foreground)
-                                                    .child(format!(
-                                                        "{remaining}/{}",
-                                                        group.rows.len()
-                                                    )),
-                                            ),
-                                    ),
-                            )
-                            .children(
-                                (!collapsed)
-                                    .then(|| {
-                                        group
-                                            .rows
-                                            .iter()
-                                            .map(|pr| {
-                                                let flat_ix = rows
-                                                    .iter()
-                                                    .position(|row| row.key == pr.key)
-                                                    .unwrap_or(0);
-                                                self.pr_row(pr, flat_ix, cx)
-                                            })
-                                            .collect::<Vec<_>>()
-                                    })
-                                    .into_iter()
-                                    .flatten(),
-                            )
-                    }))
+                    .children(
+                        flattened_children(&groups, &self.collapsed)
+                            .into_iter()
+                            .map(|item| match item {
+                                QueueItem::Header(group) => {
+                                    self.group_header(&group, cx).into_any_element()
+                                }
+                                QueueItem::Row(pr) => {
+                                    let flat_ix =
+                                        rows.iter().position(|row| row.key == pr.key).unwrap_or(0);
+                                    self.pr_row(&pr, flat_ix, cx).into_any_element()
+                                }
+                            }),
+                    )
                     .when(rows.is_empty() && self.progress.complete, |el| {
                         el.child(
                             div()
@@ -985,6 +923,66 @@ impl ApproverView {
                     }),
             )
             .child(self.render_sync_footer(cx))
+    }
+
+    fn group_header(&self, group: &pr_core::RepoGroup, cx: &Context<Self>) -> impl IntoElement {
+        let theme = cx.theme();
+        let group_name = group.name.clone();
+        let collapsed = self.collapsed.contains(&group_name);
+        let remaining = group
+            .rows
+            .iter()
+            .filter(|pr| !self.handled.contains_key(&pr.key))
+            .count();
+        div()
+            .id(ElementId::Name(format!("repo-{group_name}").into()))
+            .px_2()
+            .py_2()
+            .rounded_md()
+            .cursor_pointer()
+            .hover(|style| style.bg(theme.list_hover))
+            .on_click(cx.listener(move |this, _, _, cx| {
+                if this.collapsed.contains(&group_name) {
+                    this.collapsed.remove(&group_name);
+                } else {
+                    this.collapsed.insert(group_name.clone());
+                }
+                cx.notify();
+            }))
+            .child(
+                h_flex()
+                    .items_center()
+                    .justify_between()
+                    .child(
+                        h_flex()
+                            .items_center()
+                            .gap_2()
+                            .child(
+                                Icon::new(if collapsed {
+                                    IconName::ChevronRight
+                                } else {
+                                    IconName::ChevronDown
+                                })
+                                .size_3p5()
+                                .text_color(theme.muted_foreground),
+                            )
+                            .child(
+                                div()
+                                    .text_xs()
+                                    .font_semibold()
+                                    .text_color(theme.muted_foreground)
+                                    .overflow_hidden()
+                                    .whitespace_nowrap()
+                                    .child(group.name.clone()),
+                            ),
+                    )
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(theme.muted_foreground)
+                            .child(format!("{remaining}/{}", group.rows.len())),
+                    ),
+            )
     }
 
     fn pr_row(&self, pr: &PrSummary, flat_ix: usize, cx: &Context<Self>) -> impl IntoElement {

@@ -1,7 +1,7 @@
 use gpui_kit::component::{ActiveTheme, text::TableData};
 use gpui_kit::{
-    AppContext, Context, IntoElement, ParentElement, Render, Styled, TestAppContext, Window, div,
-    px,
+    AppContext, Context, InteractiveElement, IntoElement, ParentElement, Render,
+    StatefulInteractiveElement, Styled, TestAppContext, Window, div, px,
 };
 use nilos_reviewer::{fixtures::RENDER_FIXTURES, render::discussion_view};
 use std::sync::{Arc, Mutex};
@@ -90,6 +90,62 @@ fn native_dependabot_html_keeps_complete_list_item_text(cx: &mut TestAppContext)
         );
         assert!(text.as_str().contains("@\u{200b}dev-mara"));
     });
+}
+
+struct QueueScrollRoot {
+    scroll: gpui::ScrollHandle,
+}
+
+impl Render for QueueScrollRoot {
+    // Mirrors the queue sidebar: variable-height headers + rows as FLAT direct
+    // children of the tracked scroll container — the index space scroll_to_item
+    // addresses. (Nested group wrappers break this: child_bounds only covers
+    // direct children, so a flat row index scrolls to the wrong element.)
+    fn render(&mut self, _: &mut Window, _: &mut Context<Self>) -> impl IntoElement {
+        let scroll = self.scroll.clone();
+        div().child(
+            div()
+                .id("queue")
+                .h(px(100.))
+                .w(px(200.))
+                .overflow_y_scroll()
+                .track_scroll(&scroll)
+                .children((0..10).map(|ix| {
+                    let height = if ix % 4 == 0 { px(20.) } else { px(30.) };
+                    div().h(height).child(format!("child {ix}"))
+                })),
+        )
+    }
+}
+
+#[gpui::test]
+fn scroll_to_item_reveals_the_targeted_flat_child(cx: &mut TestAppContext) {
+    cx.update(gpui_kit::init);
+    let scroll = gpui::ScrollHandle::new();
+    let captured = scroll.clone();
+    let (_, cx) = cx.add_window_view(move |_, _| QueueScrollRoot {
+        scroll: scroll.clone(),
+    });
+    cx.update(|window, cx| window.draw(cx).clear(cx));
+    cx.run_until_parked();
+
+    // Child 9 (a 30px row) starts below the 100px viewport — child_bounds are
+    // un-scrolled layout positions; visibility is bounds + offset vs viewport.
+    let viewport = captured.bounds();
+    let before = captured.bounds_for_item(9).expect("child bounds");
+    assert!(before.top() + captured.offset().y > viewport.bottom());
+
+    captured.scroll_to_item(9);
+    cx.update(|window, cx| window.draw(cx).clear(cx));
+    cx.run_until_parked();
+
+    let viewport = captured.bounds();
+    let offset = captured.offset().y;
+    let target = captured.bounds_for_item(9).expect("child bounds");
+    assert!(
+        target.top() + offset >= viewport.top() && target.bottom() + offset <= viewport.bottom(),
+        "child {target:?} + offset {offset:?} should be fully inside viewport {viewport:?}"
+    );
 }
 
 #[gpui::test]
