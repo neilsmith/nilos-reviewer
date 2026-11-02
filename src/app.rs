@@ -803,19 +803,30 @@ impl ApproverView {
                     .child(
                         h_flex()
                             .items_center()
-                            .gap_2()
+                            .justify_between()
                             .child(
-                                svg()
-                                    .path("nilos-logo.svg")
-                                    .size(px(20.))
-                                    .text_color(theme.accent),
+                                h_flex()
+                                    .items_center()
+                                    .gap_2()
+                                    .child(
+                                        svg()
+                                            .path("nilos-logo.svg")
+                                            .size(px(20.))
+                                            .text_color(theme.accent),
+                                    )
+                                    .child(
+                                        div()
+                                            .text_base()
+                                            .font_semibold()
+                                            .text_color(theme.accent)
+                                            .child("NilosReviewer"),
+                                    ),
                             )
                             .child(
                                 div()
-                                    .text_base()
-                                    .font_semibold()
-                                    .text_color(theme.accent)
-                                    .child("NilosReviewer"),
+                                    .text_xs()
+                                    .text_color(theme.muted_foreground)
+                                    .child(format!("v{}", env!("CARGO_PKG_VERSION"))),
                             ),
                     )
                     .child(
