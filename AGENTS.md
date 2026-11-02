@@ -11,7 +11,7 @@ review by their teams. Standalone app.
 - Format: `cargo fmt --all`
 - Tests: `cargo test --workspace` (14 tests; rendering suite alone: `cargo test --test rendering`, native GPUI: `cargo test --test native_rendering`)
 - Run: `./target/debug/nilos-reviewer`
-- Release: `scripts/release.sh <version>` — bumps `[package].version` in all three manifests + Cargo.lock, commits, tags `v<version>`, pushes (the tag triggers the release workflow)
+- Release: `scripts/release.sh <version>` — bumps `[package].version` in all three manifests + Cargo.lock, commits, tags `v<version>`, pushes both refs atomically. The release workflow triggers on `main` pushes and builds only when HEAD is tagged `v*` — do NOT move it back to tag-push triggers: GitHub caches are branch-scoped, so tag runs always miss the dep cache and rebuild ~400 crates from scratch. rust-cache keys also embed the job id (`v0-rust-build-` vs `v0-rust-checks-`), which is why release jobs never matched CI caches either.
 - Offline rendering preview (no auth/network): `./target/debug/nilos-reviewer --render-fixture <name>` — side-by-side GitHub-HTML vs app Markdown for every fixture, Left/Right switches fixture.
 - GitHub auth: reuses `gh` CLI session via `gh auth token` — never add a credential flow or store tokens (`src/store.rs` must never persist secrets).
 

@@ -40,7 +40,6 @@ cargo metadata --format-version 1 >/dev/null
 git add Cargo.toml Cargo.lock crates/pr-core/Cargo.toml crates/pr-github/Cargo.toml
 git commit -m "Bump version to $tag"
 git tag -a "$tag" -m "$tag"
-git push
-git push origin "$tag"
+git push origin HEAD "refs/tags/$tag"
 
 echo "Tagged and pushed $tag — the release workflow is building."

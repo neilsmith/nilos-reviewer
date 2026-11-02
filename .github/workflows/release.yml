@@ -2,13 +2,26 @@ name: release
 
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
+  tag:
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.check.outputs.name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: check
+        run: echo "name=$(git describe --tags --exact-match 2>/dev/null || true)" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: tag
+    if: startsWith(needs.tag.outputs.name, 'v')
     strategy:
       fail-fast: false
       matrix:
@@ -51,4 +64,5 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           files: out/*
-          name: ${{ github.ref_name }}
+          tag_name: ${{ needs.tag.outputs.name }}
+          name: ${{ needs.tag.outputs.name }}
