@@ -51,6 +51,7 @@ enum DetailState {
 pub struct ApproverView {
     service: ServiceHandle,
     update_events: mpsc::Receiver<String>,
+    updated_to: Option<String>,
     queue: Vec<PrSummary>,
     scan_queue: Vec<PrSummary>,
     selected: Option<PrKey>,
@@ -201,6 +202,7 @@ impl ApproverView {
         let view = Self {
             service,
             update_events: update::spawn(),
+            updated_to: None,
             queue: Vec::new(),
             scan_queue: Vec::new(),
             selected: None,
@@ -279,6 +281,7 @@ impl ApproverView {
         let mut changed = false;
         while let Ok(version) = self.update_events.try_recv() {
             self.notice = Some(format!("Updated to {version} — restart to apply"));
+            self.updated_to = Some(version);
             changed = true;
         }
         while let Ok(event) = self.service.events.try_recv() {
@@ -1174,6 +1177,13 @@ impl ApproverView {
                     .overflow_hidden()
                     .whitespace_nowrap()
                     .child(failure.clone())
+                    .into_any_element()
+            }))
+            .children(self.updated_to.as_ref().map(|version| {
+                div()
+                    .text_xs()
+                    .text_color(theme.accent)
+                    .child(format!("Updated to {version} — restart to apply"))
                     .into_any_element()
             }))
     }
