@@ -425,8 +425,8 @@ fn scan(
     found_prs.sort_by(|a, b| {
         a.repo_name()
             .cmp(&b.repo_name())
-            .then(a.created_at.cmp(&b.created_at))
-            .then(a.key.number.cmp(&b.key.number))
+            .then(b.created_at.cmp(&a.created_at))
+            .then(b.key.number.cmp(&a.key.number))
     });
     let mut progress = SyncProgress {
         stage: if stale() {

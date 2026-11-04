@@ -233,10 +233,12 @@ pub fn group_by_repository(prs: &[PrSummary]) -> Vec<RepoGroup> {
     grouped
         .into_iter()
         .map(|(name, mut rows)| {
+            // Newest first — `created_at` is an ISO timestamp, so it sorts
+            // lexicographically.
             rows.sort_by(|a, b| {
-                a.created_at
-                    .cmp(&b.created_at)
-                    .then(a.key.number.cmp(&b.key.number))
+                b.created_at
+                    .cmp(&a.created_at)
+                    .then(b.key.number.cmp(&a.key.number))
             });
             RepoGroup { name, rows }
         })
@@ -384,7 +386,9 @@ mod tests {
         let queue = vec![pr(2, "a"), pr(1, "b"), pr(3, "a")];
         let groups = group_by_repository(&queue);
         assert_eq!(groups[0].name, "o/a");
-        assert_eq!(groups[0].rows[0].key.number, 2);
+        // Newest first within a repository.
+        assert_eq!(groups[0].rows[0].key.number, 3);
+        assert_eq!(groups[0].rows[1].key.number, 2);
         assert_eq!(groups[1].rows[0].key.number, 1);
 
         let flat = flattened_rows(&groups, &HashSet::new());
@@ -394,7 +398,7 @@ mod tests {
             next_unhandled(&flat, Some(&first), &handled)
                 .expect("an unhandled PR remains")
                 .number,
-            3
+            2
         );
     }
 
@@ -443,6 +447,7 @@ mod tests {
 
     #[test]
     fn advance_skips_handled_and_wraps() {
+        // Rows order newest-first: [3, 2, 1].
         let queue = vec![pr(1, "a"), pr(2, "a"), pr(3, "a")];
         let rows = flattened_rows(&group_by_repository(&queue), &HashSet::new());
         let handled = HashSet::from([rows[1].key.clone()]);
@@ -452,21 +457,21 @@ mod tests {
             next_unhandled(&rows, Some(&rows[0].key), &handled)
                 .expect("unhandled PR remains")
                 .number,
-            3
+            1
         );
         // From the last row it wraps to the first unhandled.
         assert_eq!(
             next_unhandled(&rows, Some(&rows[2].key), &handled)
                 .expect("unhandled PR remains")
                 .number,
-            1
+            3
         );
         // With no selection it starts at the first unhandled row.
         assert_eq!(
             next_unhandled(&rows, None, &handled)
                 .expect("unhandled PR remains")
                 .number,
-            1
+            3
         );
     }
 
@@ -477,8 +482,8 @@ mod tests {
         let children = flattened_children(&groups, &HashSet::new());
         assert_eq!(children.len(), 5);
         assert!(matches!(&children[0], QueueItem::Header(g) if g.name == "o/a"));
-        assert!(matches!(&children[1], QueueItem::Row(pr) if pr.key.number == 1));
-        assert!(matches!(&children[2], QueueItem::Row(pr) if pr.key.number == 2));
+        assert!(matches!(&children[1], QueueItem::Row(pr) if pr.key.number == 2));
+        assert!(matches!(&children[2], QueueItem::Row(pr) if pr.key.number == 1));
         assert!(matches!(&children[3], QueueItem::Header(g) if g.name == "o/b"));
         assert!(matches!(&children[4], QueueItem::Row(pr) if pr.key.number == 3));
     }

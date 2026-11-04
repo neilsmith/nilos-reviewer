@@ -81,7 +81,11 @@ pub struct ApproverView {
     composer: Entity<EditorState>,
     composer_preview: bool,
     confirming: Option<ReviewKind>,
-    submitting: Option<PrKey>,
+    /// Reviews posting in the background, keyed by PR so several can be
+    /// in flight at once and each row/button can show its own pending state.
+    submitting: HashMap<PrKey, ReviewKind>,
+    /// A failed background submission — modal error popup until dismissed.
+    review_error: Option<String>,
     queue_scroll: ScrollHandle,
     details_scroll: ScrollHandle,
     diff_state: Entity<DiffState>,
@@ -226,7 +230,8 @@ impl ApproverView {
             composer,
             composer_preview: false,
             confirming: None,
-            submitting: None,
+            submitting: HashMap::new(),
+            review_error: None,
             queue_scroll: ScrollHandle::new(),
             details_scroll: ScrollHandle::new(),
             diff_state,
@@ -350,8 +355,8 @@ impl ApproverView {
                     self.queue.sort_by(|a, b| {
                         a.repo_name()
                             .cmp(&b.repo_name())
-                            .then(a.created_at.cmp(&b.created_at))
-                            .then(a.key.number.cmp(&b.key.number))
+                            .then(b.created_at.cmp(&a.created_at))
+                            .then(b.key.number.cmp(&a.key.number))
                     });
                     self.scan_queue.clear();
                     // A handled entry is only complete for the inspected head;
@@ -439,8 +444,7 @@ impl ApproverView {
                             },
                         );
                     }
-                    self.submitting = None;
-                    self.confirming = None;
+                    self.submitting.remove(&key);
                     // The submitted body was posted to GitHub — it must not
                     // linger as a draft or it would reappear next session.
                     self.state.drafts.remove(&key.display());
@@ -458,12 +462,16 @@ impl ApproverView {
                         None => format!("{} submitted for {key}", kind.label()),
                     });
                     self.persist_state();
-                    self.select_next_unhandled(window, cx);
+                    // The confirm already advanced the queue — only move on
+                    // if the user is still looking at this PR (e.g. it was
+                    // the last unhandled row, or they navigated back).
+                    if self.selected.as_ref() == Some(&key) {
+                        self.select_next_unhandled(window, cx);
+                    }
                 }
                 ServiceEvent::ReviewFailed { key, message, .. } => {
-                    self.submitting = None;
-                    self.confirming = None;
-                    self.notice = Some(format!("Review failed for {key}: {message}"));
+                    self.submitting.remove(&key);
+                    self.review_error = Some(format!("Review failed for {key}: {message}"));
                 }
             }
         }
@@ -602,7 +610,9 @@ impl ApproverView {
             .into_iter()
             .filter(|pr| !pr.blocked && !self.blocked.contains(&pr.key))
             .collect::<Vec<_>>();
-        if let Some(next) = next_unhandled(&rows, self.selected.as_ref(), &handled) {
+        if let Some(next) = next_unhandled(&rows, self.selected.as_ref(), &handled)
+            && self.selected.as_ref() != Some(&next)
+        {
             self.select_pr(&next, window, cx);
         }
     }
@@ -628,9 +638,13 @@ impl ApproverView {
     }
 
     fn request_review(&mut self, kind: ReviewKind, window: &mut Window, cx: &mut Context<Self>) {
-        // Buttons disable while submitting but hotkeys don't — ignore a
-        // second request so it can't post a duplicate review.
-        if self.submitting.is_some() {
+        // Buttons disable while their PR is submitting but hotkeys don't —
+        // ignore a second request so it can't post a duplicate review.
+        if self
+            .selected
+            .as_ref()
+            .is_some_and(|key| self.submitting.contains_key(key))
+        {
             return;
         }
         if let Err(message) = self.validate_review(kind, cx) {
@@ -643,31 +657,46 @@ impl ApproverView {
         cx.notify();
     }
 
-    fn submit_review(&mut self, kind: ReviewKind, cx: &mut Context<Self>) {
-        if self.submitting.is_some() {
-            return;
-        }
+    /// Confirm fires the review in the background: the modal closes, the
+    /// queue advances optimistically, and a failure surfaces in a popup.
+    fn submit_review(&mut self, kind: ReviewKind, window: &mut Window, cx: &mut Context<Self>) {
         let Some(key) = self.selected.clone() else {
             return;
         };
+        if self.submitting.contains_key(&key) {
+            return;
+        }
         let Some(DetailState::Loaded(detail)) = self.details.get(&key) else {
             return;
         };
         let body = self.composer.read(cx).value().to_string();
-        self.submitting = Some(key.clone());
+        self.submitting.insert(key.clone(), kind);
+        self.confirming = None;
+        self.notice = Some(format!("Submitting {} for {key}", kind.label()));
         self.service
             .submit_review(key, kind, body, detail.summary.head_sha.clone());
+        self.select_next_unhandled(window, cx);
         cx.notify();
     }
 
     fn nav_key(&mut self, event: &KeyDownEvent, window: &mut Window, cx: &mut Context<Self>) {
         let key = event.keystroke.key.as_str();
+        // The error popup renders on top of everything else — it owns the
+        // keyboard until dismissed.
+        if self.review_error.is_some() {
+            if matches!(key, "escape" | "enter") {
+                self.review_error = None;
+            }
+            cx.stop_propagation();
+            cx.notify();
+            return;
+        }
         if self.confirming.is_some() {
             match key {
                 "escape" => self.confirming = None,
                 "enter" if event.keystroke.modifiers.secondary(cx) => {
                     if let Some(kind) = self.confirming.take() {
-                        self.submit_review(kind, cx);
+                        self.submit_review(kind, window, cx);
                     }
                 }
                 _ => {}
@@ -767,7 +796,7 @@ impl ApproverView {
                 cx.stop_propagation();
             }
             ("f5", _) => {
-                if self.submitting.is_none() {
+                if self.submitting.is_empty() {
                     self.refresh(cx);
                 }
                 cx.stop_propagation();
@@ -867,7 +896,7 @@ impl ApproverView {
                                             .icon(Icon::new(IconName::RefreshCw))
                                             .tooltip("Refresh")
                                             .disabled(
-                                                self.submitting.is_some()
+                                                !self.submitting.is_empty()
                                                     || (self.progress.started
                                                         && !self.progress.complete),
                                             )
@@ -1071,12 +1100,21 @@ impl ApproverView {
                                     ),
                             ),
                     )
-                    .children(handled.map(|_| {
-                        Icon::new(IconName::CircleCheck)
-                            .size_4()
-                            .text_color(theme.success)
-                            .into_any_element()
-                    })),
+                    .children(if self.submitting.contains_key(&pr.key) {
+                        Some(
+                            Spinner::new()
+                                .xsmall()
+                                .color(theme.muted_foreground)
+                                .into_any_element(),
+                        )
+                    } else {
+                        handled.map(|_| {
+                            Icon::new(IconName::CircleCheck)
+                                .size_4()
+                                .text_color(theme.success)
+                                .into_any_element()
+                        })
+                    }),
             )
     }
 
@@ -1614,6 +1652,9 @@ impl ApproverView {
             (!detail.can_review || detail.pending_review_exists)
                 .then(|| "Review unavailable".to_string())
         });
+        // A review for THIS pull request is posting in the background —
+        // other queued PRs stay submittable meanwhile.
+        let pending = self.submitting.get(&detail.summary.key).copied();
         v_flex()
             .w_full()
             .border_t_1()
@@ -1697,10 +1738,8 @@ impl ApproverView {
                                     .success()
                                     .icon(Icon::new(IconName::CircleCheck))
                                     .label("Approve")
-                                    .loading(self.submitting.is_some())
-                                    .disabled(
-                                        detail.review_notice.is_some() || self.submitting.is_some(),
-                                    )
+                                    .loading(pending == Some(ReviewKind::Approve))
+                                    .disabled(detail.review_notice.is_some() || pending.is_some())
                                     .on_click(cx.listener(|this, _, window, cx| {
                                         this.request_review(ReviewKind::Approve, window, cx)
                                     })),
@@ -1710,9 +1749,8 @@ impl ApproverView {
                                     .warning()
                                     .icon(Icon::new(IconName::OctagonAlert))
                                     .label("Blocked")
-                                    .disabled(
-                                        detail.review_notice.is_some() || self.submitting.is_some(),
-                                    )
+                                    .loading(pending == Some(ReviewKind::Blocked))
+                                    .disabled(detail.review_notice.is_some() || pending.is_some())
                                     .on_click(cx.listener(|this, _, window, cx| {
                                         this.request_review(ReviewKind::Blocked, window, cx)
                                     })),
@@ -1722,9 +1760,8 @@ impl ApproverView {
                                     .info()
                                     .icon(Icon::new(IconName::MessageSquare))
                                     .label("Comment")
-                                    .disabled(
-                                        detail.review_notice.is_some() || self.submitting.is_some(),
-                                    )
+                                    .loading(pending == Some(ReviewKind::Comment))
+                                    .disabled(detail.review_notice.is_some() || pending.is_some())
                                     .on_click(cx.listener(|this, _, window, cx| {
                                         this.request_review(ReviewKind::Comment, window, cx)
                                     })),
@@ -1734,9 +1771,8 @@ impl ApproverView {
                                     .danger()
                                     .icon(Icon::new(IconName::SquareX))
                                     .label("Request Changes")
-                                    .disabled(
-                                        detail.review_notice.is_some() || self.submitting.is_some(),
-                                    )
+                                    .loading(pending == Some(ReviewKind::RequestChanges))
+                                    .disabled(detail.review_notice.is_some() || pending.is_some())
                                     .on_click(cx.listener(|this, _, window, cx| {
                                         this.request_review(ReviewKind::RequestChanges, window, cx)
                                     })),
@@ -1809,11 +1845,66 @@ impl ApproverView {
                                 Button::new("confirm-review")
                                     .primary()
                                     .label(format!("Submit {} (Ctrl+Enter)", kind.label()))
-                                    .loading(self.submitting.is_some())
-                                    .on_click(cx.listener(move |this, _, _, cx| {
-                                        this.submit_review(kind, cx)
+                                    .on_click(cx.listener(move |this, _, window, cx| {
+                                        this.submit_review(kind, window, cx)
                                     })),
                             ),
+                    ),
+            )
+    }
+
+    fn render_error(&self, message: &str, cx: &Context<Self>) -> impl IntoElement {
+        let theme = cx.theme();
+        div()
+            .id("review-error")
+            .absolute()
+            .inset_0()
+            .flex()
+            .items_center()
+            .justify_center()
+            .bg(theme.overlay)
+            .child(
+                v_flex()
+                    .w(px(520.))
+                    .rounded_lg()
+                    .border_1()
+                    .border_color(theme.border)
+                    .bg(theme.background)
+                    .shadow_lg()
+                    .p_4()
+                    .gap_3()
+                    .child(
+                        h_flex()
+                            .items_center()
+                            .gap_2()
+                            .child(
+                                Icon::new(IconName::OctagonAlert)
+                                    .size_5()
+                                    .text_color(theme.danger),
+                            )
+                            .child(
+                                div()
+                                    .text_lg()
+                                    .font_semibold()
+                                    .child("Review submission failed"),
+                            ),
+                    )
+                    .child(
+                        div()
+                            .text_sm()
+                            .text_color(theme.muted_foreground)
+                            .child(message.to_string()),
+                    )
+                    .child(
+                        h_flex().justify_end().child(
+                            Button::new("dismiss-error")
+                                .secondary()
+                                .label("Dismiss (Esc)")
+                                .on_click(cx.listener(|this, _, _, cx| {
+                                    this.review_error = None;
+                                    cx.notify();
+                                })),
+                        ),
                     ),
             )
     }
@@ -1853,5 +1944,10 @@ impl Render for ApproverView {
                 self.render_confirmation(kind, &detail, cx)
                     .into_any_element()
             }))
+            .children(
+                self.review_error
+                    .clone()
+                    .map(|message| self.render_error(&message, cx).into_any_element()),
+            )
     }
 }
