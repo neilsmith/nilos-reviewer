@@ -832,7 +832,8 @@ fn composer(s: &App, k: &Kit) -> El {
             col()
                 .w_full()
                 .radius(k.radius.md)
-                .border(1.0, k.c.border_strong)
+                .fill(k.c.layer_01)
+                .border(1.0, k.alpha(k.c.text_base, 0.28))
                 .child(
                     TextArea::new(&s.comment)
                         .placeholder("Leave a comment (required for Comment and Blocked)")
