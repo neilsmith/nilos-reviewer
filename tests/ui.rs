@@ -3,6 +3,7 @@
 //! drags, key handling and state transitions.
 
 use nilos_reviewer::app::{self, App, DetailTab, Pane, Sync};
+use nilos_reviewer::github::Event;
 use nilos_reviewer::model::{PrKey, ReviewKind};
 use nilos_reviewer::view::view;
 use rune::{Env, Key, KeyEvent, Mods, Runtime};
@@ -261,4 +262,85 @@ fn narrow_select_opens_detail_and_escape_returns() {
     rt.update(|s, _| assert_eq!(s.pane, Pane::Detail));
     rt.update(|s, tx| assert!(app::on_key(s, &key(Key::Escape), tx)));
     rt.update(|s, _| assert_eq!(s.pane, Pane::Queue));
+}
+
+#[test]
+fn unblock_failure_restores_blocked() {
+    let mut rt = rt(app());
+    rt.frame(0.016);
+    let mut key = None;
+    rt.update(|s, _| key = s.all_prs.first().map(|p| p.key.clone()));
+    let key = key.unwrap();
+    rt.update(|s, tx| {
+        s.on_event(
+            Event::UnblockFailed {
+                key: key.clone(),
+                error: "nope".into(),
+            },
+            tx,
+        );
+    });
+    rt.frame(0.016);
+    rt.update(move |s, _| {
+        assert!(
+            s.blocked.contains(&key),
+            "failed unblock must restore blocked set"
+        );
+        assert!(s.review_error.is_some(), "failure should surface an error");
+        let p = s.all_prs.iter().find(|p| p.key == key).unwrap();
+        assert!(p.blocked_label, "summary flag restored");
+    });
+}
+
+#[test]
+fn review_failure_surfaces_error_and_draft() {
+    let mut rt = rt(app());
+    rt.frame(0.016);
+    let mut key = None;
+    rt.update(|s, _| key = s.all_prs.first().map(|p| p.key.clone()));
+    let key = key.unwrap();
+    rt.update(|s, _| {
+        s.submitting.insert(key.clone(), ReviewKind::Approve);
+        s.comment.text = "keep this".into();
+    });
+    rt.update(|s, tx| {
+        s.on_event(
+            Event::ReviewFailed {
+                key: key.clone(),
+                error: "422".into(),
+            },
+            tx,
+        );
+    });
+    rt.frame(0.016);
+    rt.update(move |s, _| {
+        assert!(
+            !s.submitting.contains_key(&key),
+            "submitting cleared on failure"
+        );
+        assert!(
+            s.review_error.is_some(),
+            "review_error drives the error modal"
+        );
+        assert_eq!(s.comment.text, "keep this", "draft preserved for retry");
+    });
+}
+
+#[test]
+fn update_version_lands_as_notice() {
+    let (tx_v, rx_v) = std::sync::mpsc::channel();
+    let mut rt = rt(App {
+        update_rx: Some(rx_v),
+        ..Default::default()
+    });
+    rt.frame(0.016);
+    tx_v.send("v9.9.9".to_string()).unwrap();
+    rt.update(|s, tx| {
+        s.poll(0.0, tx);
+        assert_eq!(
+            s.notice.as_deref(),
+            Some("Updated to v9.9.9 — restart to apply")
+        );
+        assert!(s.update_rx.is_none());
+    });
 }
