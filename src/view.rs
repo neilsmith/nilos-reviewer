@@ -264,7 +264,6 @@ fn queue_pane(s: &App, k: &Kit) -> El {
         )
         .child(show_toggles(s, k))
         .child(list)
-        .child(queue_footer(s, k))
 }
 
 /// All queue-visibility switches in one place.
@@ -465,29 +464,6 @@ fn track(key: &str) -> impl Fn(&mut App, [f32; 4]) {
     move |s: &mut App, r: [f32; 4]| {
         s.rects.insert(k.clone(), r);
     }
-}
-
-fn queue_footer(s: &App, k: &Kit) -> El {
-    let n = s.visible_pr_count();
-    let total = s.pr_count();
-    row()
-        .w_full()
-        .px(10.0)
-        .py(7.0)
-        .gap(8.0)
-        .center_y()
-        .border_sides([HAIR, 0.0, 0.0, 0.0], k.c.border_muted)
-        .child(
-            text(format!("{n} PR{}", if n == 1 { "" } else { "s" }))
-                .font(k.ty.small)
-                .color(k.c.text_muted),
-        )
-        .child(el().grow(1.0))
-        .child(
-            text(format!("{total} total"))
-                .font(k.ty.small)
-                .color(k.c.text_faint),
-        )
 }
 
 // ── Detail pane ──────────────────────────────────────────────────────────
@@ -993,24 +969,48 @@ fn statusbar(s: &App, k: &Kit) -> El {
             .unwrap_or_else(|| "Ready".to_string()),
         Sync::Failed(e) => format!("Sync failed: {}", first_line(e)),
     };
-    let mut bar = row()
-        .key("statusbar")
-        .h(40.0)
-        .w_full()
+    // Left column footer: count + status + version, at the sidebar's width.
+    let n = s.visible_pr_count();
+    let mut left = row()
+        .w(s.sidebar_w)
+        .h_full()
         .px(10.0)
-        .gap(10.0)
+        .gap(8.0)
         .center_y()
-        .border_sides([HAIR, 0.0, 0.0, 0.0], k.c.border_muted);
+        .border_sides([0.0, HAIR, 0.0, 0.0], k.c.border_muted)
+        .child(
+            text(format!("{n} PR{}", if n == 1 { "" } else { "s" }))
+                .font(k.ty.small)
+                .color(k.c.text_muted),
+        )
+        .child(
+            text(format!("{} total", s.pr_count()))
+                .font(k.ty.small)
+                .color(k.c.text_faint),
+        );
     if matches!(s.sync, Sync::Scanning { .. }) {
-        bar = bar.child(Spinner::new().build(k));
+        left = left.child(Spinner::new().build(k));
     }
-    bar = bar
+    left = left
         .child(
             text(status)
                 .font(k.ty.small)
                 .color(k.c.text_muted)
                 .truncate(),
         )
+        .child(el().grow(1.0))
+        .child(
+            text(format!("v{}", env!("CARGO_PKG_VERSION")))
+                .font(k.ty.small)
+                .color(k.c.text_faint),
+        );
+    // Right column: failures, notice, and the review actions.
+    let right = row()
+        .grow(1.0)
+        .h_full()
+        .px(10.0)
+        .gap(10.0)
+        .center_y()
         .child(if s.sync_failures.is_empty() {
             text("")
         } else {
@@ -1030,7 +1030,10 @@ fn statusbar(s: &App, k: &Kit) -> El {
                     .iter()
                     .map(|(r, e)| format!("{r}: {e}"))
                     .collect::<Vec<_>>()
-                    .join("\n"),
+                    .join(
+                        "
+",
+                    ),
             )
         })
         .child(el().grow(1.0))
@@ -1040,7 +1043,13 @@ fn statusbar(s: &App, k: &Kit) -> El {
             text("")
         })
         .child(solid_row(s, k, submitting));
-    bar
+    row()
+        .key("statusbar")
+        .h(40.0)
+        .w_full()
+        .border_sides([HAIR, 0.0, 0.0, 0.0], k.c.border_muted)
+        .child(left)
+        .child(right)
 }
 
 fn first_line(s: &str) -> &str {
