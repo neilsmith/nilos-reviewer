@@ -23,7 +23,9 @@ pub enum Appearance {
 pub enum Sync {
     #[default]
     Idle,
-    Scanning { text: String },
+    Scanning {
+        text: String,
+    },
     Done,
     Failed(String),
 }
@@ -172,16 +174,14 @@ impl App {
     /// Rebuild `groups` from `all_prs`; a push since a PR was handled revives it.
     fn regroup(&mut self) {
         let shas = std::mem::take(&mut self.handled_sha);
-        self.handled.retain(|key| {
-            match shas.get(key) {
-                None => true,
-                Some(sha) => self
-                    .all_prs
-                    .iter()
-                    .find(|p| &p.key == key)
-                    .map(|p| p.head_sha.is_empty() || &p.head_sha == sha)
-                    .unwrap_or(true),
-            }
+        self.handled.retain(|key| match shas.get(key) {
+            None => true,
+            Some(sha) => self
+                .all_prs
+                .iter()
+                .find(|p| &p.key == key)
+                .map(|p| p.head_sha.is_empty() || &p.head_sha == sha)
+                .unwrap_or(true),
         });
         self.handled_sha = shas;
         self.groups = group_by_repository(self.all_prs.clone());
@@ -205,7 +205,9 @@ impl App {
         if !self.selected_blocked() {
             return;
         }
-        let Some(key) = self.cursor.clone() else { return };
+        let Some(key) = self.cursor.clone() else {
+            return;
+        };
         self.blocked.remove(&key);
         self.blocked_since.remove(&key);
         if let Some(p) = self.all_prs.iter_mut().find(|p| p.key == key) {
@@ -240,7 +242,11 @@ impl App {
     /// Whether the dark theme applies at `system_dark`.
     pub fn dark(&self, system_dark: bool) -> bool {
         match self.appearance {
-            Appearance::Auto => self.omarchy.as_ref().map(|o| o.is_dark()).unwrap_or(system_dark),
+            Appearance::Auto => self
+                .omarchy
+                .as_ref()
+                .map(|o| o.is_dark())
+                .unwrap_or(system_dark),
             Appearance::Light => false,
             Appearance::Dark => true,
         }
@@ -266,7 +272,9 @@ impl App {
         self.scan_generation += 1;
         self.sync_failures.clear();
         self.send(Request::Refresh);
-        self.sync = Sync::Scanning { text: "Starting scan…".to_string() };
+        self.sync = Sync::Scanning {
+            text: "Starting scan…".to_string(),
+        };
     }
 
     /// Select a PR: stash the open draft, point the cursor, ask for its detail.
@@ -275,7 +283,8 @@ impl App {
             return;
         }
         if let Some(old) = self.cursor.take() {
-            self.drafts.insert(old, std::mem::take(&mut self.comment.text));
+            self.drafts
+                .insert(old, std::mem::take(&mut self.comment.text));
         }
         self.cursor = key.clone();
         if let Some(key) = &key {
@@ -289,7 +298,9 @@ impl App {
             }
             // Prefetch the row below so arrow-down lands instantly.
             if let Some(next) = move_cursor(&self.rows(), self.cursor.as_ref(), 1) {
-                if !self.detail_cache.contains_key(&next) && self.detail_loading.as_ref() != Some(&next) {
+                if !self.detail_cache.contains_key(&next)
+                    && self.detail_loading.as_ref() != Some(&next)
+                {
                     self.send(Request::LoadDetail(next));
                 }
             }
@@ -345,8 +356,14 @@ impl App {
 
     /// The next unhandled row below the cursor, for auto-advance on submit.
     pub fn advance(&mut self, tx: &mut Tx) {
-        let next = next_unhandled(&self.rows(), self.cursor.as_ref(), &self.handled, &self.blocked, &self.submitting)
-            .or_else(|| move_cursor(&self.rows(), self.cursor.as_ref(), 1));
+        let next = next_unhandled(
+            &self.rows(),
+            self.cursor.as_ref(),
+            &self.handled,
+            &self.blocked,
+            &self.submitting,
+        )
+        .or_else(|| move_cursor(&self.rows(), self.cursor.as_ref(), 1));
         self.select(next, tx);
     }
 
@@ -357,7 +374,10 @@ impl App {
             return;
         }
         if kind.needs_body() && self.comment.text.trim().is_empty() {
-            self.review_error = Some(format!("a {} review needs a comment", kind.name().to_lowercase()));
+            self.review_error = Some(format!(
+                "a {} review needs a comment",
+                kind.name().to_lowercase()
+            ));
             return;
         }
         self.confirming = Some(kind);
@@ -377,7 +397,11 @@ impl App {
             self.blocked_since.insert(key.clone(), now);
         }
         self.submitting.insert(key.clone(), kind);
-        self.send(Request::SubmitReview { key, kind, body: self.comment.text.clone() });
+        self.send(Request::SubmitReview {
+            key,
+            kind,
+            body: self.comment.text.clone(),
+        });
         self.advance(tx);
     }
 
@@ -477,7 +501,11 @@ impl App {
                 self.review_error = Some(error);
                 true
             }
-            Event::ReviewSubmitted { key, kind, labelled } => {
+            Event::ReviewSubmitted {
+                key,
+                kind,
+                labelled,
+            } => {
                 self.submitting.remove(&key);
                 self.handled.insert(key.clone());
                 if let Some(sha) = self
@@ -517,7 +545,11 @@ impl App {
             .duration_since(std::time::UNIX_EPOCH)
             .map(|d| d.as_secs_f64())
             .unwrap_or(0.0);
-        let queued: HashSet<&PrKey> = self.groups.iter().flat_map(|g| g.prs.iter().map(|p| &p.key)).collect();
+        let queued: HashSet<&PrKey> = self
+            .groups
+            .iter()
+            .flat_map(|g| g.prs.iter().map(|p| &p.key))
+            .collect();
         let labelled: HashSet<PrKey> = self
             .groups
             .iter()
@@ -529,7 +561,10 @@ impl App {
         self.blocked.retain(|key| {
             queued.contains(key)
                 && (labelled.contains(key)
-                    || blocked_since.get(key).map(|t| now - t < GRACE).unwrap_or(false))
+                    || blocked_since
+                        .get(key)
+                        .map(|t| now - t < GRACE)
+                        .unwrap_or(false))
         });
     }
 

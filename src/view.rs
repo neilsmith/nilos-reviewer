@@ -1,20 +1,19 @@
 //! The view: title bar, queue sidebar, detail pane, composer, status bar and
 //! dialogs. Pure `El` builders over `App` state; handlers mutate `App`.
 
-use rune::{
-    Color, Cx, El, Icon, ScrollSpec, Tx, col, el, icon, row, text,
-};
 use crate::fx::GLOW;
 use rune::color::hex;
+use rune::{col, el, icon, row, text, Color, Cx, El, Icon, ScrollSpec, Tx};
 use rune_kit::{
-    Badge, BadgeVariant, Button, ButtonVariant, ControlSize, Dialog, IconButton, IconButtonVariant,
-    Kit, Markdown, SegmentedControl, Spinner, Switch, TextArea, TextInput,
-    diff::DiffView,
-    root,
+    diff::DiffView, root, Badge, BadgeVariant, Button, ButtonVariant, ControlSize, Dialog,
+    IconButton, IconButtonVariant, Kit, Markdown, SegmentedControl, Spinner, Switch, TextArea,
+    TextInput,
 };
 
 use crate::app::{App, Appearance, DetailTab, Pane, Sync};
-use crate::model::{Discussion, DiscussionKind, PrSummary, QueueRow, ReviewKind, age_of, normalize_body};
+use crate::model::{
+    age_of, normalize_body, Discussion, DiscussionKind, PrSummary, QueueRow, ReviewKind,
+};
 
 // ── Icons ────────────────────────────────────────────────────────────────
 
@@ -84,10 +83,13 @@ pub fn view(s: &App, cx: &mut Cx<App>) -> El {
         row()
             .grow(1.0)
             .min_h(0.0)
-            .child(queue_pane(s, &k).w(s.sidebar_w).border_sides([0.0, 0.0, 0.0, HAIR], k.c.border_muted))
             .child(
-                el()
-                    .key("divider")
+                queue_pane(s, &k)
+                    .w(s.sidebar_w)
+                    .border_sides([0.0, 0.0, 0.0, HAIR], k.c.border_muted),
+            )
+            .child(
+                el().key("divider")
                     .on_layout(track("divider"))
                     .w(5.0)
                     .h_full()
@@ -95,11 +97,11 @@ pub fn view(s: &App, cx: &mut Cx<App>) -> El {
                     .hover(k.alpha(k.c.bg_accent, 0.3))
                     .on_drag_start(|s: &mut App, _tx| s.resize_from = s.sidebar_w)
                     .on_drag(|s: &mut App, drag, _tx| {
-                        s.sidebar_w = (s.resize_from + drag.dx).clamp(220.0, (s.window[0] * 0.6).max(300.0));
+                        s.sidebar_w =
+                            (s.resize_from + drag.dx).clamp(220.0, (s.window[0] * 0.6).max(300.0));
                     }),
             )
             .child(detail_pane(s, &k, false).grow(1.0).min_w(0.0))
-            
     };
 
     root(
@@ -130,9 +132,31 @@ fn titlebar(s: &App, k: &Kit) -> El {
         .gap(8.0)
         .border_sides([0.0, 0.0, HAIR, 0.0], k.c.border_muted)
         .child(icon(&PR_ICON, 20.0).color(k.c.text_accent))
-        .child(text("Nilos").font(rune::TextStyle { size: 17.0, tracking: -0.3, ..k.ty.ui_medium }).color(k.c.text_base))
-        .child(text("Reviewer").font(rune::TextStyle { size: 17.0, tracking: -0.3, ..k.ty.ui_medium }).color(k.c.text_accent))
-        .child(if s.viewer.is_empty() { text("") } else { text(format!("@{}", s.viewer)).font(k.ty.small).color(k.c.text_faint) })
+        .child(
+            text("Nilos")
+                .font(rune::TextStyle {
+                    size: 17.0,
+                    tracking: -0.3,
+                    ..k.ty.ui_medium
+                })
+                .color(k.c.text_base),
+        )
+        .child(
+            text("Reviewer")
+                .font(rune::TextStyle {
+                    size: 17.0,
+                    tracking: -0.3,
+                    ..k.ty.ui_medium
+                })
+                .color(k.c.text_accent),
+        )
+        .child(if s.viewer.is_empty() {
+            text("")
+        } else {
+            text(format!("@{}", s.viewer))
+                .font(k.ty.small)
+                .color(k.c.text_faint)
+        })
         .child(el().grow(1.0))
         .child(appearance_button(s, k))
         .child(
@@ -167,7 +191,14 @@ fn appearance_button(s: &App, k: &Kit) -> El {
 // ── Queue pane ───────────────────────────────────────────────────────────
 
 fn queue_pane(s: &App, k: &Kit) -> El {
-    let mut list = col().key("queue").w_full().grow(1.0).min_h(0.0).scroll(ScrollSpec { stick_bottom: false });
+    let mut list = col()
+        .key("queue")
+        .w_full()
+        .grow(1.0)
+        .min_h(0.0)
+        .scroll(ScrollSpec {
+            stick_bottom: false,
+        });
     let rows = s.rows();
     if let Sync::Scanning { text: stage } = &s.sync {
         if rows.is_empty() {
@@ -189,8 +220,16 @@ fn queue_pane(s: &App, k: &Kit) -> El {
                 .py(32.0)
                 .gap(6.0)
                 .child(icon(&CIRCLE_CHECK, 22.0).color(k.c.success.fg))
-                .child(text("Queue’s clear — go write some code").font(k.ty.ui_medium).color(k.c.text_base))
-                .child(text("No pull requests need your review").font(k.ty.small).color(k.c.text_muted)),
+                .child(
+                    text("Queue’s clear — go write some code")
+                        .font(k.ty.ui_medium)
+                        .color(k.c.text_base),
+                )
+                .child(
+                    text("No pull requests need your review")
+                        .font(k.ty.small)
+                        .color(k.c.text_muted),
+                ),
         );
     }
     for row_el in rows {
@@ -214,7 +253,8 @@ fn queue_pane(s: &App, k: &Kit) -> El {
             col().w_full().padding(8.0).child(
                 TextInput::new(&s.filter)
                     .placeholder("Filter pull requests  ( / )")
-                    .leading_icon(&FILTER).width(None)
+                    .leading_icon(&FILTER)
+                    .width(None)
                     .on_edit(|s: &mut App| &mut s.filter)
                     .build(k)
                     .key("filter"),
@@ -227,16 +267,31 @@ fn queue_pane(s: &App, k: &Kit) -> El {
 
 /// All queue-visibility switches in one place.
 fn show_toggles(s: &App, k: &Kit) -> El {
-    let toggle = |label: &'static str, on: bool, aria: &'static str,
-                  f: fn(&mut App)| {
+    let toggle = |label: &'static str, on: bool, aria: &'static str, f: fn(&mut App)| {
         (
             text(label).font(k.ty.small).color(k.c.text_muted),
-            Switch::new(on).label(aria).hide_label().on_toggle(f).build(k),
+            Switch::new(on)
+                .label(aria)
+                .hide_label()
+                .on_toggle(f)
+                .build(k),
         )
     };
-    let (ut, us) = toggle("Unassigned", s.show_unassigned, "Show unassigned pull requests", |s| s.show_unassigned = !s.show_unassigned);
-    let (bt, bs) = toggle("Blocked", s.show_blocked, "Show blocked pull requests", |s| s.show_blocked = !s.show_blocked);
-    let (dt, ds) = toggle("Done", !s.hide_done, "Show reviewed pull requests", |s| s.hide_done = !s.hide_done);
+    let (ut, us) = toggle(
+        "Unassigned",
+        s.show_unassigned,
+        "Show unassigned pull requests",
+        |s| s.show_unassigned = !s.show_unassigned,
+    );
+    let (bt, bs) = toggle(
+        "Blocked",
+        s.show_blocked,
+        "Show blocked pull requests",
+        |s| s.show_blocked = !s.show_blocked,
+    );
+    let (dt, ds) = toggle("Done", !s.hide_done, "Show reviewed pull requests", |s| {
+        s.hide_done = !s.hide_done
+    });
     let ds = ds.on_layout(track("show-done"));
     row()
         .w_full()
@@ -283,11 +338,28 @@ fn group_header(s: &App, k: &Kit, repo: &str) -> El {
             }
         })
         .child(
-            icon(if collapsed { k.glyph.triangle_right } else { k.glyph.triangle_down }, 10.0)
-                .color(k.c.text_muted),
+            icon(
+                if collapsed {
+                    k.glyph.triangle_right
+                } else {
+                    k.glyph.triangle_down
+                },
+                10.0,
+            )
+            .color(k.c.text_muted),
         )
-        .child(text(repo).font(k.ty.small_medium).color(k.c.text_muted).truncate().grow(1.0))
-        .child(Badge::new(format!("{count}")).variant(BadgeVariant::Subtle).build(k))
+        .child(
+            text(repo)
+                .font(k.ty.small_medium)
+                .color(k.c.text_muted)
+                .truncate()
+                .grow(1.0),
+        )
+        .child(
+            Badge::new(format!("{count}"))
+                .variant(BadgeVariant::Subtle)
+                .build(k),
+        )
 }
 
 fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
@@ -307,7 +379,11 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
     for reason in &pr.reasons {
         meta = meta.child(
             Badge::new(reason.clone())
-                .variant(if reason == "You" { BadgeVariant::Accent } else { BadgeVariant::Neutral })
+                .variant(if reason == "You" {
+                    BadgeVariant::Accent
+                } else {
+                    BadgeVariant::Neutral
+                })
                 .build(k),
         );
     }
@@ -317,9 +393,9 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
 
     let mut status = row().gap(4.0).center_y();
     if let Some(kind) = submitting {
-        status = status.child(Spinner::new().build(k)).child(
-            text(kind.name()).font(k.ty.small).color(k.c.text_muted),
-        );
+        status = status
+            .child(Spinner::new().build(k))
+            .child(text(kind.name()).font(k.ty.small).color(k.c.text_muted));
     } else if blocked {
         status = status.child(icon(&OCTAGON, 13.0).color(k.c.warning.fg));
     } else if handled {
@@ -343,7 +419,11 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
         .label(format!("{} #{}", pr.title, pr.key.number))
         .checked(selected)
         .focusable(true)
-        .fill(if selected { k.alpha(k.c.bg_accent, 0.14) } else { Color::TRANSPARENT })
+        .fill(if selected {
+            k.alpha(k.c.bg_accent, 0.14)
+        } else {
+            Color::TRANSPARENT
+        })
         .hover(k.c.hover)
         .on_press_tx({
             let key = key.clone();
@@ -365,7 +445,11 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
                 .child(
                     text(pr.title.clone())
                         .font(k.ty.ui_compact)
-                        .color(if handled || blocked { k.c.text_muted } else { k.c.text_base })
+                        .color(if handled || blocked {
+                            k.c.text_muted
+                        } else {
+                            k.c.text_base
+                        })
                         .truncate()
                         .grow(1.0),
                 )
@@ -391,15 +475,28 @@ fn queue_footer(s: &App, k: &Kit) -> El {
         .gap(8.0)
         .center_y()
         .border_sides([HAIR, 0.0, 0.0, 0.0], k.c.border_muted)
-        .child(text(format!("{n} PR{}", if n == 1 { "" } else { "s" })).font(k.ty.small).color(k.c.text_muted))
+        .child(
+            text(format!("{n} PR{}", if n == 1 { "" } else { "s" }))
+                .font(k.ty.small)
+                .color(k.c.text_muted),
+        )
         .child(el().grow(1.0))
-        .child(text(format!("{total} total")).font(k.ty.small).color(k.c.text_faint))
+        .child(
+            text(format!("{total} total"))
+                .font(k.ty.small)
+                .color(k.c.text_faint),
+        )
 }
 
 // ── Detail pane ──────────────────────────────────────────────────────────
 
 fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
-    let mut pane = col().key("detail-pane").w_full().h_full().min_h(0.0).min_w(0.0);
+    let mut pane = col()
+        .key("detail-pane")
+        .w_full()
+        .h_full()
+        .min_h(0.0)
+        .min_w(0.0);
     if narrow {
         pane = pane.child(
             row()
@@ -424,21 +521,24 @@ fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
     match &s.detail {
         Some(detail) => {
             let files_label = format!("Files {}", detail.changed_files);
-            let tabs = row()
-                .w_full()
-                .px(16.0)
-                .pt(8.0)
-                .child(
-                    SegmentedControl::new(&["Conversation", files_label.as_str()], Some(match s.detail_tab {
+            let tabs = row().w_full().px(16.0).pt(8.0).child(
+                SegmentedControl::new(
+                    &["Conversation", files_label.as_str()],
+                    Some(match s.detail_tab {
                         DetailTab::Conversation => 0,
                         DetailTab::Files => 1,
-                    }))
-                    .fit()
-                    .on_pick(|s: &mut App, i, _tx| {
-                        s.detail_tab = if i == 0 { DetailTab::Conversation } else { DetailTab::Files };
-                    })
-                    .build(k),
-                );
+                    }),
+                )
+                .fit()
+                .on_pick(|s: &mut App, i, _tx| {
+                    s.detail_tab = if i == 0 {
+                        DetailTab::Conversation
+                    } else {
+                        DetailTab::Files
+                    };
+                })
+                .build(k),
+            );
             match s.detail_tab {
                 DetailTab::Conversation => {
                     let scroll = col()
@@ -446,7 +546,9 @@ fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
                         .w_full()
                         .grow(1.0)
                         .min_h(0.0)
-                        .scroll(ScrollSpec { stick_bottom: false })
+                        .scroll(ScrollSpec {
+                            stick_bottom: false,
+                        })
                         .child(detail_header(s, k))
                         .child(tabs)
                         .child(conversation_section(s, k));
@@ -472,8 +574,7 @@ fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
             if let Sync::Scanning { text: stage } = &s.sync {
                 empty = empty
                     .child(
-                        el()
-                            .size(56.0, 56.0)
+                        el().size(56.0, 56.0)
                             .radius(16.0)
                             .effect(GLOW)
                             .effect_data([0.0, 1.0, 0.45, 13.0])
@@ -484,8 +585,7 @@ fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
             } else if s.detail_loading.is_some() {
                 empty = empty
                     .child(
-                        el()
-                            .size(56.0, 56.0)
+                        el().size(56.0, 56.0)
                             .radius(16.0)
                             .effect(GLOW)
                             .effect_data([0.0, 1.0, 0.45, 13.0])
@@ -493,12 +593,18 @@ fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
                             .child(icon(&PR_ICON, 24.0).color(k.c.text_base)),
                     )
                     .child(
-                    text("Loading pull request…").font(k.ty.ui).color(k.c.text_muted),
-                );
+                        text("Loading pull request…")
+                            .font(k.ty.ui)
+                            .color(k.c.text_muted),
+                    );
             } else {
                 empty = empty
                     .child(icon(&PR_ICON, 28.0).color(k.c.text_faint))
-                    .child(text("Select a pull request").font(k.ty.ui_medium).color(k.c.text_muted))
+                    .child(
+                        text("Select a pull request")
+                            .font(k.ty.ui_medium)
+                            .color(k.c.text_muted),
+                    )
                     .child(
                         text("↑ ↓ to move · Enter to select · / to filter")
                             .font(k.ty.small)
@@ -554,7 +660,11 @@ fn detail_header(s: &App, k: &Kit) -> El {
                         .font(k.ty.ui_compact)
                         .color(k.c.text_accent),
                 )
-                .child(text(format!("by {}", d.author)).font(k.ty.ui_compact).color(k.c.text_muted))
+                .child(
+                    text(format!("by {}", d.author))
+                        .font(k.ty.ui_compact)
+                        .color(k.c.text_muted),
+                )
                 .child(
                     text(format!("{} → {}", d.head_ref, d.base_ref))
                         .font(k.ty.mono)
@@ -567,9 +677,12 @@ fn detail_header(s: &App, k: &Kit) -> El {
                 })
                 .child(checks_badge(s, k))
                 .child(
-                    text(format!("+{} −{} · {} files", d.additions, d.deletions, d.changed_files))
-                        .font(k.ty.small)
-                        .color(k.c.text_faint),
+                    text(format!(
+                        "+{} −{} · {} files",
+                        d.additions, d.deletions, d.changed_files
+                    ))
+                    .font(k.ty.small)
+                    .color(k.c.text_faint),
                 ),
         )
 }
@@ -579,11 +692,14 @@ fn checks_badge(s: &App, k: &Kit) -> El {
     if d.checks.is_empty() {
         return text("");
     }
-    let (passing, failing, pending) = d.checks.iter().fold((0, 0, 0), |(p, f, q), c| match c.ok() {
-        Some(true) => (p + 1, f, q),
-        Some(false) => (p, f + 1, q),
-        None => (p, f, q + 1),
-    });
+    let (passing, failing, pending) =
+        d.checks
+            .iter()
+            .fold((0, 0, 0), |(p, f, q), c| match c.ok() {
+                Some(true) => (p + 1, f, q),
+                Some(false) => (p, f + 1, q),
+                None => (p, f, q + 1),
+            });
     let (label, color) = if failing > 0 {
         (format!("✗ {failing} failing"), k.c.danger.fg)
     } else if pending > 0 {
@@ -591,15 +707,15 @@ fn checks_badge(s: &App, k: &Kit) -> El {
     } else {
         (format!("✓ {passing} passing"), k.c.success.fg)
     };
-    row()
-        .gap(4.0)
-        .center_y()
-        .child(
-            text(label)
-                .font(k.ty.small_medium)
-                .color(color)
-                .help(d.checks.iter().map(|c| c.name.as_str()).collect::<Vec<_>>().join("\n")),
-        )
+    row().gap(4.0).center_y().child(
+        text(label).font(k.ty.small_medium).color(color).help(
+            d.checks
+                .iter()
+                .map(|c| c.name.as_str())
+                .collect::<Vec<_>>()
+                .join("\n"),
+        ),
+    )
 }
 
 /// The Conversation tab: the PR body, then the discussion oldest-first.
@@ -607,16 +723,23 @@ fn conversation_section(s: &App, k: &Kit) -> El {
     let d = s.detail.as_ref().unwrap();
     let mut section = col().w_full().px(16.0).py(12.0).gap(12.0);
     if !d.body.trim().is_empty() {
-        section = section.child(
-            discussion_card(k, &d.author, "opened this pull request", None, normalize_body(&d.body), k.c.border_muted),
-        );
+        section = section.child(discussion_card(
+            k,
+            &d.author,
+            "opened this pull request",
+            None,
+            normalize_body(&d.body),
+            k.c.border_muted,
+        ));
     }
     for event in &d.events {
         section = section.child(discussion_event(k, event));
     }
     if d.body.trim().is_empty() && d.events.is_empty() {
         section = section.child(
-            text("No description or discussion yet").font(k.ty.ui).color(k.c.text_muted),
+            text("No description or discussion yet")
+                .font(k.ty.ui)
+                .color(k.c.text_muted),
         );
     }
     section
@@ -640,7 +763,9 @@ fn discussion_event(k: &Kit, event: &Discussion) -> El {
             }),
         ),
         DiscussionKind::ReviewComment { path, line } => {
-            let loc = line.map(|l| format!("{path}:{l}")).unwrap_or_else(|| path.clone());
+            let loc = line
+                .map(|l| format!("{path}:{l}"))
+                .unwrap_or_else(|| path.clone());
             ("commented on", Some((loc, k.c.text_muted)))
         }
     };
@@ -653,7 +778,14 @@ fn discussion_event(k: &Kit, event: &Discussion) -> El {
         },
         DiscussionKind::ReviewComment { .. } => k.c.text_accent,
     };
-    discussion_card(k, &event.author, action, badge, normalize_body(&event.body), edge)
+    discussion_card(
+        k,
+        &event.author,
+        action,
+        badge,
+        normalize_body(&event.body),
+        edge,
+    )
 }
 
 /// A discussion card: `author action · badge`, then the body.
@@ -668,8 +800,16 @@ fn discussion_card(
     let mut head = row()
         .gap(6.0)
         .center_y()
-        .child(text(author.to_string()).font(k.ty.ui_compact).color(k.c.text_base))
-        .child(text(action.to_string()).font(k.ty.small).color(k.c.text_muted));
+        .child(
+            text(author.to_string())
+                .font(k.ty.ui_compact)
+                .color(k.c.text_base),
+        )
+        .child(
+            text(action.to_string())
+                .font(k.ty.small)
+                .color(k.c.text_muted),
+        );
     if let Some((label, color)) = badge {
         head = head.child(text(label).font(k.ty.small_medium).color(color));
     }
@@ -701,7 +841,10 @@ fn files_section(s: &App, k: &Kit) -> El {
 
 fn composer(s: &App, k: &Kit) -> El {
     let key = s.cursor.clone();
-    let submitting = key.as_ref().map(|k| s.submitting.contains_key(k)).unwrap_or(false);
+    let submitting = key
+        .as_ref()
+        .map(|k| s.submitting.contains_key(k))
+        .unwrap_or(false);
     col()
         .key("composer")
         .w_full()
@@ -735,23 +878,44 @@ fn composer(s: &App, k: &Kit) -> El {
 
 /// A filled action button — reads as a button, not a badge.
 #[allow(clippy::too_many_arguments)]
-fn action_button(_s: &App, k: &Kit, label: &'static str, bg: Color, hover_bg: Color, fg: Color, border: Color,
-                 disabled: bool, press: impl Fn(&mut App, &mut rune::Tx) + 'static) -> El {
+fn action_button(
+    _s: &App,
+    k: &Kit,
+    label: &'static str,
+    bg: Color,
+    hover_bg: Color,
+    fg: Color,
+    border: Color,
+    disabled: bool,
+    press: impl Fn(&mut App, &mut rune::Tx) + 'static,
+) -> El {
     col()
         .px(14.0)
         .h(32.0)
         .radius(8.0)
-        .fill(if disabled { k.alpha(k.c.text_base, 0.06) } else { bg })
+        .fill(if disabled {
+            k.alpha(k.c.text_base, 0.06)
+        } else {
+            bg
+        })
         .hover(hover_bg)
         .border(1.0, if disabled { k.c.border_muted } else { border })
-        .cursor(if disabled { rune::Cursor::Default } else { rune::Cursor::Pointer })
+        .cursor(if disabled {
+            rune::Cursor::Default
+        } else {
+            rune::Cursor::Pointer
+        })
         .on_press_tx(move |s: &mut App, tx| {
             if !disabled {
                 press(s, tx);
             }
         })
         .center()
-        .child(text(label).font(k.ty.ui_medium).color(if disabled { k.c.text_faint } else { fg }))
+        .child(
+            text(label)
+                .font(k.ty.ui_medium)
+                .color(if disabled { k.c.text_faint } else { fg }),
+        )
 }
 
 /// (bg, hover, fg, border) for a review action — the same in the composer
@@ -791,7 +955,9 @@ fn solid_row(s: &App, k: &Kit, submitting: bool) -> El {
     let dis = submitting || s.cursor.is_none();
     let btn = |label, kind| {
         let (bg, hov, fg, b) = action_colors(k, kind);
-        action_button(s, k, label, bg, hov, fg, b, dis, move |s, _| s.begin_review(kind))
+        action_button(s, k, label, bg, hov, fg, b, dis, move |s, _| {
+            s.begin_review(kind)
+        })
     };
     let (nbg, nhov, nfg, nb) = action_colors(k, ReviewKind::Comment);
     row()
@@ -800,14 +966,13 @@ fn solid_row(s: &App, k: &Kit, submitting: bool) -> El {
         .child(btn("Comment", ReviewKind::Comment))
         .child(btn("Request changes", ReviewKind::RequestChanges))
         .child(if s.selected_blocked() {
-            action_button(s, k, "Unblock", nbg, nhov, nfg, nb, dis, |s, _| s.unblock_selected())
+            action_button(s, k, "Unblock", nbg, nhov, nfg, nb, dis, |s, _| {
+                s.unblock_selected()
+            })
         } else {
             btn("Mark blocked", ReviewKind::Blocked)
         })
 }
-
-
-
 
 // ── Status bar ───────────────────────────────────────────────────────────
 
@@ -819,10 +984,15 @@ fn statusbar(s: &App, k: &Kit) -> El {
             .last_synced
             .map(|t| {
                 let ago = now_secs() as f64 - t;
-                let text = if ago < 10.0 { "just now".to_string() }
-                    else if ago < 60.0 { format!("{ago:.0}s ago") }
-                    else if ago < 3600.0 { format!("{:.0}m ago", ago / 60.0) }
-                    else { format!("{:.0}h ago", ago / 3600.0) };
+                let text = if ago < 10.0 {
+                    "just now".to_string()
+                } else if ago < 60.0 {
+                    format!("{ago:.0}s ago")
+                } else if ago < 3600.0 {
+                    format!("{:.0}m ago", ago / 60.0)
+                } else {
+                    format!("{:.0}h ago", ago / 3600.0)
+                };
                 format!("updated {text}")
             })
             .unwrap_or_else(|| "Ready".to_string()),
@@ -840,14 +1010,33 @@ fn statusbar(s: &App, k: &Kit) -> El {
         bar = bar.child(Spinner::new().build(k));
     }
     bar = bar
-        .child(text(status).font(k.ty.small).color(k.c.text_muted).truncate())
+        .child(
+            text(status)
+                .font(k.ty.small)
+                .color(k.c.text_muted)
+                .truncate(),
+        )
         .child(if s.sync_failures.is_empty() {
             text("")
         } else {
-            text(format!("{} search{}", s.sync_failures.len(), if s.sync_failures.len() == 1 { " failed" } else { "s failed" }))
-                .font(k.ty.small)
-                .color(k.c.warning.fg)
-                .help(s.sync_failures.iter().map(|(r, e)| format!("{r}: {e}")).collect::<Vec<_>>().join("\n"))
+            text(format!(
+                "{} search{}",
+                s.sync_failures.len(),
+                if s.sync_failures.len() == 1 {
+                    " failed"
+                } else {
+                    "s failed"
+                }
+            ))
+            .font(k.ty.small)
+            .color(k.c.warning.fg)
+            .help(
+                s.sync_failures
+                    .iter()
+                    .map(|(r, e)| format!("{r}: {e}"))
+                    .collect::<Vec<_>>()
+                    .join("\n"),
+            )
         })
         .child(el().grow(1.0))
         .child(if let Some(notice) = &s.notice {
@@ -855,7 +1044,11 @@ fn statusbar(s: &App, k: &Kit) -> El {
         } else {
             text("")
         })
-        .child(text(format!("v{}", env!("CARGO_PKG_VERSION"))).font(k.ty.small).color(k.c.text_faint));
+        .child(
+            text(format!("v{}", env!("CARGO_PKG_VERSION")))
+                .font(k.ty.small)
+                .color(k.c.text_faint),
+        );
     bar
 }
 
@@ -866,7 +1059,9 @@ fn first_line(s: &str) -> &str {
 // ── Dialogs ──────────────────────────────────────────────────────────────
 
 fn confirm_dialog(s: &App, k: &Kit, layer: &mut Vec<El>) {
-    let (Some(kind), Some(key)) = (s.confirming, s.cursor.as_ref()) else { return };
+    let (Some(kind), Some(key)) = (s.confirming, s.cursor.as_ref()) else {
+        return;
+    };
     let title = match kind {
         ReviewKind::Approve => format!("Approve {}?", key.display()),
         ReviewKind::Comment => format!("Comment on {}?", key.display()),

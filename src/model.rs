@@ -11,7 +11,10 @@ pub struct PrKey {
 
 impl PrKey {
     pub fn new(repo: impl Into<String>, number: u64) -> Self {
-        PrKey { repo: repo.into(), number }
+        PrKey {
+            repo: repo.into(),
+            number,
+        }
     }
     pub fn display(&self) -> String {
         format!("{}#{}", self.repo, self.number)
@@ -96,7 +99,10 @@ impl Check {
         if self.status != "completed" {
             return None;
         }
-        Some(matches!(self.conclusion.as_deref(), Some("success") | Some("neutral") | Some("skipped")))
+        Some(matches!(
+            self.conclusion.as_deref(),
+            Some("success") | Some("neutral") | Some("skipped")
+        ))
     }
 }
 
@@ -175,7 +181,10 @@ impl PrSummary {
             self.reasons.join(" ")
         )
         .to_lowercase();
-        filter.to_lowercase().split_whitespace().all(|w| haystack.contains(w))
+        filter
+            .to_lowercase()
+            .split_whitespace()
+            .all(|w| haystack.contains(w))
     }
 }
 
@@ -298,7 +307,10 @@ pub fn normalize_body(body: &str) -> String {
         // <summary>Title</summary> reads as a bold heading line.
         if let (Some(s0), Some(s1)) = (content.find("<summary>"), content.find("</summary>")) {
             if s0 < s1 {
-                out.push_str(&format!("**{}**\n\n", content[s0 + "<summary>".len()..s1].trim()));
+                out.push_str(&format!(
+                    "**{}**\n\n",
+                    content[s0 + "<summary>".len()..s1].trim()
+                ));
                 out.push_str(content[s1 + "</summary>".len()..].trim());
             } else {
                 out.push_str(content.trim());
@@ -309,7 +321,9 @@ pub fn normalize_body(body: &str) -> String {
         out.push_str("\n\n");
     }
     out.push_str(rest);
-    out.replace("<br>", "\n").replace("<br/>", "\n").replace("<br />", "\n")
+    out.replace("<br>", "\n")
+        .replace("<br/>", "\n")
+        .replace("<br />", "\n")
 }
 
 /// Seconds-to-human age ("3d", "5h", "12m").
@@ -331,11 +345,17 @@ pub fn age_of(created_at: &str, now: i64) -> String {
 pub fn parse_iso(s: &str) -> Option<i64> {
     let (date, time) = s.trim_end_matches('Z').split_once('T')?;
     let mut d = date.split('-');
-    let (y, mo, da): (i64, i64, i64) =
-        (d.next()?.parse().ok()?, d.next()?.parse().ok()?, d.next()?.parse().ok()?);
+    let (y, mo, da): (i64, i64, i64) = (
+        d.next()?.parse().ok()?,
+        d.next()?.parse().ok()?,
+        d.next()?.parse().ok()?,
+    );
     let mut t = time.split(':');
-    let (h, mi, se): (i64, i64, i64) =
-        (t.next()?.parse().ok()?, t.next()?.parse().ok()?, t.next()?.parse().ok()?);
+    let (h, mi, se): (i64, i64, i64) = (
+        t.next()?.parse().ok()?,
+        t.next()?.parse().ok()?,
+        t.next()?.parse().ok()?,
+    );
     // Days since epoch via Howard Hinnant's civil-from-days inverse.
     let y = if mo <= 2 { y - 1 } else { y };
     let era = if y >= 0 { y } else { y - 399 } / 400;
@@ -401,7 +421,11 @@ mod tests {
     fn flattened_rows_hides_blocked_and_collapsed() {
         let mut blocked_pr = pr("a/one", 1, "blocked", "2026-01-01T00:00:00Z");
         blocked_pr.blocked_label = true;
-        let groups = group_by_repository(vec![blocked_pr, pr("a/one", 2, "open", "2026-01-02T00:00:00Z"), pr("b/two", 3, "other", "2026-01-03T00:00:00Z")]);
+        let groups = group_by_repository(vec![
+            blocked_pr,
+            pr("a/one", 2, "open", "2026-01-02T00:00:00Z"),
+            pr("b/two", 3, "other", "2026-01-03T00:00:00Z"),
+        ]);
         let (collapsed, blocked, handled) = (HashSet::new(), HashSet::new(), HashSet::new());
         let rows = flattened_rows(&groups, &filter(&collapsed, &blocked, &handled));
         assert_eq!(
@@ -417,14 +441,24 @@ mod tests {
         let rows = flattened_rows(&groups, &filter(&collapsed, &blocked, &handled));
         assert_eq!(
             rows,
-            vec![QueueRow::Header("a/one".into()), QueueRow::Header("b/two".into()), QueueRow::Pr(PrKey::new("b/two", 3))]
+            vec![
+                QueueRow::Header("a/one".into()),
+                QueueRow::Header("b/two".into()),
+                QueueRow::Pr(PrKey::new("b/two", 3))
+            ]
         );
         // Show blocked reveals blocked rows, but a collapsed repo still hides its PRs.
-        let f = QueueFilter { show_blocked: true, ..filter(&collapsed, &blocked, &handled) };
+        let f = QueueFilter {
+            show_blocked: true,
+            ..filter(&collapsed, &blocked, &handled)
+        };
         let rows = flattened_rows(&groups, &f);
         assert_eq!(rows.len(), 3);
         let uncollapsed = HashSet::new();
-        let f = QueueFilter { show_blocked: true, ..filter(&uncollapsed, &blocked, &handled) };
+        let f = QueueFilter {
+            show_blocked: true,
+            ..filter(&uncollapsed, &blocked, &handled)
+        };
         assert_eq!(flattened_rows(&groups, &f).len(), 5);
     }
 
@@ -434,7 +468,12 @@ mod tests {
         let mut f = filter(&collapsed, &blocked, &handled);
         let groups = group_by_repository(vec![
             pr("acme/web", 1, "Fix login redirect", "2026-01-01T00:00:00Z"),
-            pr("acme/api", 2, "Add metrics endpoint", "2026-01-02T00:00:00Z"),
+            pr(
+                "acme/api",
+                2,
+                "Add metrics endpoint",
+                "2026-01-02T00:00:00Z",
+            ),
         ]);
         f.filter = "login";
         assert_eq!(pr_rows(&flattened_rows(&groups, &f)).len(), 1);
@@ -468,15 +507,30 @@ mod tests {
         ]);
         let (collapsed, handled) = (HashSet::new(), HashSet::new());
         let blocked = HashSet::from([PrKey::new("a/one", 2)]);
-        let f = QueueFilter { show_blocked: true, ..filter(&collapsed, &blocked, &handled) };
+        let f = QueueFilter {
+            show_blocked: true,
+            ..filter(&collapsed, &blocked, &handled)
+        };
         let rows = flattened_rows(&groups, &f);
-        assert_eq!(next_unhandled(&rows, None, &handled, &blocked, &HashMap::new()), Some(PrKey::new("a/one", 1)));
+        assert_eq!(
+            next_unhandled(&rows, None, &handled, &blocked, &HashMap::new()),
+            Some(PrKey::new("a/one", 1))
+        );
         let handled = HashSet::from([PrKey::new("a/one", 1)]);
-        assert_eq!(next_unhandled(&rows, None, &handled, &blocked, &HashMap::new()), None);
+        assert_eq!(
+            next_unhandled(&rows, None, &handled, &blocked, &HashMap::new()),
+            None
+        );
         // From the cursor it wraps to the only unhandled row.
         let handled2 = HashSet::new();
         assert_eq!(
-            next_unhandled(&rows, Some(&PrKey::new("a/one", 2)), &handled2, &blocked, &HashMap::new()),
+            next_unhandled(
+                &rows,
+                Some(&PrKey::new("a/one", 2)),
+                &handled2,
+                &blocked,
+                &HashMap::new()
+            ),
             Some(PrKey::new("a/one", 1))
         );
     }
@@ -484,7 +538,19 @@ mod tests {
     #[test]
     fn iso_parses_and_ages() {
         assert_eq!(parse_iso("2026-01-02T03:04:05Z"), Some(1_767_323_045));
-        assert_eq!(age_of("2026-01-01T00:00:00Z", parse_iso("2026-01-02T01:00:00Z").unwrap()), "1d");
-        assert_eq!(age_of("2026-01-02T00:30:00Z", parse_iso("2026-01-02T01:00:00Z").unwrap()), "30m");
+        assert_eq!(
+            age_of(
+                "2026-01-01T00:00:00Z",
+                parse_iso("2026-01-02T01:00:00Z").unwrap()
+            ),
+            "1d"
+        );
+        assert_eq!(
+            age_of(
+                "2026-01-02T00:30:00Z",
+                parse_iso("2026-01-02T01:00:00Z").unwrap()
+            ),
+            "30m"
+        );
     }
 }
