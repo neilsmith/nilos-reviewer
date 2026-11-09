@@ -255,13 +255,20 @@ fn queue_pane(s: &App, k: &Kit) -> El {
         .on_layout(track("sidebar"))
         .child(
             col().w_full().padding(8.0).child(
-                TextInput::new(&s.filter)
-                    .placeholder("Filter pull requests  ( / )")
-                    .leading_icon(&FILTER)
-                    .width(None)
-                    .on_edit(|s: &mut App| &mut s.filter)
-                    .build(k)
-                    .key("filter"),
+                col()
+                    .w_full()
+                    .radius(k.radius.md)
+                    .fill(k.c.bg_deep)
+                    .border(1.0, k.alpha(k.c.text_base, 0.45))
+                    .child(
+                        TextInput::new(&s.filter)
+                            .placeholder("Filter pull requests  ( / )")
+                            .leading_icon(&FILTER)
+                            .width(None)
+                            .on_edit(|s: &mut App| &mut s.filter)
+                            .build(k)
+                            .key("filter"),
+                    ),
             ),
         )
         .child(show_toggles(s, k))
@@ -832,8 +839,8 @@ fn composer(s: &App, k: &Kit) -> El {
             col()
                 .w_full()
                 .radius(k.radius.md)
-                .fill(k.c.layer_01)
-                .border(1.0, k.alpha(k.c.text_base, 0.28))
+                .fill(k.c.bg_deep)
+                .border(1.0, k.alpha(k.c.text_base, 0.45))
                 .child(
                     TextArea::new(&s.comment)
                         .placeholder("Leave a comment (required for Comment and Blocked)")
