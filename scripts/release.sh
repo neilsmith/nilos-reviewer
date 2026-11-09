@@ -26,7 +26,7 @@ fi
 
 # Bump `version` inside [package] of every crate manifest (dependency tables
 # can also carry `version` keys, so this is section-scoped, not a blanket sub).
-for manifest in Cargo.toml crates/pr-core/Cargo.toml crates/pr-github/Cargo.toml; do
+for manifest in Cargo.toml; do
     awk -v v="$new_version" '
         /^\[/ { in_pkg = ($0 == "[package]") }
         in_pkg && /^version = / { sub(/"[^"]*"/, "\"" v "\"") }
@@ -37,7 +37,7 @@ done
 # Refresh Cargo.lock — release CI builds with --locked.
 cargo metadata --format-version 1 >/dev/null
 
-git add Cargo.toml Cargo.lock crates/pr-core/Cargo.toml crates/pr-github/Cargo.toml
+git add Cargo.toml Cargo.lock
 git commit -m "Bump version to $tag"
 git tag -a "$tag" -m "$tag"
 git push origin HEAD "refs/tags/$tag"
