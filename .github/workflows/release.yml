@@ -61,6 +61,21 @@ jobs:
           else
             (cd out && shasum -a 256 "$asset" > "$asset.sha256")
           fi
+          # macOS also ships a double-clickable .app bundle (unsigned — ad-hoc
+          # codesign only, so Gatekeeper still asks for right-click→Open).
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            app="Nilos Reviewer.app"
+            mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
+            cp "target/${{ matrix.target }}/release/nilos-reviewer" "$app/Contents/MacOS/"
+            ver="${{ needs.tag.outputs.name }}"; ver="${ver#v}"
+            sed "s/@VERSION@/$ver/g" packaging/macos/Info.plist > "$app/Contents/Info.plist"
+            cp assets/icon.png "$app/Contents/Resources/icon.png"
+            codesign --deep --force -s - "$app" || true
+            app_asset="nilos-reviewer-${{ matrix.target }}.app.tar.gz"
+            tar -czf "$app_asset" "$app"
+            mv "$app_asset" out/
+            (cd out && shasum -a 256 "$app_asset" > "$app_asset.sha256")
+          fi
       - uses: softprops/action-gh-release@v2
         with:
           files: out/*
