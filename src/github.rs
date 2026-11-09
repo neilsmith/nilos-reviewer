@@ -297,6 +297,8 @@ fn merge_pr(prs: &mut Vec<PrSummary>, pr: PrSummary) {
                     existing.reasons.push(reason);
                 }
             }
+            existing.unassigned |= pr.unassigned;
+            existing.blocked_label |= pr.blocked_label;
         }
         None => prs.push(pr),
     }
@@ -919,6 +921,57 @@ mod tests {
         assert!(unassigned
             .iter()
             .any(|(_, _, q)| q.contains("org:2coloursblue")));
+    }
+
+    fn pr(n: u64, unassigned: bool) -> PrSummary {
+        PrSummary {
+            key: PrKey::new("acme/web", n),
+            title: "t".into(),
+            author: "dev".into(),
+            created_at: "2026-01-01T00:00:00Z".into(),
+            draft: false,
+            reasons: vec![],
+            unassigned,
+            blocked_label: false,
+            head_sha: String::new(),
+            url: String::new(),
+        }
+    }
+
+    /// A PR found by both searches keeps the union of reasons AND flags —
+    /// dropping the unassigned flag here loses its triage badge.
+    #[test]
+    fn merge_dedupes_and_ors_flags() {
+        let mut prs = vec![pr(1, false)];
+        let mut dupe = pr(1, true);
+        dupe.reasons = vec!["Owners".into()];
+        merge_pr(&mut prs, dupe);
+        assert_eq!(prs.len(), 1);
+        assert!(prs[0].unassigned, "unassigned flag must OR across searches");
+        assert_eq!(prs[0].reasons, vec!["Owners"]);
+        merge_pr(&mut prs, pr(2, true));
+        assert_eq!(prs.len(), 2);
+    }
+
+    /// A search node parses into a summary with title/author/flags/reasons.
+    #[test]
+    fn gql_pr_parses_node() {
+        let node = serde_json::json!({
+            "number": 42, "title": "Ship it", "createdAt": "2026-01-01T00:00:00Z",
+            "isDraft": false, "url": "https://github.com/acme/web/pull/42",
+            "author": {"login": "dev"}, "repository": {"nameWithOwner": "acme/web"},
+            "labels": {"nodes": [{"name": "Blocked"}]},
+            "reviewRequests": {"nodes": [
+                {"requestedReviewer": {"__typename": "User", "login": "me"}},
+                {"requestedReviewer": {"__typename": "Team", "name": "Owners"}},
+            ]},
+        });
+        let pr = gql_pr(&node, "me", true).expect("node should parse");
+        assert_eq!(pr.key.number, 42);
+        assert_eq!(pr.author, "dev");
+        assert!(pr.unassigned);
+        assert!(pr.blocked_label, "blocked label should map");
+        assert!(pr.reasons.iter().any(|r| r.contains("Owners")));
     }
 
     /// The direct-request search stays its own batch.
