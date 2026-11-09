@@ -66,6 +66,7 @@ fn main() {
             view::view,
         )
     })
-    .compositor(nilos_reviewer::fx::Gfx::default());
+    .compositor(nilos_reviewer::fx::Gfx::default())
+    .titlebar(rune::Titlebar::new(40.0));
     app.run();
 }
