@@ -841,10 +841,6 @@ fn files_section(s: &App, k: &Kit) -> El {
 
 fn composer(s: &App, k: &Kit) -> El {
     let key = s.cursor.clone();
-    let submitting = key
-        .as_ref()
-        .map(|k| s.submitting.contains_key(k))
-        .unwrap_or(false);
     col()
         .key("composer")
         .w_full()
