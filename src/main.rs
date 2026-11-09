@@ -59,10 +59,9 @@ fn main() {
         ..AppSpec::new(
             "Nilos Reviewer",
             (1280.0, 800.0),
-            || {
-                let mut s = App::default();
-                s.update_rx = Some(nilos_reviewer::update::spawn());
-                s
+            || App {
+                update_rx: Some(nilos_reviewer::update::spawn()),
+                ..Default::default()
             },
             view::view,
         )
