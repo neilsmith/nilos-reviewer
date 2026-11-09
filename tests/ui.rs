@@ -102,9 +102,11 @@ fn divider_exists_and_resizes() {
 
 #[test]
 fn scanning_shows_prominent_loading() {
-    let mut s = App::default();
-    s.sync = Sync::Scanning {
-        text: "Searching review requests…".into(),
+    let s = App {
+        sync: Sync::Scanning {
+            text: "Searching review requests…".into(),
+        },
+        ..Default::default()
     };
     let mut rt = rt(s);
     rt.frame(0.0);
