@@ -112,7 +112,7 @@ pub fn view(s: &App, cx: &mut Cx<App>) -> El {
             .h_full()
             .fill(k.c.page)
             .on_layout(|s: &mut App, r: [f32; 4]| s.window = [r[2], r[3]])
-            .child(titlebar(s, &k))
+            .child(titlebar(s, &k, cx.chrome_insets().leading))
             .child(body)
             .child(statusbar(s, &k)),
         overlays,
@@ -121,13 +121,15 @@ pub fn view(s: &App, cx: &mut Cx<App>) -> El {
 
 // ── Title bar ────────────────────────────────────────────────────────────
 
-fn titlebar(s: &App, k: &Kit) -> El {
+fn titlebar(s: &App, k: &Kit, leading_inset: f32) -> El {
     let scanning = matches!(s.sync, Sync::Scanning { .. });
     row()
         .key("titlebar")
         .h(40.0)
         .w_full()
-        .px(12.0)
+        .pl(leading_inset + 12.0)
+        .pr(12.0)
+        .window_drag()
         .center_y()
         .gap(8.0)
         .border_sides([0.0, 0.0, HAIR, 0.0], k.c.border_muted)
@@ -1013,13 +1015,13 @@ fn statusbar(s: &App, k: &Kit) -> El {
             text("")
         } else {
             text(format!(
-                "{} search{}",
+                "{} search{} failed: {}",
                 s.sync_failures.len(),
-                if s.sync_failures.len() == 1 {
-                    " failed"
-                } else {
-                    "s failed"
-                }
+                if s.sync_failures.len() == 1 { "" } else { "s" },
+                s.sync_failures
+                    .first()
+                    .map(|(_, e)| first_line(e))
+                    .unwrap_or(""),
             ))
             .font(k.ty.small)
             .color(k.c.warning.fg)

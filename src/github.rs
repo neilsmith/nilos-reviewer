@@ -87,9 +87,25 @@ fn gh(args: &[&str]) -> Result<String, String> {
     gh_input(args, None)
 }
 
+/// Where `gh` lives. Finder-launched apps get a minimal PATH without
+/// /opt/homebrew/bin — probe the usual install spots before falling back to
+/// PATH lookup. Resolved once.
+fn gh_path() -> &'static str {
+    static PATH: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+    PATH.get_or_init(|| {
+        for dir in ["/opt/homebrew/bin", "/usr/local/bin"] {
+            let p = format!("{dir}/gh");
+            if std::path::Path::new(&p).exists() {
+                return p;
+            }
+        }
+        "gh".to_string()
+    })
+}
+
 /// `gh api` with an optional JSON document piped to `--input -`.
 fn gh_input(args: &[&str], input: Option<&Value>) -> Result<String, String> {
-    let mut cmd = Command::new("gh");
+    let mut cmd = Command::new(gh_path());
     cmd.arg("api").args(args);
     let mut child = cmd
         .stdin(if input.is_some() {
