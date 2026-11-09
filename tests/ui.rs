@@ -18,11 +18,20 @@ fn rt(s: App) -> Runtime<App> {
 }
 
 fn key(k: Key) -> KeyEvent {
-    KeyEvent { key: k, mods: Mods::default() }
+    KeyEvent {
+        key: k,
+        mods: Mods::default(),
+    }
 }
 
 fn ctrl(c: char) -> KeyEvent {
-    KeyEvent { key: Key::Command(c), mods: Mods { ctrl: true, ..Default::default() } }
+    KeyEvent {
+        key: Key::Command(c),
+        mods: Mods {
+            ctrl: true,
+            ..Default::default()
+        },
+    }
 }
 
 fn rect(rt: &mut Runtime<App>, key: &str) -> [f32; 4] {
@@ -45,7 +54,10 @@ fn queue_wheel_scrolls() {
     rt.frame(0.016);
     rt.frame(0.016);
     let after = rect(&mut rt, "row/acme/team-00-100");
-    assert!(after[1] < before[1], "wheel did not scroll the queue: {before:?} -> {after:?}");
+    assert!(
+        after[1] < before[1],
+        "wheel did not scroll the queue: {before:?} -> {after:?}"
+    );
 }
 
 // ── Layout bounds ────────────────────────────────────────────────────────
@@ -77,7 +89,13 @@ fn divider_exists_and_resizes() {
     rt.pointer_move(cx + 120.0, 400.0);
     rt.frame(0.016);
     rt.pointer_up(cx + 120.0, 400.0);
-    rt.update(|s, _| assert!((s.sidebar_w - 420.0).abs() < 6.0, "sidebar_w = {}", s.sidebar_w));
+    rt.update(|s, _| {
+        assert!(
+            (s.sidebar_w - 420.0).abs() < 6.0,
+            "sidebar_w = {}",
+            s.sidebar_w
+        )
+    });
 }
 
 // ── Loading state ────────────────────────────────────────────────────────
@@ -85,12 +103,17 @@ fn divider_exists_and_resizes() {
 #[test]
 fn scanning_shows_prominent_loading() {
     let mut s = App::default();
-    s.sync = Sync::Scanning { text: "Searching review requests…".into() };
+    s.sync = Sync::Scanning {
+        text: "Searching review requests…".into(),
+    };
     let mut rt = rt(s);
     rt.frame(0.0);
     rt.frame(0.016);
     let r = rect(&mut rt, "scan-state");
-    assert!(r[2] > 0.0 && r[3] > 0.0, "no scan-state element while scanning");
+    assert!(
+        r[2] > 0.0 && r[3] > 0.0,
+        "no scan-state element while scanning"
+    );
 }
 
 // ── Keyboard contract ────────────────────────────────────────────────────
@@ -118,7 +141,7 @@ fn ctrl_a_opens_confirm_dialog() {
 fn confirm_submits_and_advances_to_next_row() {
     let mut rt = rt(app());
     rt.frame(0.0);
-    rt.update(|s, tx| s.confirming = Some(ReviewKind::Approve));
+    rt.update(|s, _tx| s.confirming = Some(ReviewKind::Approve));
     rt.update(|s, tx| s.confirm_review(tx));
     rt.update(|s, _| {
         assert!(s.submitting.contains_key(&PrKey::new("acme/web", 42)));

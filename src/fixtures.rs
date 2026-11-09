@@ -97,10 +97,31 @@ pub fn queue() -> Vec<RepoGroup> {
         RepoGroup {
             repo: "acme/web".into(),
             prs: vec![
-                pr("acme/web", 42, "Add --watch to the dev server", "fern", "2026-11-06T09:12:00Z", &["You", "web-reviewers"]),
-                pr("acme/web", 47, "Bump dependencies for the freeze", "bot", "2026-11-08T14:40:00Z", &["You"]),
+                pr(
+                    "acme/web",
+                    42,
+                    "Add --watch to the dev server",
+                    "fern",
+                    "2026-11-06T09:12:00Z",
+                    &["You", "web-reviewers"],
+                ),
+                pr(
+                    "acme/web",
+                    47,
+                    "Bump dependencies for the freeze",
+                    "bot",
+                    "2026-11-08T14:40:00Z",
+                    &["You"],
+                ),
                 {
-                    let mut p = pr("acme/web", 39, "Rework settings layout", "io", "2026-11-02T11:05:00Z", &["web-reviewers"]);
+                    let mut p = pr(
+                        "acme/web",
+                        39,
+                        "Rework settings layout",
+                        "io",
+                        "2026-11-02T11:05:00Z",
+                        &["web-reviewers"],
+                    );
                     p.draft = true;
                     p
                 },
@@ -110,19 +131,47 @@ pub fn queue() -> Vec<RepoGroup> {
             repo: "acme/api".into(),
             prs: vec![
                 {
-                    let mut p = pr("acme/api", 128, "Paginate the fixtures endpoint", "jo", "2026-11-05T16:22:00Z", &["You"]);
+                    let mut p = pr(
+                        "acme/api",
+                        128,
+                        "Paginate the fixtures endpoint",
+                        "jo",
+                        "2026-11-05T16:22:00Z",
+                        &["You"],
+                    );
                     p.blocked_label = true;
                     p
                 },
-                pr("acme/api", 131, "Return 404 for missing fixtures", "fern", "2026-11-08T08:01:00Z", &["api-reviewers"]),
+                pr(
+                    "acme/api",
+                    131,
+                    "Return 404 for missing fixtures",
+                    "fern",
+                    "2026-11-08T08:01:00Z",
+                    &["api-reviewers"],
+                ),
             ],
         },
         RepoGroup {
             repo: "acme/docs".into(),
             prs: vec![
-                pr("acme/docs", 9, "Document the release checklist", "sam", "2026-11-07T12:00:00Z", &["You"]),
+                pr(
+                    "acme/docs",
+                    9,
+                    "Document the release checklist",
+                    "sam",
+                    "2026-11-07T12:00:00Z",
+                    &["You"],
+                ),
                 {
-                    let mut p = pr("acme/docs", 12, "Mirror the api docs to the site", "rae", "2026-11-04T15:30:00Z", &["Unassigned"]);
+                    let mut p = pr(
+                        "acme/docs",
+                        12,
+                        "Mirror the api docs to the site",
+                        "rae",
+                        "2026-11-04T15:30:00Z",
+                        &["Unassigned"],
+                    );
                     p.unassigned = true;
                     p
                 },
@@ -143,9 +192,14 @@ pub fn long_queue() -> Vec<RepoGroup> {
             prs: (0..4)
                 .map(|n| {
                     let num = 100 + i * 10 + n;
-                    pr(&format!("acme/team-{i:02}"), num,
+                    pr(
+                        &format!("acme/team-{i:02}"),
+                        num,
                         &format!("Change the thing in area {num}"),
-                        "fern", "2026-11-08T10:00:00Z", &["You"])
+                        "fern",
+                        "2026-11-08T10:00:00Z",
+                        &["You"],
+                    )
                 })
                 .collect(),
         })

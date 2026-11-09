@@ -18,17 +18,19 @@ fn layer(kind: u32, d: [f32; 4], shape: Shape, t: f32) -> Option<FxLayer> {
         return None;
     }
     let color = rgb(GLOW_COLORS[(d[0].max(0.0) as usize).min(GLOW_COLORS.len() - 1)]);
-    Some(Fx::glow(GlowParams {
-        color,
-        core: color,
-        radius: if d[3] > 0.0 { d[3] } else { 14.0 },
-        intensity: if d[1] > 0.0 { d[1] } else { 1.0 },
-        breathe: if d[2] > 0.0 { d[2] } else { 0.45 },
-        breathe_period: 2.4,
-        ..Default::default()
-    })
-    .on(shape)
-    .at(t))
+    Some(
+        Fx::glow(GlowParams {
+            color,
+            core: color,
+            radius: if d[3] > 0.0 { d[3] } else { 14.0 },
+            intensity: if d[1] > 0.0 { d[1] } else { 1.0 },
+            breathe: if d[2] > 0.0 { d[2] } else { 0.45 },
+            breathe_period: 2.4,
+            ..Default::default()
+        })
+        .on(shape)
+        .at(t),
+    )
 }
 
 #[derive(Default)]
@@ -57,25 +59,45 @@ impl Compositor<App> for Gfx {
             let k = i.params[3];
             let [x, y, w, h] = i.rect.map(|v| v / k);
             let r = i.radii.iter().fold(0.0f32, |a, v| a.max(v.abs())) / k;
-            let Some(l) = layer(kind, i.uv, Shape::rounded(x, y, w, h, r), t) else { continue };
+            let Some(l) = layer(kind, i.uv, Shape::rounded(x, y, w, h, r), t) else {
+                continue;
+            };
             at.push(n as u32);
             layers.push(l);
             placements.push(FxSlot::default().scale(k).clip(i.clip, i.fade));
         }
         self.active = !layers.is_empty();
-        let fx = self.fx.get_or_insert_with(|| {
-            FxRenderer::new(device, f.format, FxOptions { dither: true })
-        });
+        let fx = self
+            .fx
+            .get_or_insert_with(|| FxRenderer::new(device, f.format, FxOptions { dither: true }));
         fx.set_srgb_blend(f.srgb_blend());
         fx.add_format(device, wgpu::TextureFormat::Rgba16Float);
-        fx.prepare_with_slots(device, queue, &FxFrame { viewport: [size.0, size.1], scale: 1.0, layers: &layers, backdrop: None, sources: &[] }, &placements);
+        fx.prepare_with_slots(
+            device,
+            queue,
+            &FxFrame {
+                viewport: [size.0, size.1],
+                scale: 1.0,
+                layers: &layers,
+                backdrop: None,
+                sources: &[],
+            },
+            &placements,
+        );
         let clear = f.rt.clear_color();
         f.ui.prepare(device, queue, &mut f.rt.text.atlas, &f.rt.instances, size);
-        f.ui.draw_with_backdrop(f.encoder, f.target, clear, &mut |phase, s: &EffectSite<'_>| {
-            let Some(k) = at.iter().position(|n| *n == s.index) else { return };
-            if let EffectPhase::Draw(pass) = phase {
-                fx.draw_layer_in(pass, s.format, s.origin, k);
-            }
-        });
+        f.ui.draw_with_backdrop(
+            f.encoder,
+            f.target,
+            clear,
+            &mut |phase, s: &EffectSite<'_>| {
+                let Some(k) = at.iter().position(|n| *n == s.index) else {
+                    return;
+                };
+                if let EffectPhase::Draw(pass) = phase {
+                    fx.draw_layer_in(pass, s.format, s.origin, k);
+                }
+            },
+        );
     }
 }

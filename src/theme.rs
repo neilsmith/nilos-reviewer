@@ -4,8 +4,8 @@
 
 use std::path::PathBuf;
 
-use rune::Color;
 use rune::color::hex;
+use rune::Color;
 use rune_kit::{Kit, PaletteSeed};
 
 /// The parsed subset of Omarchy's `colors.toml` the app themes itself with.
@@ -95,7 +95,9 @@ pub fn parse_colors(input: &str) -> OmarchyPalette {
 pub fn colors_path() -> Option<PathBuf> {
     let state = std::env::var_os("XDG_STATE_HOME")
         .map(PathBuf::from)
-        .or_else(|| std::env::var_os("HOME").map(|home| PathBuf::from(home).join(".local/state")))?;
+        .or_else(|| {
+            std::env::var_os("HOME").map(|home| PathBuf::from(home).join(".local/state"))
+        })?;
     let path = state.join("omarchy/current/theme/colors.toml");
     path.is_file().then_some(path)
 }

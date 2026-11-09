@@ -9,7 +9,6 @@ use nilos_reviewer::model::ReviewKind;
 use nilos_reviewer::{app, view};
 use rune::AppSpec;
 
-
 fn main() {
     if std::env::args().any(|a| a == "--time-queue") {
         nilos_reviewer::github::timing_probe();
@@ -21,7 +20,11 @@ fn main() {
         min_size: Some((420.0, 420.0)),
         scenes: &[
             ("empty", |_| {}),
-            ("loading", |s| s.sync = Sync::Scanning { text: "Scanning acme/web (3/12)".into() }),
+            ("loading", |s| {
+                s.sync = Sync::Scanning {
+                    text: "Scanning acme/web (3/12)".into(),
+                }
+            }),
             ("loaded", App::load_fixture),
             ("light", |s| {
                 s.appearance = app::Appearance::Light;
@@ -53,11 +56,16 @@ fn main() {
         setup: Some(app::setup),
         poll: Some(App::poll),
         on_key: Some(nilos_reviewer::app::on_key),
-        ..AppSpec::new("Nilos Reviewer", (1280.0, 800.0), || {
-        let mut s = App::default();
-        s.update_rx = Some(nilos_reviewer::update::spawn());
-        s
-    }, view::view)
+        ..AppSpec::new(
+            "Nilos Reviewer",
+            (1280.0, 800.0),
+            || {
+                let mut s = App::default();
+                s.update_rx = Some(nilos_reviewer::update::spawn());
+                s
+            },
+            view::view,
+        )
     })
     .compositor(nilos_reviewer::fx::Gfx::default());
     app.run();
