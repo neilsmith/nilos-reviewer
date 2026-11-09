@@ -840,7 +840,6 @@ fn files_section(s: &App, k: &Kit) -> El {
 // ── Composer ─────────────────────────────────────────────────────────────
 
 fn composer(s: &App, k: &Kit) -> El {
-    let key = s.cursor.clone();
     col()
         .key("composer")
         .w_full()
