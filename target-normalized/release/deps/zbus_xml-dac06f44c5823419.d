@@ -1,0 +1,11 @@
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/zbus_xml-dac06f44c5823419.d: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/error.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/xml.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/telepathy.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/../README.md
+
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/libzbus_xml-dac06f44c5823419.rlib: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/error.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/xml.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/telepathy.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/../README.md
+
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/libzbus_xml-dac06f44c5823419.rmeta: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/error.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/xml.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/telepathy.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/../README.md
+
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/lib.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/error.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/xml.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/telepathy.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zbus_xml-5.2.1/src/../README.md:

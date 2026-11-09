@@ -1,0 +1,6 @@
+[
+  {"type": "key", "name": "a", "cmd": true},
+  {"type": "mark", "name": "confirming", "t": 0.3},
+  {"type": "key", "name": "Enter", "t": 0.5},
+  {"type": "mark", "name": "end", "t": 0.8}
+]

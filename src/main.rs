@@ -1,70 +1,64 @@
-//! NilosReviewer — a native GPUI review queue for GitHub.
+//! nilos-reviewer: a GitHub PR review queue, in Rune.
+//!
+//! `cargo run` opens the window; `-- --snap out.png --scene loaded --size 1280x800`
+//! renders it headless. The GitHub service (gh CLI) never starts headless;
+//! scenes carry fixture data instead.
 
-use anyhow::Context as _;
-use gpui_kit::*;
-use nilos_reviewer::AppAssets;
+use nilos_reviewer::app::{App, Pane, Sync};
+use nilos_reviewer::model::ReviewKind;
+use nilos_reviewer::{app, view};
+use rune::AppSpec;
 
-mod app;
-mod browser;
-mod omarchy;
-mod preview;
-mod service;
-mod store;
-mod themes;
-mod update;
-
-use app::ApproverView;
 
 fn main() {
-    let mut args = std::env::args().skip(1);
-    let fixture = match args.next().as_deref() {
-        None => None,
-        Some("--render-fixture") => {
-            let name = args.next().unwrap_or_else(|| "screening-comment".into());
-            if !nilos_reviewer::fixtures::RENDER_FIXTURES
-                .iter()
-                .any(|fixture| fixture.name == name)
-            {
-                eprintln!("Unknown fixture: {name}");
-                std::process::exit(2);
-            }
-            Some(name)
-        }
-        Some(_) => {
-            eprintln!("Usage: nilos-reviewer [--render-fixture [NAME]]");
-            std::process::exit(2);
-        }
-    };
-    application().with_assets(AppAssets).run(|cx| {
-        init(cx);
-        if omarchy::install(cx).is_none() {
-            themes::install(cx);
-        }
-        if let Some(fixture) = fixture {
-            if let Err(err) = open_window(WindowOptions::default(), cx, |window, cx| {
-                cx.new(|cx| preview::RenderPreview::new(&fixture, window, cx))
-            }) {
-                eprintln!("failed to open rendering preview: {err:#}");
-                cx.quit();
-            }
-            return;
-        }
-        if let Err(err) = open_window(
-            WindowOptions {
-                window_bounds: Some(WindowBounds::Windowed(Bounds::centered(
-                    None,
-                    size(px(1280.), px(820.)),
-                    cx,
-                ))),
-                ..Default::default()
-            },
-            cx,
-            |window, cx| cx.new(|cx| ApproverView::new(window, cx)),
-        )
-        .context("failed to open NilosReviewer")
-        {
-            eprintln!("{err:#}");
-            cx.quit();
-        }
-    });
+    if std::env::args().any(|a| a == "--time-queue") {
+        nilos_reviewer::github::timing_probe();
+        return;
+    }
+
+    rune::set_app_id("nilos-reviewer");
+    let app = rune::App::new(AppSpec::<App> {
+        min_size: Some((420.0, 420.0)),
+        scenes: &[
+            ("empty", |_| {}),
+            ("loading", |s| s.sync = Sync::Scanning { text: "Scanning acme/web (3/12)".into() }),
+            ("loaded", App::load_fixture),
+            ("light", |s| {
+                s.appearance = app::Appearance::Light;
+                s.load_fixture();
+            }),
+            ("review", |s| {
+                s.load_fixture();
+                s.comment.text = "Looks good — the debounce keeps rebuilds cheap.".into();
+                s.confirming = Some(ReviewKind::Approve);
+            }),
+            ("blocked", |s| {
+                s.load_fixture();
+                s.show_blocked = true;
+            }),
+            ("unassigned", |s| {
+                s.load_fixture();
+                s.show_unassigned = true;
+            }),
+            ("files", |s| {
+                s.load_fixture();
+                s.detail_tab = app::DetailTab::Files;
+            }),
+            ("narrow-detail", |s| {
+                s.load_fixture();
+                s.window = [640.0, 800.0];
+                s.pane = Pane::Detail;
+            }),
+        ],
+        setup: Some(app::setup),
+        poll: Some(App::poll),
+        on_key: Some(nilos_reviewer::app::on_key),
+        ..AppSpec::new("Nilos Reviewer", (1280.0, 800.0), || {
+        let mut s = App::default();
+        s.update_rx = Some(nilos_reviewer::update::spawn());
+        s
+    }, view::view)
+    })
+    .compositor(nilos_reviewer::fx::Gfx::default());
+    app.run();
 }

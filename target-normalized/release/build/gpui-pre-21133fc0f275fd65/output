@@ -1,0 +1,5 @@
+cargo:rerun-if-changed=build.rs
+cargo::rustc-check-cfg=cfg(gles)
+cargo::rustc-check-cfg=cfg(gpui_leak_detection)
+cargo::rerun-if-env-changed=GPUI_LEAK_DETECTION
+cargo::rustc-check-cfg=cfg(gpui_hot_reload)

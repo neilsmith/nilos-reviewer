@@ -1,0 +1,6812 @@
+{
+  "accessibility": {
+    "bounds": [
+      0.0,
+      0.0,
+      1280.0,
+      800.0
+    ],
+    "children": [
+      {
+        "bounds": [
+          0.0,
+          0.0,
+          1280.0,
+          800.0
+        ],
+        "children": [
+          {
+            "bounds": [
+              0.0,
+              0.0,
+              1280.0,
+              800.0
+            ],
+            "children": [
+              {
+                "bounds": [
+                  0.0,
+                  0.0,
+                  1280.0,
+                  40.0
+                ],
+                "children": [
+                  {
+                    "bounds": [
+                      36.0,
+                      10.0,
+                      92.0,
+                      20.0
+                    ],
+                    "name": "Nilos Reviewer",
+                    "role": "label"
+                  },
+                  {
+                    "bounds": [
+                      136.0,
+                      14.0,
+                      57.5,
+                      12.0
+                    ],
+                    "name": "@neilsmith",
+                    "role": "label"
+                  },
+                  {
+                    "actions": [
+                      "click",
+                      "focus"
+                    ],
+                    "bounds": [
+                      1191.0,
+                      10.0,
+                      45.0,
+                      20.0
+                    ],
+                    "description": "Appearance: cycle Auto → Light → Dark",
+                    "name": "Auto",
+                    "role": "button"
+                  },
+                  {
+                    "actions": [
+                      "click",
+                      "focus"
+                    ],
+                    "bounds": [
+                      1244.0,
+                      8.0,
+                      24.0,
+                      24.0
+                    ],
+                    "description": "Refresh the review queue (F5)",
+                    "name": "Refresh",
+                    "role": "button"
+                  }
+                ],
+                "key": "titlebar",
+                "role": "group"
+              },
+              {
+                "bounds": [
+                  0.0,
+                  40.0,
+                  300.0,
+                  734.0
+                ],
+                "children": [
+                  {
+                    "bounds": [
+                      8.0,
+                      48.0,
+                      284.0,
+                      28.0
+                    ],
+                    "children": [
+                      {
+                        "bounds": [
+                          8.0,
+                          48.0,
+                          276.0,
+                          28.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "click",
+                              "focus",
+                              "set-value",
+                              "replace-selected-text",
+                              "set-text-selection"
+                            ],
+                            "bounds": [
+                              38.0,
+                              54.0,
+                              246.0,
+                              16.0
+                            ],
+                            "key": "input",
+                            "name": "Filter pull requests  ( / )",
+                            "placeholder": "Filter pull requests  ( / )",
+                            "role": "text-input",
+                            "value": ""
+                          }
+                        ],
+                        "key": "value",
+                        "role": "group"
+                      }
+                    ],
+                    "key": "filter",
+                    "role": "group"
+                  },
+                  {
+                    "actions": [
+                      "scroll-up",
+                      "scroll-down",
+                      "set-scroll-offset"
+                    ],
+                    "bounds": [
+                      0.0,
+                      84.0,
+                      300.0,
+                      660.0
+                    ],
+                    "children": [
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          84.0,
+                          300.0,
+                          30.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              24.0,
+                              93.0,
+                              255.0,
+                              12.0
+                            ],
+                            "name": "acme/api",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              285.0,
+                              93.0,
+                              7.0,
+                              12.0
+                            ],
+                            "name": "2",
+                            "role": "label"
+                          }
+                        ],
+                        "key": "gh-acme/api",
+                        "name": "acme/api, 2 pull requests",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "context-menu",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          114.0,
+                          300.0,
+                          49.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              121.0,
+                              274.0,
+                              16.0
+                            ],
+                            "name": "Return 404 for missing fixtures",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              142.0,
+                              74.0,
+                              12.0
+                            ],
+                            "name": "#131 · fern · 1d",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              90.0,
+                              140.0,
+                              80.5,
+                              16.0
+                            ],
+                            "name": "api-reviewers",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          }
+                        ],
+                        "key": "pr/acme-api-131",
+                        "name": "Return 404 for missing fixtures #131",
+                        "role": "row",
+                        "states": [
+                          "unchecked"
+                        ]
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          163.0,
+                          300.0,
+                          30.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              24.0,
+                              172.0,
+                              255.0,
+                              12.0
+                            ],
+                            "name": "acme/docs",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              285.0,
+                              172.0,
+                              7.0,
+                              12.0
+                            ],
+                            "name": "2",
+                            "role": "label"
+                          }
+                        ],
+                        "key": "gh-acme/docs",
+                        "name": "acme/docs, 2 pull requests",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "context-menu",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          193.0,
+                          300.0,
+                          49.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              200.0,
+                              274.0,
+                              16.0
+                            ],
+                            "name": "Document the release checklist",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              221.0,
+                              68.0,
+                              12.0
+                            ],
+                            "name": "#9 · sam · 2d",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              84.0,
+                              219.0,
+                              28.0,
+                              16.0
+                            ],
+                            "name": "You",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          }
+                        ],
+                        "key": "pr/acme-docs-9",
+                        "name": "Document the release checklist #9",
+                        "role": "row",
+                        "states": [
+                          "unchecked"
+                        ]
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          242.0,
+                          300.0,
+                          30.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              24.0,
+                              251.0,
+                              255.0,
+                              12.0
+                            ],
+                            "name": "acme/web",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              285.0,
+                              251.0,
+                              7.0,
+                              12.0
+                            ],
+                            "name": "3",
+                            "role": "label"
+                          }
+                        ],
+                        "key": "gh-acme/web",
+                        "name": "acme/web, 3 pull requests",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "context-menu",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          272.0,
+                          300.0,
+                          49.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              279.0,
+                              274.0,
+                              16.0
+                            ],
+                            "name": "Bump dependencies for the freeze",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              300.0,
+                              74.0,
+                              12.0
+                            ],
+                            "name": "#47 · bot · 21h",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              90.0,
+                              298.0,
+                              28.0,
+                              16.0
+                            ],
+                            "name": "You",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          }
+                        ],
+                        "key": "pr/acme-web-47",
+                        "name": "Bump dependencies for the freeze #47",
+                        "role": "row",
+                        "states": [
+                          "unchecked"
+                        ]
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "context-menu",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          321.0,
+                          300.0,
+                          49.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              328.0,
+                              274.0,
+                              16.0
+                            ],
+                            "name": "Add --watch to the dev server",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              349.0,
+                              74.0,
+                              12.0
+                            ],
+                            "name": "#42 · fern · 3d",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              90.0,
+                              347.0,
+                              28.0,
+                              16.0
+                            ],
+                            "name": "You",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              124.0,
+                              347.0,
+                              87.0,
+                              16.0
+                            ],
+                            "name": "web-reviewers",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          }
+                        ],
+                        "key": "pr/acme-web-42",
+                        "name": "Add --watch to the dev server #42",
+                        "role": "row",
+                        "states": [
+                          "checked"
+                        ]
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "context-menu",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          0.0,
+                          370.0,
+                          300.0,
+                          49.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              377.0,
+                              240.0,
+                              16.0
+                            ],
+                            "name": "Rework settings layout",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              256.0,
+                              377.0,
+                              34.0,
+                              16.0
+                            ],
+                            "name": "Draft",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              10.0,
+                              398.0,
+                              61.0,
+                              12.0
+                            ],
+                            "name": "#39 · io · 7d",
+                            "role": "label"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              77.0,
+                              396.0,
+                              87.0,
+                              16.0
+                            ],
+                            "name": "web-reviewers",
+                            "role": "status",
+                            "states": [
+                              "live-polite"
+                            ]
+                          }
+                        ],
+                        "key": "pr/acme-web-39",
+                        "name": "Rework settings layout #39",
+                        "role": "row",
+                        "states": [
+                          "unchecked"
+                        ]
+                      }
+                    ],
+                    "key": "queue",
+                    "role": "scroll-view",
+                    "scroll": [
+                      0.0,
+                      0.0,
+                      0.0
+                    ],
+                    "states": [
+                      "clips"
+                    ]
+                  },
+                  {
+                    "bounds": [
+                      10.0,
+                      753.0,
+                      30.0,
+                      12.0
+                    ],
+                    "name": "5 PRs",
+                    "role": "label"
+                  },
+                  {
+                    "bounds": [
+                      90.0,
+                      753.0,
+                      62.0,
+                      12.0
+                    ],
+                    "name": "Unassigned",
+                    "role": "label"
+                  },
+                  {
+                    "actions": [
+                      "click",
+                      "focus"
+                    ],
+                    "bounds": [
+                      160.0,
+                      751.0,
+                      36.0,
+                      16.0
+                    ],
+                    "name": "Show unassigned pull requests",
+                    "role": "switch",
+                    "states": [
+                      "unchecked"
+                    ]
+                  },
+                  {
+                    "bounds": [
+                      204.0,
+                      753.0,
+                      42.0,
+                      12.0
+                    ],
+                    "name": "Blocked",
+                    "role": "label"
+                  },
+                  {
+                    "actions": [
+                      "click",
+                      "focus"
+                    ],
+                    "bounds": [
+                      254.0,
+                      751.0,
+                      36.0,
+                      16.0
+                    ],
+                    "name": "Show blocked pull requests",
+                    "role": "switch",
+                    "states": [
+                      "unchecked"
+                    ]
+                  }
+                ],
+                "key": "sidebar",
+                "role": "group"
+              },
+              {
+                "bounds": [
+                  300.0,
+                  40.0,
+                  980.0,
+                  734.0
+                ],
+                "children": [
+                  {
+                    "actions": [
+                      "scroll-up",
+                      "scroll-down",
+                      "set-scroll-offset"
+                    ],
+                    "bounds": [
+                      300.0,
+                      40.0,
+                      980.0,
+                      617.5
+                    ],
+                    "children": [
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          316.0,
+                          55.0,
+                          916.0,
+                          22.0
+                        ],
+                        "name": "Add --watch to the dev server",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus",
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          1240.0,
+                          54.0,
+                          24.0,
+                          24.0
+                        ],
+                        "description": "Open in the browser",
+                        "name": "Open on GitHub",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          316.0,
+                          87.0,
+                          89.0,
+                          16.0
+                        ],
+                        "name": "acme/web#42",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          413.0,
+                          87.0,
+                          43.5,
+                          16.0
+                        ],
+                        "name": "by fern",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          464.5,
+                          86.0,
+                          106.0,
+                          18.0
+                        ],
+                        "name": "dev-watch → main",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          578.5,
+                          86.9,
+                          4.0,
+                          16.3
+                        ],
+                        "name": "",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          590.5,
+                          89.0,
+                          63.5,
+                          12.0
+                        ],
+                        "description": "build\ntest\nlint",
+                        "name": "● 1 pending",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          662.0,
+                          89.0,
+                          83.5,
+                          12.0
+                        ],
+                        "name": "+63 −12 · 2 files",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          316.0,
+                          122.0,
+                          211.0,
+                          28.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "click",
+                              "focus",
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              316.0,
+                              122.0,
+                              105.5,
+                              28.0
+                            ],
+                            "key": "segment0",
+                            "name": "Conversation",
+                            "position": 1,
+                            "role": "radio-button",
+                            "states": [
+                              "checked"
+                            ]
+                          },
+                          {
+                            "actions": [
+                              "click",
+                              "focus",
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              421.5,
+                              122.0,
+                              105.5,
+                              28.0
+                            ],
+                            "key": "segment1",
+                            "name": "Files 2",
+                            "position": 2,
+                            "role": "radio-button",
+                            "states": [
+                              "unchecked"
+                            ]
+                          }
+                        ],
+                        "role": "radio-group",
+                        "setSize": 2
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          174.0,
+                          25.0,
+                          16.0
+                        ],
+                        "name": "fern",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          359.0,
+                          176.0,
+                          125.5,
+                          12.0
+                        ],
+                        "name": "opened this pull request",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          198.0,
+                          924.0,
+                          24.0
+                        ],
+                        "key": "b0",
+                        "level": 2,
+                        "name": "Summary",
+                        "role": "heading"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          232.0,
+                          924.0,
+                          22.4
+                        ],
+                        "key": "b1",
+                        "name": "Adds a   --watch   flag to the dev server so fixtures regenerate on save, and fixes the redirect loop reported in #41.",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          266.4,
+                          924.0,
+                          75.2
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              266.4,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  266.4,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Debounces rebuilds at 150 ms",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i0",
+                            "name": "Debounces rebuilds at 150 ms",
+                            "position": 1,
+                            "role": "list-item"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              292.8,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  292.8,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Keeps the last good bundle on a failed build",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i1",
+                            "name": "Keeps the last good bundle on a failed build",
+                            "position": 2,
+                            "role": "list-item"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              319.2,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  319.2,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Redirects   /docs   to   /docs/   instead of looping",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i2",
+                            "name": "Redirects   /docs   to   /docs/   instead of looping",
+                            "position": 3,
+                            "role": "list-item"
+                          }
+                        ],
+                        "key": "b2",
+                        "role": "list",
+                        "setSize": 3
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          365.6,
+                          924.0,
+                          24.0
+                        ],
+                        "key": "b3",
+                        "level": 2,
+                        "name": "Test plan",
+                        "role": "heading"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          399.6,
+                          924.0,
+                          75.2
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              399.6,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  399.6,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "  cargo test   passes",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i0",
+                            "name": "cargo test passes",
+                            "position": 1,
+                            "role": "check-box",
+                            "states": [
+                              "read-only",
+                              "checked"
+                            ]
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              426.0,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  426.0,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Manual check on   acme/web   staging",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i1",
+                            "name": "Manual check on acme/web staging",
+                            "position": 2,
+                            "role": "check-box",
+                            "states": [
+                              "read-only",
+                              "checked"
+                            ]
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              452.4,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  452.4,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Load test with 10k files",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i2",
+                            "name": "Load test with 10k files",
+                            "position": 3,
+                            "role": "check-box",
+                            "states": [
+                              "read-only",
+                              "unchecked"
+                            ]
+                          }
+                        ],
+                        "key": "b4",
+                        "role": "list",
+                        "setSize": 3
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          486.8,
+                          924.0,
+                          44.0
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              340.0,
+                              498.8,
+                              900.0,
+                              20.0
+                            ],
+                            "name": "{ \"watch\": true, \"debounce_ms\": 150 }",
+                            "role": "label"
+                          }
+                        ],
+                        "key": "b5",
+                        "role": "code"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          554.8,
+                          352.3,
+                          105.2
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.5,
+                              555.3,
+                              351.3,
+                              34.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  328.5,
+                                  555.3,
+                                  183.3,
+                                  34.4
+                                ],
+                                "children": [
+                                  {
+                                    "actions": [
+                                      "scroll-into-view"
+                                    ],
+                                    "bounds": [
+                                      338.5,
+                                      561.3,
+                                      163.3,
+                                      22.4
+                                    ],
+                                    "name": "Command",
+                                    "role": "label"
+                                  }
+                                ],
+                                "key": "c0",
+                                "name": "Command",
+                                "role": "column-header"
+                              },
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  511.8,
+                                  555.3,
+                                  168.0,
+                                  34.4
+                                ],
+                                "children": [
+                                  {
+                                    "actions": [
+                                      "scroll-into-view"
+                                    ],
+                                    "bounds": [
+                                      521.8,
+                                      561.3,
+                                      148.0,
+                                      22.4
+                                    ],
+                                    "name": "Result",
+                                    "role": "label"
+                                  }
+                                ],
+                                "key": "c1",
+                                "name": "Result",
+                                "role": "column-header"
+                              }
+                            ],
+                            "key": "th",
+                            "name": "Command Result",
+                            "role": "row"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.5,
+                              590.2,
+                              351.3,
+                              34.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  328.5,
+                                  590.2,
+                                  183.3,
+                                  34.4
+                                ],
+                                "children": [
+                                  {
+                                    "actions": [
+                                      "scroll-into-view"
+                                    ],
+                                    "bounds": [
+                                      338.5,
+                                      596.2,
+                                      163.3,
+                                      22.4
+                                    ],
+                                    "name": "  --watch",
+                                    "role": "label"
+                                  }
+                                ],
+                                "key": "c0",
+                                "name": "--watch",
+                                "role": "cell"
+                              },
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  511.8,
+                                  590.2,
+                                  168.0,
+                                  34.4
+                                ],
+                                "children": [
+                                  {
+                                    "actions": [
+                                      "scroll-into-view"
+                                    ],
+                                    "bounds": [
+                                      521.8,
+                                      596.2,
+                                      148.0,
+                                      22.4
+                                    ],
+                                    "name": "rebuilds on save",
+                                    "role": "label"
+                                  }
+                                ],
+                                "key": "c1",
+                                "name": "rebuilds on save",
+                                "role": "cell"
+                              }
+                            ],
+                            "key": "r0",
+                            "name": "--watch rebuilds on save",
+                            "role": "row"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.5,
+                              625.1,
+                              351.3,
+                              34.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  328.5,
+                                  625.1,
+                                  183.3,
+                                  34.4
+                                ],
+                                "children": [
+                                  {
+                                    "actions": [
+                                      "scroll-into-view"
+                                    ],
+                                    "bounds": [
+                                      338.5,
+                                      631.1,
+                                      163.3,
+                                      22.4
+                                    ],
+                                    "name": "  --watch --debounce 300",
+                                    "role": "label"
+                                  }
+                                ],
+                                "key": "c0",
+                                "name": "--watch --debounce 300",
+                                "role": "cell"
+                              },
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  511.8,
+                                  625.1,
+                                  168.0,
+                                  34.4
+                                ],
+                                "children": [
+                                  {
+                                    "actions": [
+                                      "scroll-into-view"
+                                    ],
+                                    "bounds": [
+                                      521.8,
+                                      631.1,
+                                      148.0,
+                                      22.4
+                                    ],
+                                    "name": "rebuilds every 300 ms",
+                                    "role": "label"
+                                  }
+                                ],
+                                "key": "c1",
+                                "name": "rebuilds every 300 ms",
+                                "role": "cell"
+                              }
+                            ],
+                            "key": "r1",
+                            "name": "--watch --debounce 300 rebuilds every 300 ms",
+                            "role": "row"
+                          }
+                        ],
+                        "key": "b6",
+                        "role": "table"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          676.0,
+                          924.0,
+                          22.4
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              342.0,
+                              676.0,
+                              910.0,
+                              22.4
+                            ],
+                            "key": "b0",
+                            "name": "Heads up: this changes the default bind address to   127.0.0.1  .",
+                            "role": "label"
+                          }
+                        ],
+                        "key": "b7",
+                        "role": "blockquote"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          714.4,
+                          924.0,
+                          75.2
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              714.4,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  714.4,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Check out the branch",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i0",
+                            "name": "Check out the branch",
+                            "position": 1,
+                            "role": "list-item"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              740.8,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  740.8,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Run   dev --watch",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i1",
+                            "name": "Run   dev --watch",
+                            "position": 2,
+                            "role": "list-item"
+                          },
+                          {
+                            "actions": [
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              328.0,
+                              767.2,
+                              924.0,
+                              22.4
+                            ],
+                            "children": [
+                              {
+                                "actions": [
+                                  "scroll-into-view"
+                                ],
+                                "bounds": [
+                                  360.0,
+                                  767.2,
+                                  892.0,
+                                  22.4
+                                ],
+                                "key": "b0",
+                                "name": "Edit   fixtures/hello.md",
+                                "role": "label"
+                              }
+                            ],
+                            "key": "i2",
+                            "name": "Edit   fixtures/hello.md",
+                            "position": 3,
+                            "role": "list-item"
+                          }
+                        ],
+                        "key": "b8",
+                        "role": "list",
+                        "setSize": 3
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          825.6,
+                          11.0,
+                          16.0
+                        ],
+                        "name": "jo",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          345.0,
+                          827.6,
+                          62.0,
+                          12.0
+                        ],
+                        "name": "commented",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          849.6,
+                          924.0,
+                          22.4
+                        ],
+                        "key": "b0",
+                        "name": "Nice — this closes a gap we've hit every release. One question inline about the debounce window.",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          908.0,
+                          11.0,
+                          16.0
+                        ],
+                        "name": "jo",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          345.0,
+                          910.0,
+                          78.0,
+                          12.0
+                        ],
+                        "name": "commented on",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          429.0,
+                          910.0,
+                          67.5,
+                          12.0
+                        ],
+                        "name": "src/dev.rs:15",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          932.0,
+                          924.0,
+                          22.4
+                        ],
+                        "key": "b0",
+                        "name": "150 ms feels tight for big fixture trees — did you try 300?",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          990.4,
+                          25.0,
+                          16.0
+                        ],
+                        "name": "fern",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          359.0,
+                          992.4,
+                          62.0,
+                          12.0
+                        ],
+                        "name": "commented",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          1014.4,
+                          924.0,
+                          22.4
+                        ],
+                        "key": "b0",
+                        "name": "Good call, bumped to 150 with a flag to tune it.",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          1048.8,
+                          924.0,
+                          22.4
+                        ],
+                        "key": "b1",
+                        "name": "Benchmarks",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          1083.2,
+                          924.0,
+                          22.4
+                        ],
+                        "key": "b2",
+                        "name": "10k files: 42 ms median, 61 ms p95.",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          328.0,
+                          1141.6,
+                          11.0,
+                          16.0
+                        ],
+                        "name": "jo",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          345.0,
+                          1143.6,
+                          49.5,
+                          12.0
+                        ],
+                        "name": "approved",
+                        "role": "label"
+                      },
+                      {
+                        "actions": [
+                          "scroll-into-view"
+                        ],
+                        "bounds": [
+                          400.5,
+                          1143.6,
+                          51.5,
+                          12.0
+                        ],
+                        "name": "Approved",
+                        "role": "label"
+                      }
+                    ],
+                    "key": "detail",
+                    "role": "scroll-view",
+                    "scroll": [
+                      0.0,
+                      0.0,
+                      524.1
+                    ],
+                    "states": [
+                      "clips"
+                    ]
+                  },
+                  {
+                    "bounds": [
+                      300.0,
+                      657.5,
+                      980.0,
+                      116.5
+                    ],
+                    "children": [
+                      {
+                        "actions": [
+                          "scroll-up",
+                          "scroll-down",
+                          "set-scroll-offset"
+                        ],
+                        "bounds": [
+                          320.0,
+                          675.5,
+                          940.0,
+                          52.5
+                        ],
+                        "children": [
+                          {
+                            "actions": [
+                              "click",
+                              "focus",
+                              "set-value",
+                              "replace-selected-text",
+                              "set-text-selection",
+                              "scroll-into-view"
+                            ],
+                            "bounds": [
+                              320.0,
+                              675.5,
+                              940.0,
+                              17.5
+                            ],
+                            "key": "input",
+                            "name": "Leave a comment (required for Comment and Blocked)",
+                            "placeholder": "Leave a comment (required for Comment and Blocked)",
+                            "role": "multiline-text-input",
+                            "value": ""
+                          }
+                        ],
+                        "key": "scroll",
+                        "role": "scroll-view",
+                        "scroll": [
+                          0.0,
+                          0.0,
+                          0.0
+                        ],
+                        "states": [
+                          "clips"
+                        ]
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus"
+                        ],
+                        "bounds": [
+                          312.0,
+                          744.0,
+                          64.5,
+                          20.0
+                        ],
+                        "name": "Approve",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus"
+                        ],
+                        "bounds": [
+                          382.5,
+                          744.0,
+                          71.5,
+                          20.0
+                        ],
+                        "name": "Comment",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus"
+                        ],
+                        "bounds": [
+                          460.0,
+                          744.0,
+                          111.0,
+                          20.0
+                        ],
+                        "name": "Request changes",
+                        "role": "button"
+                      },
+                      {
+                        "actions": [
+                          "click",
+                          "focus"
+                        ],
+                        "bounds": [
+                          577.0,
+                          744.0,
+                          62.5,
+                          20.0
+                        ],
+                        "name": "Blocked",
+                        "role": "button"
+                      },
+                      {
+                        "bounds": [
+                          999.5,
+                          748.0,
+                          268.5,
+                          12.0
+                        ],
+                        "name": "⌃A approve · ⌃C comment · ⌃R changes · ⌃B block",
+                        "role": "label"
+                      }
+                    ],
+                    "key": "composer",
+                    "role": "group"
+                  }
+                ],
+                "key": "detail-pane",
+                "role": "group"
+              },
+              {
+                "bounds": [
+                  0.0,
+                  774.0,
+                  1280.0,
+                  26.0
+                ],
+                "children": [
+                  {
+                    "bounds": [
+                      10.0,
+                      781.0,
+                      55.0,
+                      12.0
+                    ],
+                    "name": "7 total PRs",
+                    "role": "label"
+                  },
+                  {
+                    "bounds": [
+                      75.0,
+                      778.9,
+                      4.0,
+                      16.3
+                    ],
+                    "name": "",
+                    "role": "label"
+                  },
+                  {
+                    "bounds": [
+                      1156.5,
+                      778.9,
+                      4.0,
+                      16.3
+                    ],
+                    "name": "",
+                    "role": "label"
+                  },
+                  {
+                    "bounds": [
+                      1170.5,
+                      781.0,
+                      53.5,
+                      12.0
+                    ],
+                    "name": "Hide done",
+                    "role": "label"
+                  },
+                  {
+                    "actions": [
+                      "click",
+                      "focus"
+                    ],
+                    "bounds": [
+                      1234.0,
+                      779.0,
+                      36.0,
+                      16.0
+                    ],
+                    "name": "Hide reviewed pull requests",
+                    "role": "switch",
+                    "states": [
+                      "unchecked"
+                    ]
+                  }
+                ],
+                "key": "statusbar",
+                "role": "group"
+              }
+            ],
+            "key": "window",
+            "role": "window"
+          }
+        ],
+        "key": "kit-root",
+        "role": "group"
+      }
+    ],
+    "name": "Nilos Reviewer",
+    "role": "window"
+  },
+  "anim_t": 0.0,
+  "animating": false,
+  "dark_system": true,
+  "elements": [
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "kit-root",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root",
+      "rect": [
+        0.0,
+        0.0,
+        1280.0,
+        800.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#2c2525ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "window",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window",
+      "rect": [
+        0.0,
+        0.0,
+        1280.0,
+        800.0
+      ],
+      "role": "window",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "titlebar",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar",
+      "rect": [
+        0.0,
+        0.0,
+        1280.0,
+        40.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#f38d70ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#0",
+      "rect": [
+        12.0,
+        12.0,
+        16.0,
+        16.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#1",
+      "rect": [
+        36.0,
+        10.0,
+        92.0,
+        20.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Nilos Reviewer"
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#2",
+      "rect": [
+        136.0,
+        14.0,
+        57.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "@neilsmith"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#3",
+      "rect": [
+        201.5,
+        20.0,
+        981.5,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "help": "Appearance: cycle Auto → Light → Dark",
+      "inert": false,
+      "label": "Auto",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#4",
+      "rect": [
+        1191.0,
+        10.0,
+        45.0,
+        20.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#4/label",
+      "rect": [
+        1201.0,
+        14.0,
+        25.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Auto"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "help": "Refresh the review queue (F5)",
+      "inert": false,
+      "label": "Refresh",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#5",
+      "rect": [
+        1244.0,
+        8.0,
+        24.0,
+        24.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "icon",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/titlebar/#5/icon",
+      "rect": [
+        1248.0,
+        12.0,
+        16.0,
+        16.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1",
+      "rect": [
+        0.0,
+        40.0,
+        1280.0,
+        734.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "sidebar",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar",
+      "rect": [
+        0.0,
+        40.0,
+        300.0,
+        734.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#0",
+      "rect": [
+        0.0,
+        40.0,
+        300.0,
+        44.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#2c2525ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "filter",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#0/filter",
+      "rect": [
+        8.0,
+        48.0,
+        284.0,
+        28.0
+      ],
+      "role": "textbox",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "value",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#0/filter/value",
+      "rect": [
+        8.0,
+        48.0,
+        276.0,
+        28.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "leading",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#0/filter/value/leading",
+      "rect": [
+        8.0,
+        54.0,
+        24.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#0/filter/value/leading/#0",
+      "rect": [
+        16.0,
+        54.0,
+        16.0,
+        16.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "input",
+      "label": "Filter pull requests  ( / )",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#0/filter/value/input",
+      "rect": [
+        38.0,
+        54.0,
+        246.0,
+        16.0
+      ],
+      "role": "textbox",
+      "scale": 1.0,
+      "text": ""
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "queue",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue",
+      "rect": [
+        0.0,
+        84.0,
+        300.0,
+        660.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "gh-acme/api",
+      "label": "acme/api, 2 pull requests",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/api",
+      "rect": [
+        0.0,
+        84.0,
+        300.0,
+        30.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/api/#0",
+      "rect": [
+        8.0,
+        94.0,
+        10.0,
+        10.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/api/#1",
+      "rect": [
+        24.0,
+        93.0,
+        255.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "acme/api"
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/api/#2",
+      "rect": [
+        285.0,
+        93.0,
+        7.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "2"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "pr/acme-api-131",
+      "label": "Return 404 for missing fixtures #131",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131",
+      "rect": [
+        0.0,
+        114.0,
+        300.0,
+        49.0
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#0",
+      "rect": [
+        10.0,
+        121.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#0/#0",
+      "rect": [
+        10.0,
+        121.0,
+        274.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Return 404 for missing fixtures"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#0/#1",
+      "rect": [
+        290.0,
+        129.0,
+        0.0,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#1",
+      "rect": [
+        10.0,
+        140.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#1/#0",
+      "rect": [
+        10.0,
+        142.0,
+        74.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "#131 · fern · 1d"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#403637ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "api-reviewers",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#1/#1",
+      "rect": [
+        90.0,
+        140.0,
+        80.5,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-api-131/#1/#1/#0",
+      "rect": [
+        94.0,
+        142.5,
+        72.5,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "api-reviewers"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "gh-acme/docs",
+      "label": "acme/docs, 2 pull requests",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/docs",
+      "rect": [
+        0.0,
+        163.0,
+        300.0,
+        30.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/docs/#0",
+      "rect": [
+        8.0,
+        173.0,
+        10.0,
+        10.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/docs/#1",
+      "rect": [
+        24.0,
+        172.0,
+        255.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "acme/docs"
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/docs/#2",
+      "rect": [
+        285.0,
+        172.0,
+        7.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "2"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "pr/acme-docs-9",
+      "label": "Document the release checklist #9",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9",
+      "rect": [
+        0.0,
+        193.0,
+        300.0,
+        49.0
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#0",
+      "rect": [
+        10.0,
+        200.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#0/#0",
+      "rect": [
+        10.0,
+        200.0,
+        274.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Document the release checklist"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#0/#1",
+      "rect": [
+        290.0,
+        208.0,
+        0.0,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#1",
+      "rect": [
+        10.0,
+        219.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#1/#0",
+      "rect": [
+        10.0,
+        221.0,
+        68.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "#9 · sam · 2d"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#f38d70ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "You",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#1/#1",
+      "rect": [
+        84.0,
+        219.0,
+        28.0,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#2c2525ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-docs-9/#1/#1/#0",
+      "rect": [
+        88.0,
+        221.5,
+        20.0,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "You"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "gh-acme/web",
+      "label": "acme/web, 3 pull requests",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/web",
+      "rect": [
+        0.0,
+        242.0,
+        300.0,
+        30.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/web/#0",
+      "rect": [
+        8.0,
+        252.0,
+        10.0,
+        10.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/web/#1",
+      "rect": [
+        24.0,
+        251.0,
+        255.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "acme/web"
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/gh-acme/web/#2",
+      "rect": [
+        285.0,
+        251.0,
+        7.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "3"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "pr/acme-web-47",
+      "label": "Bump dependencies for the freeze #47",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47",
+      "rect": [
+        0.0,
+        272.0,
+        300.0,
+        49.0
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#0",
+      "rect": [
+        10.0,
+        279.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#0/#0",
+      "rect": [
+        10.0,
+        279.0,
+        274.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Bump dependencies for the freeze"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#0/#1",
+      "rect": [
+        290.0,
+        287.0,
+        0.0,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#1",
+      "rect": [
+        10.0,
+        298.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#1/#0",
+      "rect": [
+        10.0,
+        300.0,
+        74.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "#47 · bot · 21h"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#f38d70ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "You",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#1/#1",
+      "rect": [
+        90.0,
+        298.0,
+        28.0,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#2c2525ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-47/#1/#1/#0",
+      "rect": [
+        94.0,
+        300.5,
+        20.0,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "You"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#f38d7024",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "pr/acme-web-42",
+      "label": "Add --watch to the dev server #42",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42",
+      "rect": [
+        0.0,
+        321.0,
+        300.0,
+        49.0
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#0",
+      "rect": [
+        10.0,
+        328.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#0/#0",
+      "rect": [
+        10.0,
+        328.0,
+        274.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Add --watch to the dev server"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#0/#1",
+      "rect": [
+        290.0,
+        336.0,
+        0.0,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#1",
+      "rect": [
+        10.0,
+        347.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#1/#0",
+      "rect": [
+        10.0,
+        349.0,
+        74.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "#42 · fern · 3d"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#f38d70ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "You",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#1/#1",
+      "rect": [
+        90.0,
+        347.0,
+        28.0,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#2c2525ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#1/#1/#0",
+      "rect": [
+        94.0,
+        349.5,
+        20.0,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "You"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#403637ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "web-reviewers",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#1/#2",
+      "rect": [
+        124.0,
+        347.0,
+        87.0,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-42/#1/#2/#0",
+      "rect": [
+        128.0,
+        349.5,
+        79.0,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "web-reviewers"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "pr/acme-web-39",
+      "label": "Rework settings layout #39",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39",
+      "rect": [
+        0.0,
+        370.0,
+        300.0,
+        49.0
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#0",
+      "rect": [
+        10.0,
+        377.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#0/#0",
+      "rect": [
+        10.0,
+        377.0,
+        240.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Rework settings layout"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#0/#1",
+      "rect": [
+        256.0,
+        377.0,
+        34.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#483d3fff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "Draft",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#0/#1/#0",
+      "rect": [
+        256.0,
+        377.0,
+        34.0,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#0/#1/#0/#0",
+      "rect": [
+        260.0,
+        379.5,
+        26.0,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Draft"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#1",
+      "rect": [
+        10.0,
+        396.0,
+        280.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#1/#0",
+      "rect": [
+        10.0,
+        398.0,
+        61.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "#39 · io · 7d"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#403637ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "label": "web-reviewers",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#1/#1",
+      "rect": [
+        77.0,
+        396.0,
+        87.0,
+        16.0
+      ],
+      "role": "status",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/queue/pr/acme-web-39/#1/#1/#0",
+      "rect": [
+        81.0,
+        398.5,
+        79.0,
+        11.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "web-reviewers"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2",
+      "rect": [
+        0.0,
+        744.0,
+        300.0,
+        30.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#0",
+      "rect": [
+        10.0,
+        753.0,
+        30.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "5 PRs"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#1",
+      "rect": [
+        48.0,
+        759.0,
+        34.0,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#2",
+      "rect": [
+        90.0,
+        753.0,
+        62.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Unassigned"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Show unassigned pull requests",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#3",
+      "rect": [
+        160.0,
+        751.0,
+        36.0,
+        16.0
+      ],
+      "role": "switch",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#504547ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "control",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#3/control",
+      "rect": [
+        160.0,
+        751.0,
+        36.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#e6d9dbff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "thumb",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#3/control/thumb",
+      "rect": [
+        161.0,
+        752.0,
+        21.0,
+        14.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#4",
+      "rect": [
+        204.0,
+        753.0,
+        42.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Blocked"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Show blocked pull requests",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#5",
+      "rect": [
+        254.0,
+        751.0,
+        36.0,
+        16.0
+      ],
+      "role": "switch",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#504547ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "control",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#5/control",
+      "rect": [
+        254.0,
+        751.0,
+        36.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#e6d9dbff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "thumb",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/sidebar/#2/#5/control/thumb",
+      "rect": [
+        255.0,
+        752.0,
+        21.0,
+        14.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "detail-pane",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane",
+      "rect": [
+        300.0,
+        40.0,
+        980.0,
+        734.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "detail",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail",
+      "rect": [
+        300.0,
+        40.0,
+        980.0,
+        617.5
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0",
+      "rect": [
+        300.0,
+        40.0,
+        980.0,
+        74.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#0",
+      "rect": [
+        316.0,
+        54.0,
+        948.0,
+        24.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#0/#0",
+      "rect": [
+        316.0,
+        55.0,
+        916.0,
+        22.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Add --watch to the dev server"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "help": "Open in the browser",
+      "inert": false,
+      "label": "Open on GitHub",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#0/#1",
+      "rect": [
+        1240.0,
+        54.0,
+        24.0,
+        24.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "icon",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#0/#1/icon",
+      "rect": [
+        1244.0,
+        58.0,
+        16.0,
+        16.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1",
+      "rect": [
+        316.0,
+        86.0,
+        948.0,
+        18.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#f38d70ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#0",
+      "rect": [
+        316.0,
+        87.0,
+        89.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "acme/web#42"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#1",
+      "rect": [
+        413.0,
+        87.0,
+        43.5,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "by fern"
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#2",
+      "rect": [
+        464.5,
+        86.0,
+        106.0,
+        18.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "dev-watch → main"
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#3",
+      "rect": [
+        578.5,
+        86.88,
+        4.0,
+        16.25
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": ""
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#4",
+      "rect": [
+        590.5,
+        89.0,
+        63.5,
+        12.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#f9cc6cff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "help": "build\ntest\nlint",
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#4/#0",
+      "rect": [
+        590.5,
+        89.0,
+        63.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "● 1 pending"
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#0/#1/#5",
+      "rect": [
+        662.0,
+        89.0,
+        83.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "+63 −12 · 2 files"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1",
+      "rect": [
+        300.0,
+        114.0,
+        980.0,
+        36.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1/#0",
+      "rect": [
+        316.0,
+        122.0,
+        211.0,
+        28.0
+      ],
+      "role": "radiogroup",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#2c2525ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "indicator",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1/#0/indicator",
+      "rect": [
+        316.0,
+        122.0,
+        105.5,
+        28.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "itemSelected": true,
+      "key": "segment0",
+      "label": "Conversation",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1/#0/segment0",
+      "rect": [
+        316.0,
+        122.0,
+        105.5,
+        28.0
+      ],
+      "role": "radio",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1/#0/segment0/label",
+      "rect": [
+        328.0,
+        129.5,
+        81.5,
+        13.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Conversation"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "segment1",
+      "label": "Files 2",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1/#0/segment1",
+      "rect": [
+        421.5,
+        122.0,
+        105.5,
+        28.0
+      ],
+      "role": "radio",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#1/#0/segment1/label",
+      "rect": [
+        454.25,
+        129.5,
+        40.0,
+        13.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Files 2"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2",
+      "rect": [
+        300.0,
+        150.0,
+        980.0,
+        1031.57
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0",
+      "rect": [
+        316.0,
+        162.0,
+        948.0,
+        639.58
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#0",
+      "rect": [
+        328.0,
+        174.0,
+        924.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#0/#0",
+      "rect": [
+        328.0,
+        174.0,
+        25.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "fern"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#0/#1",
+      "rect": [
+        359.0,
+        176.0,
+        125.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "opened this pull request"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1",
+      "rect": [
+        328.0,
+        198.0,
+        924.0,
+        591.58
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "level": 2,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b0",
+      "rect": [
+        328.0,
+        198.0,
+        924.0,
+        24.0
+      ],
+      "role": "heading",
+      "scale": 1.0,
+      "text": "Summary"
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b1",
+      "rect": [
+        328.0,
+        232.0,
+        924.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Adds a   --watch   flag to the dev server so fixtures regenerate on save, and fixes the redirect loop reported in #41."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b2",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2",
+      "rect": [
+        328.0,
+        266.4,
+        924.0,
+        75.2
+      ],
+      "role": "list",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i0",
+      "rect": [
+        328.0,
+        266.4,
+        924.0,
+        22.4
+      ],
+      "role": "listitem",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i0/#0",
+      "rect": [
+        328.0,
+        266.4,
+        32.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "•"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i0/#1",
+      "rect": [
+        360.0,
+        266.4,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i0/#1/b0",
+      "rect": [
+        360.0,
+        266.4,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Debounces rebuilds at 150 ms"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i1",
+      "rect": [
+        328.0,
+        292.8,
+        924.0,
+        22.4
+      ],
+      "role": "listitem",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i1/#0",
+      "rect": [
+        328.0,
+        292.8,
+        32.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "•"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i1/#1",
+      "rect": [
+        360.0,
+        292.8,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i1/#1/b0",
+      "rect": [
+        360.0,
+        292.8,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Keeps the last good bundle on a failed build"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i2",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i2",
+      "rect": [
+        328.0,
+        319.2,
+        924.0,
+        22.4
+      ],
+      "role": "listitem",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i2/#0",
+      "rect": [
+        328.0,
+        319.2,
+        32.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "•"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i2/#1",
+      "rect": [
+        360.0,
+        319.2,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b2/i2/#1/b0",
+      "rect": [
+        360.0,
+        319.2,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Redirects   /docs   to   /docs/   instead of looping"
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b3",
+      "level": 2,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b3",
+      "rect": [
+        328.0,
+        365.59,
+        924.0,
+        24.0
+      ],
+      "role": "heading",
+      "scale": 1.0,
+      "text": "Test plan"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b4",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4",
+      "rect": [
+        328.0,
+        399.59,
+        924.0,
+        75.2
+      ],
+      "role": "list",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "itemSelected": true,
+      "key": "i0",
+      "label": "cargo test passes",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i0",
+      "rect": [
+        328.0,
+        399.59,
+        924.0,
+        22.4
+      ],
+      "role": "checkbox",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "control",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i0/control",
+      "rect": [
+        336.0,
+        402.8,
+        16.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "mark",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i0/control/mark",
+      "rect": [
+        339.0,
+        405.8,
+        10.0,
+        10.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i0/#1",
+      "rect": [
+        360.0,
+        399.59,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i0/#1/b0",
+      "rect": [
+        360.0,
+        399.59,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "  cargo test   passes"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "itemSelected": true,
+      "key": "i1",
+      "label": "Manual check on acme/web staging",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i1",
+      "rect": [
+        328.0,
+        425.99,
+        924.0,
+        22.4
+      ],
+      "role": "checkbox",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "control",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i1/control",
+      "rect": [
+        336.0,
+        429.2,
+        16.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "mark",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i1/control/mark",
+      "rect": [
+        339.0,
+        432.2,
+        10.0,
+        10.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i1/#1",
+      "rect": [
+        360.0,
+        425.99,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i1/#1/b0",
+      "rect": [
+        360.0,
+        425.99,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Manual check on   acme/web   staging"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i2",
+      "label": "Load test with 10k files",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i2",
+      "rect": [
+        328.0,
+        452.39,
+        924.0,
+        22.4
+      ],
+      "role": "checkbox",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "control",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i2/control",
+      "rect": [
+        336.0,
+        455.59,
+        16.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "mark",
+      "loopPhase": null,
+      "opacity": 0.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i2/control/mark",
+      "rect": [
+        339.0,
+        458.59,
+        10.0,
+        10.0
+      ],
+      "role": "icon",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i2/#1",
+      "rect": [
+        360.0,
+        452.39,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b4/i2/#1/b0",
+      "rect": [
+        360.0,
+        452.39,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Load test with 10k files"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b5",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b5",
+      "rect": [
+        328.0,
+        486.79,
+        924.0,
+        44.0
+      ],
+      "role": "code",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b5/#0",
+      "rect": [
+        340.0,
+        498.79,
+        900.0,
+        20.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "{ \"watch\": true, \"debounce_ms\": 150 }"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b6",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6",
+      "rect": [
+        328.0,
+        554.79,
+        352.24,
+        105.2
+      ],
+      "role": "table",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "th",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/th",
+      "rect": [
+        328.5,
+        555.29,
+        351.24,
+        34.4
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "c0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/th/c0",
+      "rect": [
+        328.5,
+        555.29,
+        183.27,
+        34.4
+      ],
+      "role": "columnheader",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/th/c0/#0",
+      "rect": [
+        338.5,
+        561.29,
+        163.27,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Command"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "c1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/th/c1",
+      "rect": [
+        511.77,
+        555.29,
+        167.98,
+        34.4
+      ],
+      "role": "columnheader",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/th/c1/#0",
+      "rect": [
+        521.77,
+        561.29,
+        147.98,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Result"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#e6d9db14",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "s0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/s0",
+      "rect": [
+        328.5,
+        589.69,
+        351.24,
+        0.5
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "r0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r0",
+      "rect": [
+        328.5,
+        590.19,
+        351.24,
+        34.4
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "c0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r0/c0",
+      "rect": [
+        328.5,
+        590.19,
+        183.27,
+        34.4
+      ],
+      "role": "cell",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r0/c0/#0",
+      "rect": [
+        338.5,
+        596.19,
+        163.27,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "  --watch"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "c1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r0/c1",
+      "rect": [
+        511.77,
+        590.19,
+        167.98,
+        34.4
+      ],
+      "role": "cell",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r0/c1/#0",
+      "rect": [
+        521.77,
+        596.19,
+        147.98,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "rebuilds on save"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#e6d9db14",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "s1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/s1",
+      "rect": [
+        328.5,
+        624.59,
+        351.24,
+        0.5
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "r1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r1",
+      "rect": [
+        328.5,
+        625.09,
+        351.24,
+        34.4
+      ],
+      "role": "row",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "c0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r1/c0",
+      "rect": [
+        328.5,
+        625.09,
+        183.27,
+        34.4
+      ],
+      "role": "cell",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r1/c0/#0",
+      "rect": [
+        338.5,
+        631.09,
+        163.27,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "  --watch --debounce 300"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "c1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r1/c1",
+      "rect": [
+        511.77,
+        625.09,
+        167.98,
+        34.4
+      ],
+      "role": "cell",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b6/r1/c1/#0",
+      "rect": [
+        521.77,
+        631.09,
+        147.98,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "rebuilds every 300 ms"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b7",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b7",
+      "rect": [
+        328.0,
+        675.98,
+        924.0,
+        22.4
+      ],
+      "role": "blockquote",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#483d3fff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b7/#0",
+      "rect": [
+        328.0,
+        675.98,
+        2.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b7/#1",
+      "rect": [
+        330.0,
+        675.98,
+        922.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b7/#1/b0",
+      "rect": [
+        342.0,
+        675.98,
+        910.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Heads up: this changes the default bind address to   127.0.0.1  ."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b8",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8",
+      "rect": [
+        328.0,
+        714.38,
+        924.0,
+        75.2
+      ],
+      "role": "list",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i0",
+      "rect": [
+        328.0,
+        714.38,
+        924.0,
+        22.4
+      ],
+      "role": "listitem",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i0/#0",
+      "rect": [
+        328.0,
+        714.38,
+        32.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "1."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i0/#1",
+      "rect": [
+        360.0,
+        714.38,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i0/#1/b0",
+      "rect": [
+        360.0,
+        714.38,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Check out the branch"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i1",
+      "rect": [
+        328.0,
+        740.78,
+        924.0,
+        22.4
+      ],
+      "role": "listitem",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i1/#0",
+      "rect": [
+        328.0,
+        740.78,
+        32.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "2."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i1/#1",
+      "rect": [
+        360.0,
+        740.78,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i1/#1/b0",
+      "rect": [
+        360.0,
+        740.78,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Run   dev --watch"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "i2",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i2",
+      "rect": [
+        328.0,
+        767.18,
+        924.0,
+        22.4
+      ],
+      "role": "listitem",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i2/#0",
+      "rect": [
+        328.0,
+        767.18,
+        32.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "3."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i2/#1",
+      "rect": [
+        360.0,
+        767.18,
+        892.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#0/#1/b8/i2/#1/b0",
+      "rect": [
+        360.0,
+        767.18,
+        892.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Edit   fixtures/hello.md"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#1",
+      "rect": [
+        316.0,
+        813.58,
+        948.0,
+        70.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#1/#0",
+      "rect": [
+        328.0,
+        825.58,
+        924.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#1/#0/#0",
+      "rect": [
+        328.0,
+        825.58,
+        11.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "jo"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#1/#0/#1",
+      "rect": [
+        345.0,
+        827.58,
+        62.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "commented"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#1/#1",
+      "rect": [
+        328.0,
+        849.58,
+        924.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#1/#1/b0",
+      "rect": [
+        328.0,
+        849.58,
+        924.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Nice — this closes a gap we've hit every release. One question inline about the debounce window."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2",
+      "rect": [
+        316.0,
+        895.98,
+        948.0,
+        70.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2/#0",
+      "rect": [
+        328.0,
+        907.98,
+        924.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2/#0/#0",
+      "rect": [
+        328.0,
+        907.98,
+        11.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "jo"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2/#0/#1",
+      "rect": [
+        345.0,
+        909.98,
+        78.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "commented on"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2/#0/#2",
+      "rect": [
+        429.0,
+        909.98,
+        67.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "src/dev.rs:15"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2/#1",
+      "rect": [
+        328.0,
+        931.98,
+        924.0,
+        22.4
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#2/#1/b0",
+      "rect": [
+        328.0,
+        931.98,
+        924.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "150 ms feels tight for big fixture trees — did you try 300?"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3",
+      "rect": [
+        316.0,
+        978.38,
+        948.0,
+        139.2
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#0",
+      "rect": [
+        328.0,
+        990.38,
+        924.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#0/#0",
+      "rect": [
+        328.0,
+        990.38,
+        25.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "fern"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#0/#1",
+      "rect": [
+        359.0,
+        992.38,
+        62.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "commented"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#1",
+      "rect": [
+        328.0,
+        1014.38,
+        924.0,
+        91.2
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b0",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#1/b0",
+      "rect": [
+        328.0,
+        1014.38,
+        924.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Good call, bumped to 150 with a flag to tune it."
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b1",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#1/b1",
+      "rect": [
+        328.0,
+        1048.77,
+        924.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Benchmarks"
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "b2",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#3/#1/b2",
+      "rect": [
+        328.0,
+        1083.17,
+        924.0,
+        22.4
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "10k files: 42 ms median, 61 ms p95."
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#4",
+      "rect": [
+        316.0,
+        1129.57,
+        948.0,
+        40.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#4/#0",
+      "rect": [
+        328.0,
+        1141.57,
+        924.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#4/#0/#0",
+      "rect": [
+        328.0,
+        1141.57,
+        11.0,
+        16.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "jo"
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#4/#0/#1",
+      "rect": [
+        345.0,
+        1143.57,
+        49.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "approved"
+    },
+    {
+      "blur": 0.0,
+      "color": "#adda78ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/detail/#2/#4/#0/#2",
+      "rect": [
+        400.5,
+        1143.57,
+        51.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Approved"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "composer",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer",
+      "rect": [
+        300.0,
+        657.5,
+        980.0,
+        116.5
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#2c2525ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#0",
+      "rect": [
+        312.0,
+        667.5,
+        956.0,
+        68.5
+      ],
+      "role": "textbox",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "scroll",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#0/scroll",
+      "rect": [
+        320.0,
+        675.5,
+        940.0,
+        52.5
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "key": "input",
+      "label": "Leave a comment (required for Comment and Blocked)",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#0/scroll/input",
+      "rect": [
+        320.0,
+        675.5,
+        940.0,
+        17.5
+      ],
+      "role": "textbox",
+      "scale": 1.0,
+      "text": ""
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1",
+      "rect": [
+        312.0,
+        744.0,
+        956.0,
+        20.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#e6d9dbff",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Approve",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#0",
+      "rect": [
+        312.0,
+        744.0,
+        64.5,
+        20.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#2c2525ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#0/label",
+      "rect": [
+        322.0,
+        748.0,
+        44.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Approve"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Comment",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#1",
+      "rect": [
+        382.5,
+        744.0,
+        71.5,
+        20.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#1/label",
+      "rect": [
+        392.5,
+        748.0,
+        51.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Comment"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Request changes",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#2",
+      "rect": [
+        460.0,
+        744.0,
+        111.0,
+        20.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#fd6883ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#2/label",
+      "rect": [
+        470.0,
+        748.0,
+        91.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Request changes"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#382e30ff",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Blocked",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#3",
+      "rect": [
+        577.0,
+        744.0,
+        62.5,
+        20.0
+      ],
+      "role": "button",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#f9cc6cff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "label",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#3/label",
+      "rect": [
+        587.0,
+        748.0,
+        42.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Blocked"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#4",
+      "rect": [
+        645.5,
+        754.0,
+        348.0,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#8b8081ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/#1/detail-pane/composer/#1/#5",
+      "rect": [
+        999.5,
+        748.0,
+        268.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "⌃A approve · ⌃C comment · ⌃R changes · ⌃B block"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "statusbar",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar",
+      "rect": [
+        0.0,
+        774.0,
+        1280.0,
+        26.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#0",
+      "rect": [
+        10.0,
+        781.0,
+        55.0,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "7 total PRs"
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#1",
+      "rect": [
+        75.0,
+        778.88,
+        4.0,
+        16.25
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": ""
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#2",
+      "rect": [
+        89.0,
+        787.0,
+        1057.5,
+        0.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "color": "#e6d9dbff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#3",
+      "rect": [
+        1156.5,
+        778.88,
+        4.0,
+        16.25
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": ""
+    },
+    {
+      "blur": 0.0,
+      "color": "#aea1a3ff",
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#4",
+      "rect": [
+        1170.5,
+        781.0,
+        53.5,
+        12.0
+      ],
+      "role": "text",
+      "scale": 1.0,
+      "text": "Hide done"
+    },
+    {
+      "blur": 0.0,
+      "fill": "#00000000",
+      "focusVisible": false,
+      "focusable": true,
+      "focused": false,
+      "inert": false,
+      "label": "Hide reviewed pull requests",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#5",
+      "rect": [
+        1234.0,
+        779.0,
+        36.0,
+        16.0
+      ],
+      "role": "switch",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#504547ff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "control",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#5/control",
+      "rect": [
+        1234.0,
+        779.0,
+        36.0,
+        16.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    },
+    {
+      "blur": 0.0,
+      "fill": "#e6d9dbff",
+      "focusVisible": false,
+      "focusable": false,
+      "focused": false,
+      "inert": false,
+      "key": "thumb",
+      "loopPhase": null,
+      "opacity": 1.0,
+      "path": "kit-root/window/statusbar/#5/control/thumb",
+      "rect": [
+        1235.0,
+        780.0,
+        21.0,
+        14.0
+      ],
+      "role": "group",
+      "scale": 1.0
+    }
+  ],
+  "reduced_motion": false,
+  "scale": 2.0,
+  "t": 0.0,
+  "time_scale": 1.0,
+  "title": "Nilos Reviewer",
+  "viewport": [
+    1280.0,
+    800.0
+  ],
+  "warnings": []
+}

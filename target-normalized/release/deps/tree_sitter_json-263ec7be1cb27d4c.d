@@ -1,0 +1,9 @@
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/tree_sitter_json-263ec7be1cb27d4c.d: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../src/node-types.json /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../queries/highlights.scm
+
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/libtree_sitter_json-263ec7be1cb27d4c.rlib: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../src/node-types.json /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../queries/highlights.scm
+
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/libtree_sitter_json-263ec7be1cb27d4c.rmeta: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../src/node-types.json /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../queries/highlights.scm
+
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/lib.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../src/node-types.json:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tree-sitter-json-0.24.8/bindings/rust/../../queries/highlights.scm:

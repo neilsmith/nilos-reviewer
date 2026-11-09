@@ -1,0 +1,4 @@
+cargo:icons-dir=/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gpui-kit-assets-0.8.1/assets/icons
+cargo:rerun-if-changed=assets/icons
+cargo:rerun-if-changed=build.rs
+cargo:rerun-if-changed=default-icons.txt

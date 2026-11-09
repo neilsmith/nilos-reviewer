@@ -1,0 +1,10 @@
+[
+  {"type": "key", "name": "Down"},
+  {"type": "key", "name": "Down", "t": 0.2},
+  {"type": "key", "name": "Up", "t": 0.4},
+  {"type": "key", "name": "/", "t": 0.6},
+  {"type": "type", "text": "rework", "t": 0.8},
+  {"type": "mark", "name": "filtered", "t": 1.2},
+  {"type": "key", "name": "Escape", "t": 1.4},
+  {"type": "mark", "name": "end", "t": 1.6}
+]

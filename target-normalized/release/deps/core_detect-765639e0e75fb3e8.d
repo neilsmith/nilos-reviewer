@@ -1,0 +1,11 @@
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/core_detect-765639e0e75fb3e8.d: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/macros.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/arch/x86.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/os/x86.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/cache.rs
+
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/libcore_detect-765639e0e75fb3e8.rlib: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/macros.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/arch/x86.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/os/x86.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/cache.rs
+
+/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/deps/libcore_detect-765639e0e75fb3e8.rmeta: /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/lib.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/macros.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/arch/x86.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/os/x86.rs /home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/cache.rs
+
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/lib.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/macros.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/arch/x86.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/os/x86.rs:
+/home/neil/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/core_detect-1.0.0/src/cache.rs:

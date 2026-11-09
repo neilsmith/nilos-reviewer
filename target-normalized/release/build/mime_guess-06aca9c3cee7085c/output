@@ -1,0 +1,1 @@
+cargo:rustc-env=MIME_TYPES_GENERATED_PATH=/home/neil/Work/tries/2026-10-29-github-pr-approver-2/target-normalized/release/build/mime_guess-06aca9c3cee7085c/out/mime_types_generated.rs
