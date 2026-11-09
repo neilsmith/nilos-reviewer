@@ -862,22 +862,11 @@ fn composer(s: &App, k: &Kit) -> El {
                 .build(k),
         )
         .child(
-            col()
-                .w_full()
-                .gap(4.0)
-                .child(
-                    row().w_full().justify_end().child(
-                        text("⌃A approve · ⌃C comment · ⌃R changes · ⌃B block")
-                            .font(k.ty.small)
-                            .color(k.c.text_faint),
-                    ),
-                )
-                .child(
-                    row()
-                        .w_full()
-                        .justify_end()
-                        .child(solid_row(s, k, submitting)),
-                ),
+            row().w_full().justify_end().child(
+                text("⌃A approve · ⌃C comment · ⌃R changes · ⌃B block")
+                    .font(k.ty.small)
+                    .color(k.c.text_faint),
+            ),
         )
 }
 
@@ -982,6 +971,10 @@ fn solid_row(s: &App, k: &Kit, submitting: bool) -> El {
 // ── Status bar ───────────────────────────────────────────────────────────
 
 fn statusbar(s: &App, k: &Kit) -> El {
+    let submitting = s
+        .cursor
+        .as_ref()
+        .is_some_and(|key| s.submitting.contains_key(key));
     let status = match &s.sync {
         Sync::Idle => "Ready".to_string(),
         Sync::Scanning { text } => text.clone(),
@@ -1005,7 +998,7 @@ fn statusbar(s: &App, k: &Kit) -> El {
     };
     let mut bar = row()
         .key("statusbar")
-        .h(26.0)
+        .h(40.0)
         .w_full()
         .px(10.0)
         .gap(10.0)
@@ -1049,11 +1042,7 @@ fn statusbar(s: &App, k: &Kit) -> El {
         } else {
             text("")
         })
-        .child(
-            text(format!("v{}", env!("CARGO_PKG_VERSION")))
-                .font(k.ty.small)
-                .color(k.c.text_faint),
-        );
+        .child(solid_row(s, k, submitting));
     bar
 }
 
