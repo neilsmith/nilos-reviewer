@@ -829,12 +829,18 @@ fn composer(s: &App, k: &Kit) -> El {
         .gap(8.0)
         .border_sides([HAIR, 0.0, 0.0, 0.0], k.c.border_muted)
         .child(
-            TextArea::new(&s.comment)
-                .placeholder("Leave a comment (required for Comment and Blocked)")
-                .width(None)
-                .auto_grow(3, 8)
-                .on_edit(|s: &mut App| &mut s.comment)
-                .build(k),
+            col()
+                .w_full()
+                .radius(k.radius.md)
+                .border(1.0, k.c.border_strong)
+                .child(
+                    TextArea::new(&s.comment)
+                        .placeholder("Leave a comment (required for Comment and Blocked)")
+                        .width(None)
+                        .auto_grow(3, 8)
+                        .on_edit(|s: &mut App| &mut s.comment)
+                        .build(k),
+                ),
         )
         .child(
             row().w_full().justify_end().child(
@@ -1049,7 +1055,6 @@ fn statusbar(s: &App, k: &Kit) -> El {
         .key("statusbar")
         .h(40.0)
         .w_full()
-        .border_sides([HAIR, 0.0, 0.0, 0.0], k.c.border_muted)
         .child(left)
         .child(right)
 }
