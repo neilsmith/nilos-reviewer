@@ -93,6 +93,8 @@ pub fn view(s: &App, cx: &mut Cx<App>) -> El {
                     .on_layout(track("divider"))
                     .w(5.0)
                     .h_full()
+                    .fill(k.alpha(k.c.text_base, 0.045))
+                    .hover(k.alpha(k.c.text_base, 0.14))
                     .cursor(rune::Cursor::ResizeColumn)
                     .hover(k.alpha(k.c.bg_accent, 0.3))
                     .on_drag_start(|s: &mut App, _tx| s.resize_from = s.sidebar_w)
