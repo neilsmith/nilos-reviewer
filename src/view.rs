@@ -862,16 +862,21 @@ fn composer(s: &App, k: &Kit) -> El {
                 .build(k),
         )
         .child(
-            row()
+            col()
                 .w_full()
-                .gap(6.0)
-                .center_y()
-                .child(solid_row(s, k, submitting))
-                .child(el().grow(1.0))
+                .gap(4.0)
                 .child(
-                    text("⌃A approve · ⌃C comment · ⌃R changes · ⌃B block")
-                        .font(k.ty.small)
-                        .color(k.c.text_faint),
+                    row().w_full().justify_end().child(
+                        text("⌃A approve · ⌃C comment · ⌃R changes · ⌃B block")
+                            .font(k.ty.small)
+                            .color(k.c.text_faint),
+                    ),
+                )
+                .child(
+                    row()
+                        .w_full()
+                        .justify_end()
+                        .child(solid_row(s, k, submitting)),
                 ),
         )
 }
