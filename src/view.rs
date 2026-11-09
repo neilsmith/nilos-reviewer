@@ -259,7 +259,7 @@ fn queue_pane(s: &App, k: &Kit) -> El {
                     .w_full()
                     .radius(k.radius.md)
                     .fill(k.c.bg_deep)
-                    .border(1.0, k.alpha(k.c.text_base, 0.45))
+                    .outline(1.0, 0.0, k.c.text_muted)
                     .child(
                         TextInput::new(&s.filter)
                             .placeholder("Filter pull requests  ( / )")
@@ -840,7 +840,7 @@ fn composer(s: &App, k: &Kit) -> El {
                 .w_full()
                 .radius(k.radius.md)
                 .fill(k.c.bg_deep)
-                .border(1.0, k.alpha(k.c.text_base, 0.45))
+                .outline(1.0, 0.0, k.c.text_muted)
                 .child(
                     TextArea::new(&s.comment)
                         .placeholder("Leave a comment (required for Comment and Blocked)")
