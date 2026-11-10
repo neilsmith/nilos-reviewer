@@ -5,7 +5,7 @@
 
 use std::io::Write;
 use std::process::{Command, Stdio};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;
 
@@ -87,26 +87,176 @@ fn gh(args: &[&str]) -> Result<String, String> {
     gh_input(args, None)
 }
 
-/// Where `gh` lives. Finder-launched apps get a minimal PATH without
-/// /opt/homebrew/bin — probe the usual install spots before falling back to
-/// PATH lookup. Resolved once.
-fn gh_path() -> &'static str {
-    static PATH: std::sync::OnceLock<String> = std::sync::OnceLock::new();
-    PATH.get_or_init(|| {
-        for dir in ["/opt/homebrew/bin", "/usr/local/bin"] {
-            let p = format!("{dir}/gh");
-            if std::path::Path::new(&p).exists() {
-                return p;
+/// How to invoke `gh`. Finder-launched apps get a minimal PATH — and `gh` may
+/// only work via a shell alias (`op plugin run -- gh` injecting its token).
+/// Ask the login shell for its `gh` first (aliases stripped → the real
+/// binary), then probe install spots; a shell-wrapped invocation stays as
+/// the last resort: a retriable failure (missing binary, bad auth) retries
+/// the next entry and sticks to what worked.
+enum GhCmd {
+    /// A real executable path (or bare `gh` for a PATH lookup).
+    Bin(String),
+    /// Invoke via the login shell so aliases/functions apply.
+    Shell(String),
+}
+
+/// Index into gh_cmds() that last succeeded — later calls start there.
+static GH_ORDER: AtomicUsize = AtomicUsize::new(0);
+
+fn gh_cmds() -> &'static [GhCmd] {
+    static CMDS: std::sync::OnceLock<Vec<GhCmd>> = std::sync::OnceLock::new();
+    CMDS.get_or_init(|| {
+        let mut cmds = Vec::new();
+        let mut shell = None;
+        if let Some((sh, out)) = shell_probe_gh() {
+            if let Some(p) = out
+                .lines()
+                .map(str::trim)
+                .rfind(|l| l.starts_with('/') && std::path::Path::new(l).exists())
+            {
+                cmds.push(GhCmd::Bin(p.to_string()));
+            }
+            if !out.trim().is_empty() {
+                shell = Some(sh);
             }
         }
-        "gh".to_string()
+        let mut spots: Vec<std::path::PathBuf> = ["/opt/homebrew/bin", "/usr/local/bin"]
+            .iter()
+            .map(|d| std::path::PathBuf::from(format!("{d}/gh")))
+            .collect();
+        if let Some(home) = std::env::var_os("HOME") {
+            let home = std::path::Path::new(&home);
+            for rel in [
+                ".local/bin/gh",
+                ".local/share/mise/shims/gh",
+                ".asdf/shims/gh",
+                ".nix-profile/bin/gh",
+            ] {
+                spots.push(home.join(rel));
+            }
+        }
+        for p in &spots {
+            if p.exists() {
+                let p = p.to_string_lossy().into_owned();
+                if !cmds.iter().any(|c| matches!(c, GhCmd::Bin(b) if b == &p)) {
+                    cmds.push(GhCmd::Bin(p));
+                }
+            }
+        }
+        cmds.push(GhCmd::Bin("gh".to_string()));
+        if let Some(sh) = shell {
+            cmds.push(GhCmd::Shell(sh));
+        }
+        cmds
     })
+}
+
+/// `command -v gh` inside the user's login+interactive shell — the PATH their
+/// terminal sees (`-i` sources the rc where version-manager shims and aliases
+/// get defined). Aliases/functions are cleared first so -v yields the real
+/// binary. Poll-bounded so a blocking rc file can't wedge startup.
+/// Returns (shell, raw stdout).
+fn shell_probe_gh() -> Option<(String, String)> {
+    static OUT: std::sync::OnceLock<Option<(String, String)>> = std::sync::OnceLock::new();
+    OUT.get_or_init(|| {
+        let shell = std::env::var("SHELL").unwrap_or_else(|_| "/bin/zsh".into());
+        // `functions` is fish's unset; a harmless error elsewhere.
+        let mut child = Command::new(&shell)
+            .args([
+                "-ilc",
+                "unalias gh 2>/dev/null; unset -f gh 2>/dev/null; functions -e gh 2>/dev/null; command -v gh",
+            ])
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .ok()?;
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(4);
+        loop {
+            match child.try_wait() {
+                Ok(Some(_)) => break,
+                Ok(None) if std::time::Instant::now() < deadline => {
+                    std::thread::sleep(std::time::Duration::from_millis(25));
+                }
+                _ => {
+                    let _ = child.kill();
+                    let _ = child.wait();
+                    return None;
+                }
+            }
+        }
+        let out = child.wait_with_output().ok()?;
+        Some((shell, String::from_utf8(out.stdout).ok()?))
+    })
+    .clone()
+}
+
+/// Failure kinds worth trying the next invocation for: a missing binary, or
+/// an auth failure — a real binary can still be unauthenticated where an
+/// alias like `op plugin run -- gh` injects the token.
+fn retriable(e: &str) -> bool {
+    [
+        "could not run gh",
+        "Bad credentials",
+        "gh auth login",
+        "HTTP 401",
+        "not logged in",
+    ]
+    .iter()
+    .any(|m| e.contains(m))
 }
 
 /// `gh api` with an optional JSON document piped to `--input -`.
 fn gh_input(args: &[&str], input: Option<&Value>) -> Result<String, String> {
-    let mut cmd = Command::new(gh_path());
-    cmd.arg("api").args(args);
+    let cmds = gh_cmds();
+    let first = GH_ORDER.load(Ordering::Relaxed);
+    let mut err = "could not run gh".to_string();
+    for o in 0..cmds.len() {
+        let i = (first + o) % cmds.len();
+        match gh_run(&cmds[i], args, input) {
+            Ok(s) => {
+                GH_ORDER.store(i, Ordering::Relaxed);
+                return Ok(s);
+            }
+            Err(e) => {
+                err = e;
+                if !retriable(&err) {
+                    return Err(err);
+                }
+            }
+        }
+    }
+    Err(err)
+}
+
+fn gh_run(c: &GhCmd, args: &[&str], input: Option<&Value>) -> Result<String, String> {
+    let mut cmd = match c {
+        GhCmd::Bin(bin) => {
+            let mut c = Command::new(bin);
+            c.arg("api").args(args);
+            // `gh`/shim scripts may exec other tools — put its own dir on
+            // PATH, since launchd's default is bare.
+            if let Some(dir) = std::path::Path::new(bin)
+                .parent()
+                .filter(|d| !d.as_os_str().is_empty())
+            {
+                let inherited = std::env::var("PATH").unwrap_or_default();
+                c.env("PATH", format!("{}:{inherited}", dir.display()));
+            }
+            c
+        }
+        GhCmd::Shell(shell) => {
+            // `gh` is an alias/function — run it inside the login shell.
+            // Positional args keep the values out of shell parsing.
+            let mut c = Command::new(shell);
+            if std::path::Path::new(shell).file_stem() == Some(std::ffi::OsStr::new("fish")) {
+                c.args(["-ilc", "gh api $argv"]).args(args);
+            } else {
+                c.args(["-ilc", "gh api \"$@\"", "gh"]).args(args);
+            }
+            c
+        }
+    };
     let mut child = cmd
         .stdin(if input.is_some() {
             Stdio::piped()
@@ -909,6 +1059,24 @@ mod tests {
             login: "me".into(),
             teams: vec![("thisisfocus/owners".into(), "Owners".into())],
             orgs: vec!["thisisfocus".into(), "2coloursblue".into()],
+        }
+    }
+
+    /// Resolution never panics/hangs; every invocation is a bare `gh` (PATH
+    /// lookup), an existing binary, or an existing shell.
+    #[test]
+    fn gh_resolution_is_sane() {
+        let cmds = gh_cmds();
+        assert!(!cmds.is_empty());
+        for c in cmds {
+            match c {
+                GhCmd::Bin(p) => {
+                    assert!(p == "gh" || std::path::Path::new(p).exists(), "bad gh: {p}")
+                }
+                GhCmd::Shell(s) => {
+                    assert!(std::path::Path::new(s).exists(), "bad shell: {s}")
+                }
+            }
         }
     }
 

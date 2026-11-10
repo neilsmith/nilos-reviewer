@@ -32,6 +32,11 @@ same product, new renderer.
 ## Contract (keep it)
 
 - `gh` owns auth — every call is a `gh` subprocess; never store tokens.
+  `gh_cmds` resolves the real binary via `$SHELL -ilc` (aliases stripped —
+  `op plugin run -- gh` injects a stale GH_TOKEN here while hosts.yml's is
+  good), then install-spot probes, keeping a shell-wrapped call as last
+  resort: retriable failures (spawn/auth) retry the next invocation and
+  stick. Don't reorder to alias-first — we burned that once.
 - Keyboard: arrows move AND select; `/` filter, F5 refresh, Tab cycles,
   Esc back; Ctrl+A/C/R/B = Approve/Comment/RequestChanges/Blocked → confirm →
   Ctrl+Enter. `is_command` requires `Key::Command`, NOT `Key::Text`+ctrl — a
