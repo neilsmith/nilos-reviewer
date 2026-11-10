@@ -330,7 +330,8 @@ fn group_header(s: &App, k: &Kit, repo: &str) -> El {
     row()
         .key(format!("gh-{repo}"))
         .w_full()
-        .h(30.0)
+        .h(28.0)
+        .mt(6.0)
         .px(8.0)
         .gap(6.0)
         .center_y()
@@ -338,6 +339,7 @@ fn group_header(s: &App, k: &Kit, repo: &str) -> El {
         .role("button")
         .label(format!("{repo}, {count} pull requests"))
         .focusable(true)
+        .fill(k.alpha(k.c.text_base, 0.04))
         .hover(k.c.hover)
         .on_press({
             let repo = repo.clone();
@@ -356,19 +358,22 @@ fn group_header(s: &App, k: &Kit, repo: &str) -> El {
                 },
                 10.0,
             )
-            .color(k.c.text_muted),
+            .color(k.c.text_faint),
         )
         .child(
-            text(repo)
-                .font(k.ty.small_medium)
-                .color(k.c.text_muted)
+            text(repo.to_uppercase())
+                .font(rune::TextStyle {
+                    tracking: 0.6,
+                    ..k.ty.small_medium
+                })
+                .color(k.c.text_base)
                 .truncate()
                 .grow(1.0),
         )
         .child(
-            Badge::new(format!("{count}"))
-                .variant(BadgeVariant::Subtle)
-                .build(k),
+            text(format!("{count}"))
+                .font(k.ty.small)
+                .color(k.c.text_faint),
         )
 }
 
@@ -380,23 +385,16 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
     let blocked = pr.is_blocked(&s.blocked);
     let age = age_of(&pr.created_at, now_secs());
 
+    // "You" adds nothing — the queue is already yours; team reasons fold
+    // into the meta line instead of shouting as chips.
+    let mut meta_parts = vec![format!("#{}", pr.key.number), pr.author.clone(), age];
+    meta_parts.extend(pr.reasons.iter().filter(|r| *r != "You").cloned());
     let mut meta = row().gap(6.0).center_y().child(
-        text(format!("#{} · {} · {age}", pr.key.number, pr.author))
+        text(meta_parts.join(" · "))
             .font(k.ty.small)
             .color(k.c.text_muted)
             .truncate(),
     );
-    for reason in &pr.reasons {
-        meta = meta.child(
-            Badge::new(reason.clone())
-                .variant(if reason == "You" {
-                    BadgeVariant::Accent
-                } else {
-                    BadgeVariant::Neutral
-                })
-                .build(k),
-        );
-    }
     if pr.draft {
         meta = meta.child(Badge::new("Draft").variant(BadgeVariant::Subtle).build(k));
     }
@@ -421,7 +419,8 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
             }
         })
         .w_full()
-        .px(10.0)
+        .pl(16.0)
+        .pr(10.0)
         .py(7.0)
         .gap(3.0)
         .cursor(rune::Cursor::Pointer)
