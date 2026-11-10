@@ -13,6 +13,7 @@ same product, new renderer.
 - Headless: `--snap out.png --scene <name> --size 1280x800 --at 0.5` (`--list-scenes`, `--theme dark|light`, `--script`)
 - Perf probe: `--time-queue` — measures discover/search/detail inside the app's own code path; use it before quoting timings
 - Release: `scripts/release.sh <ver>` — bumps `[package].version`, commits, tags `v<ver>`, pushes both refs atomically. Release workflow triggers on `main` pushes and builds only when HEAD is tagged `v*` — do NOT move it to tag-push triggers (branch-scoped caches mean tag runs rebuild ~400 crates cold)
+- If a tagged release run shows `tag` green but no `build` job (v0.2.2 hit this — a transient Actions glitch left `name` empty and the job graph unexpanded), just `gh run rerun <id>`; don't touch the workflow
 
 ## Layout
 
