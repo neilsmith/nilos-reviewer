@@ -970,22 +970,13 @@ fn statusbar(s: &App, k: &Kit) -> El {
     let status = match &s.sync {
         Sync::Idle => "Ready".to_string(),
         Sync::Scanning { text } => text.clone(),
-        Sync::Done => s
-            .last_synced
-            .map(|t| {
-                let ago = now_secs() as f64 - t;
-                let text = if ago < 10.0 {
-                    "just now".to_string()
-                } else if ago < 60.0 {
-                    format!("{ago:.0}s ago")
-                } else if ago < 3600.0 {
-                    format!("{:.0}m ago", ago / 60.0)
-                } else {
-                    format!("{:.0}h ago", ago / 3600.0)
-                };
-                format!("updated {text}")
-            })
-            .unwrap_or_else(|| "Ready".to_string()),
+        Sync::Done => {
+            if s.synced_label.is_empty() {
+                "Ready".to_string()
+            } else {
+                s.synced_label.clone()
+            }
+        }
         Sync::Failed(e) => format!("Sync failed: {}", first_line(e)),
     };
     // Left column footer: count + status + version, at the sidebar's width.

@@ -57,6 +57,10 @@ pub struct App {
     /// A self-update was applied; restart to run it. Renders as the footer
     /// version chip until then.
     pub update_ready: Option<String>,
+    /// "updated Ns ago" — refreshed by poll so the view reads pure state
+    /// (deriving it from the clock at build time trips rune's live_only
+    /// heuristic, which compares view output across builds).
+    pub synced_label: String,
 
     // queue
     pub all_prs: Vec<PrSummary>,
@@ -120,6 +124,7 @@ impl Default for App {
             sync_failures: Vec::new(),
             notice: None,
             update_ready: None,
+            synced_label: String::new(),
             all_prs: Vec::new(),
             groups: Vec::new(),
             collapsed: HashSet::new(),
@@ -618,20 +623,49 @@ impl App {
                 changed = true;
             }
         }
+        let label = self
+            .last_synced
+            .map(|t| {
+                let ago = now_secs() as f64 - t;
+                let text = if ago < 10.0 {
+                    "just now".to_string()
+                } else if ago < 60.0 {
+                    format!("{ago:.0}s ago")
+                } else if ago < 3600.0 {
+                    format!("{:.0}m ago", ago / 60.0)
+                } else {
+                    format!("{:.0}h ago", ago / 3600.0)
+                };
+                format!("updated {text}")
+            })
+            .unwrap_or_default();
+        if label != self.synced_label {
+            self.synced_label = label;
+            changed = true;
+        }
         changed
     }
 }
 
 /// Called from `AppSpec::setup`: start the service (unless headless) and the
-/// first scan.
+/// first scan. Slow work lives here, not in `main` — setup runs on_ready,
+/// after the first frame.
 pub fn setup(s: &mut App, waker: rune::Waker) {
     if rune::tooling::is_headless() {
         return;
     }
+    s.update_rx = Some(crate::update::spawn());
     let (cmd, events) = github::spawn(move || waker());
     s.cmd = Some(cmd);
     s.events = Some(events);
     s.refresh();
+}
+
+fn now_secs() -> i64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs() as i64)
+        .unwrap_or(0)
 }
 
 /// The keyboard contract: the queue cursor drives everything while no field
