@@ -476,11 +476,20 @@ fn merge_pr(prs: &mut Vec<PrSummary>, pr: PrSummary) {
 /// team requests and unassigned triage.
 fn queue_aliases(disco: &Discovery, requested_only: bool) -> Vec<(String, bool, String)> {
     if requested_only {
-        return vec![(
-            "requested".to_string(),
-            false,
-            "is:pr is:open review-requested:@me".to_string(),
-        )];
+        return vec![
+            (
+                "requested".to_string(),
+                false,
+                "is:pr is:open review-requested:@me".to_string(),
+            ),
+            // Assigned-but-unrequested (dependabot et al.) is its own scope —
+            // it matches none of the review-requested searches.
+            (
+                "assigned".to_string(),
+                false,
+                "is:pr is:open assignee:@me".to_string(),
+            ),
+        ];
     }
     let mut out = Vec::new();
     for (i, (team, _)) in disco.teams.iter().enumerate() {
@@ -542,6 +551,9 @@ fn search_queue_batch(
             if let Some(mut pr) = gql_pr(node, &disco.login, *unassigned) {
                 if *unassigned {
                     pr.unassigned = true;
+                }
+                if alias == "assigned" && pr.reasons.iter().all(|r| r != "assigned") {
+                    pr.reasons.push("assigned".to_string());
                 }
                 merge_pr(&mut prs, pr);
             }
@@ -1167,11 +1179,16 @@ mod tests {
         assert!(pr.reasons.iter().any(|r| r.contains("Owners")));
     }
 
-    /// The direct-request search stays its own batch.
+    /// The direct-request + assigned searches paint first, in their own batch.
     #[test]
     fn requested_is_its_own_batch() {
         let specs = queue_aliases(&disco(), true);
-        assert_eq!(specs.len(), 1);
-        assert!(specs[0].2.contains("review-requested:@me"));
+        assert_eq!(specs.len(), 2);
+        assert!(specs
+            .iter()
+            .any(|(a, _, q)| a == "requested" && q.contains("review-requested:@me")));
+        assert!(specs
+            .iter()
+            .any(|(a, _, q)| a == "assigned" && q.contains("assignee:@me")));
     }
 }
