@@ -454,7 +454,8 @@ fn gql_pr(node: &Value, login: &str, unassigned: bool) -> Option<PrSummary> {
 /// aliases cover team requests (`@me` is not a valid team name); the unassigned
 /// triage query ORs the viewer's repos and orgs together.
 /// Merge a result row into the queue: same PR unions reasons instead of
-/// duplicating.
+/// duplicating. `unassigned` means "only reachable via triage" — it ANDs so
+/// a direct/team request keeps the row visible when triage also finds it.
 fn merge_pr(prs: &mut Vec<PrSummary>, pr: PrSummary) {
     match prs.iter_mut().find(|p| p.key == pr.key) {
         Some(existing) => {
@@ -463,7 +464,7 @@ fn merge_pr(prs: &mut Vec<PrSummary>, pr: PrSummary) {
                     existing.reasons.push(reason);
                 }
             }
-            existing.unassigned |= pr.unassigned;
+            existing.unassigned &= pr.unassigned;
             existing.blocked_label |= pr.blocked_label;
         }
         None => prs.push(pr),
@@ -1122,18 +1123,26 @@ mod tests {
         }
     }
 
-    /// A PR found by both searches keeps the union of reasons AND flags —
-    /// dropping the unassigned flag here loses its triage badge.
+    /// A PR reachable through the direct/team searches must stay visible when
+    /// the unassigned triage also finds it — `unassigned` means "ONLY
+    /// reachable via triage", so it merges with AND, not OR. Reasons union.
     #[test]
-    fn merge_dedupes_and_ors_flags() {
+    fn merge_dedupes_reasons_and_ands_unassigned() {
         let mut prs = vec![pr(1, false)];
         let mut dupe = pr(1, true);
         dupe.reasons = vec!["Owners".into()];
         merge_pr(&mut prs, dupe);
         assert_eq!(prs.len(), 1);
-        assert!(prs[0].unassigned, "unassigned flag must OR across searches");
+        assert!(
+            !prs[0].unassigned,
+            "a directly-requested PR must not hide when triage also finds it"
+        );
         assert_eq!(prs[0].reasons, vec!["Owners"]);
+
+        let mut prs = vec![pr(2, true)];
         merge_pr(&mut prs, pr(2, true));
+        assert!(prs[0].unassigned, "a triage-only PR stays unassigned");
+        merge_pr(&mut prs, pr(3, true));
         assert_eq!(prs.len(), 2);
     }
 
