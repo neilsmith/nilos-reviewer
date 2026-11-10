@@ -6,8 +6,7 @@ use rune::color::hex;
 use rune::{col, el, icon, row, text, Color, Cx, El, Icon, ScrollSpec, Tx};
 use rune_kit::{
     diff::DiffView, root, Badge, BadgeVariant, Button, ButtonVariant, ControlSize, Dialog,
-    IconButton, IconButtonVariant, Kit, Markdown, SegmentedControl, Spinner, Switch, TextArea,
-    TextInput,
+    IconButton, IconButtonVariant, Kit, Markdown, Spinner, Switch, TextArea, TextInput,
 };
 
 use crate::app::{App, Appearance, DetailTab, Pane, Sync};
@@ -507,53 +506,61 @@ fn detail_pane(s: &App, k: &Kit, narrow: bool) -> El {
     match &s.detail {
         Some(detail) => {
             let files_label = format!("Files {}", detail.changed_files);
-            let tabs = row().w_full().px(16.0).pt(8.0).child(
-                SegmentedControl::new(
-                    &["Conversation", files_label.as_str()],
-                    Some(match s.detail_tab {
-                        DetailTab::Conversation => 0,
-                        DetailTab::Files => 1,
-                    }),
-                )
-                .fit()
-                .on_pick(|s: &mut App, i, _tx| {
-                    s.detail_tab = if i == 0 {
-                        DetailTab::Conversation
+            // Header + tab strip are built once, outside the tab branches —
+            // same keys every build, so Rune doesn't morph them as new.
+            let tab = |label: String, to: DetailTab| {
+                let active = s.detail_tab == to;
+                col()
+                    .px(12.0)
+                    .h(30.0)
+                    .center()
+                    .cursor(rune::Cursor::Pointer)
+                    .role("tab")
+                    .checked(active)
+                    .hover(k.c.hover)
+                    .border_sides(
+                        [0.0, 0.0, if active { 2.0 } else { 0.0 }, 0.0],
+                        k.c.bg_accent,
+                    )
+                    .child(text(label).font(k.ty.small_medium).color(if active {
+                        k.c.text_base
                     } else {
-                        DetailTab::Files
-                    };
-                })
-                .build(k),
-            );
-            match s.detail_tab {
-                DetailTab::Conversation => {
-                    let scroll = col()
-                        .key("detail")
+                        k.c.text_muted
+                    }))
+                    .on_press_tx(move |s: &mut App, _tx| s.detail_tab = to)
+            };
+            let tabs = col()
+                .w_full()
+                .border_sides([0.0, 0.0, HAIR, 0.0], k.c.border_muted)
+                .child(
+                    row()
                         .w_full()
-                        .grow(1.0)
-                        .min_h(0.0)
-                        .scroll(ScrollSpec {
-                            stick_bottom: false,
-                        })
-                        .child(detail_header(s, k))
-                        .child(tabs)
-                        .child(conversation_section(s, k));
-                    pane = pane.child(scroll);
-                }
-                DetailTab::Files => {
-                    pane = pane
-                        .child(col().w_full().child(detail_header(s, k)).child(tabs))
-                        .child(
-                            col()
-                                .key("detail")
-                                .w_full()
-                                .grow(1.0)
-                                .min_h(0.0)
-                                .child(files_section(s, k)),
-                        );
-                }
-            }
-            pane = pane.child(composer(s, k));
+                        .px(12.0)
+                        .gap(4.0)
+                        .child(tab("Conversation".to_string(), DetailTab::Conversation))
+                        .child(tab(files_label, DetailTab::Files)),
+                );
+            let content = match s.detail_tab {
+                DetailTab::Conversation => col()
+                    .key("detail")
+                    .w_full()
+                    .grow(1.0)
+                    .min_h(0.0)
+                    .scroll(ScrollSpec {
+                        stick_bottom: false,
+                    })
+                    .child(conversation_section(s, k)),
+                DetailTab::Files => col()
+                    .key("detail")
+                    .w_full()
+                    .grow(1.0)
+                    .min_h(0.0)
+                    .child(files_section(s, k)),
+            };
+            pane = pane
+                .child(col().w_full().child(detail_header(s, k)).child(tabs))
+                .child(content)
+                .child(composer(s, k));
         }
         None => {
             let mut empty = col().w_full().grow(1.0).center().gap(8.0);
