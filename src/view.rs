@@ -1020,6 +1020,7 @@ fn statusbar(s: &App, k: &Kit) -> El {
         .grow(1.0)
         .h_full()
         .px(10.0)
+        .pb(6.0)
         .gap(10.0)
         .center_y()
         .child(if s.sync_failures.is_empty() {
