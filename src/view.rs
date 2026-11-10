@@ -901,36 +901,40 @@ fn action_button(
 }
 
 /// (bg, hover, fg, border) for a review action — the same in the composer
-/// and the confirm dialog so they always read as one control.
+/// and the confirm dialog so they always read as one control. Tinted fills
+/// with hue text + hue border: coded and unmistakably buttons, quieter than
+/// solid primaries.
 fn action_colors(k: &Kit, kind: ReviewKind) -> (Color, Color, Color, Color) {
-    let white = hex("#f8f8f2").unwrap_or(Color::WHITE);
-    let dark = hex("#111111").unwrap_or(Color::WHITE);
+    let neutral = (
+        k.c.layer_02,
+        k.alpha(k.c.text_base, 0.12),
+        k.c.text_base,
+        k.c.border_muted,
+    );
     match kind {
-        ReviewKind::Approve => (
-            hex("#1f883d").unwrap_or(k.c.success.fg),
-            hex("#2da44e").unwrap_or(k.c.success.fg),
-            white,
-            hex("#1a7434").unwrap_or(k.c.success.fg),
-        ),
-        ReviewKind::Comment => (
-            k.c.layer_02,
-            k.alpha(k.c.text_base, 0.12),
-            k.c.text_base,
-            k.c.border_muted,
-        ),
-        ReviewKind::RequestChanges => (
-            hex("#b82e28").unwrap_or(k.c.danger.fg),
-            hex("#d9453a").unwrap_or(k.c.danger.fg),
-            white,
-            hex("#a32722").unwrap_or(k.c.danger.fg),
-        ),
-        ReviewKind::Blocked => (
-            hex("#e3a61a").unwrap_or(k.c.warning.fg),
-            hex("#f0b83d").unwrap_or(k.c.warning.fg),
-            dark,
-            hex("#c99013").unwrap_or(k.c.warning.fg),
-        ),
+        ReviewKind::Approve => tinted(k, "#3fb950", "#56d364"),
+        ReviewKind::Comment => neutral,
+        ReviewKind::RequestChanges => tinted(k, "#f85149", "#ff7b72"),
+        ReviewKind::Blocked => tinted(k, "#e3b341", "#e3b341"),
     }
+}
+
+/// Hue-tinted action colors: 14% fill, 50% border, label in the hue.
+fn tinted(k: &Kit, hue: &str, label: &str) -> (Color, Color, Color, Color) {
+    (
+        al(k, hue, 0.14),
+        al(k, hue, 0.22),
+        hx(label),
+        al(k, hue, 0.5),
+    )
+}
+
+fn hx(s: &str) -> Color {
+    hex(s).unwrap_or(Color::WHITE)
+}
+
+fn al(k: &Kit, s: &str, a: f32) -> Color {
+    k.alpha(hx(s), a)
 }
 
 fn solid_row(s: &App, k: &Kit, submitting: bool) -> El {
