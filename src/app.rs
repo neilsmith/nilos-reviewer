@@ -54,6 +54,9 @@ pub struct App {
     pub sync: Sync,
     pub sync_failures: Vec<(String, String)>,
     pub notice: Option<String>,
+    /// A self-update was applied; restart to run it. Renders as the footer
+    /// version chip until then.
+    pub update_ready: Option<String>,
 
     // queue
     pub all_prs: Vec<PrSummary>,
@@ -116,6 +119,7 @@ impl Default for App {
             sync: Sync::Idle,
             sync_failures: Vec::new(),
             notice: None,
+            update_ready: None,
             all_prs: Vec::new(),
             groups: Vec::new(),
             collapsed: HashSet::new(),
@@ -568,15 +572,35 @@ impl App {
         });
     }
 
-    /// Periodic poll work: drain service events, re-read the Omarchy palette.
-    pub fn poll(&mut self, _t: f64, tx: &mut Tx) -> bool {
-        if let Some(rx) = &self.update_rx {
-            if let Ok(version) = rx.try_recv() {
-                self.notice = Some(format!("Updated to {version} — restart to apply"));
-                self.update_rx = None;
+    /// Relaunch and quit so an applied self-update takes over. Inside a .app
+    /// bundle, relaunch the bundle so Finder/dock routing behaves.
+    pub fn restart(&mut self, tx: &mut Tx) {
+        let Ok(exe) = std::env::current_exe() else {
+            return;
+        };
+        let spawned = exe
+            .ancestors()
+            .find(|p| p.extension() == Some(std::ffi::OsStr::new("app")))
+            .map(|b| std::process::Command::new("open").arg("-n").arg(b).spawn())
+            .unwrap_or_else(|| std::process::Command::new(exe).spawn());
+        match spawned {
+            Ok(_) => tx.quit(),
+            Err(_) => {
+                self.notice = Some("Couldn't relaunch — quit and reopen to run the update".into())
             }
         }
+    }
+
+    /// Periodic poll work: drain service events, re-read the Omarchy palette.
+    pub fn poll(&mut self, _t: f64, tx: &mut Tx) -> bool {
         let mut changed = false;
+        if let Some(rx) = &self.update_rx {
+            if let Ok(version) = rx.try_recv() {
+                self.update_ready = Some(version);
+                self.update_rx = None;
+                changed = true;
+            }
+        }
         let events: Vec<Event> = self
             .events
             .as_ref()
