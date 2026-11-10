@@ -480,14 +480,14 @@ fn queue_aliases(disco: &Discovery, requested_only: bool) -> Vec<(String, bool, 
             (
                 "requested".to_string(),
                 false,
-                "is:pr is:open review-requested:@me".to_string(),
+                "is:pr is:open archived:false review-requested:@me".to_string(),
             ),
             // Assigned-but-unrequested (dependabot et al.) is its own scope —
             // it matches none of the review-requested searches.
             (
                 "assigned".to_string(),
                 false,
-                "is:pr is:open assignee:@me".to_string(),
+                "is:pr is:open archived:false assignee:@me".to_string(),
             ),
         ];
     }
@@ -496,7 +496,7 @@ fn queue_aliases(disco: &Discovery, requested_only: bool) -> Vec<(String, bool, 
         out.push((
             format!("team{i}"),
             false,
-            format!("is:pr is:open team-review-requested:{team}"),
+            format!("is:pr is:open archived:false team-review-requested:{team}"),
         ));
     }
     // One alias per scope: user: and org: qualifiers can't share a
@@ -504,13 +504,13 @@ fn queue_aliases(disco: &Discovery, requested_only: bool) -> Vec<(String, bool, 
     out.push((
         "unassigned_user".to_string(),
         true,
-        "is:pr is:open no:assignee -is:draft user:@me".to_string(),
+        "is:pr is:open archived:false no:assignee -is:draft user:@me".to_string(),
     ));
     for (i, org) in disco.orgs.iter().enumerate() {
         out.push((
             format!("unassigned_org{i}"),
             true,
-            format!("is:pr is:open no:assignee -is:draft org:{org}"),
+            format!("is:pr is:open archived:false no:assignee -is:draft org:{org}"),
         ));
     }
     out
@@ -1177,6 +1177,16 @@ mod tests {
         assert!(pr.unassigned);
         assert!(pr.blocked_label, "blocked label should map");
         assert!(pr.reasons.iter().any(|r| r.contains("Owners")));
+    }
+
+    /// Archived repos can't be reviewed — every scope excludes them.
+    #[test]
+    fn all_scopes_exclude_archived() {
+        for requested_only in [true, false] {
+            for (alias, _, q) in queue_aliases(&disco(), requested_only) {
+                assert!(q.contains("archived:false"), "{alias} misses archived: {q}");
+            }
+        }
     }
 
     /// The direct-request + assigned searches paint first, in their own batch.
