@@ -60,15 +60,7 @@ fn main() {
         setup: Some(app::setup),
         poll: Some(App::poll),
         on_key: Some(nilos_reviewer::app::on_key),
-        ..AppSpec::new(
-            "Nilos Reviewer",
-            (1280.0, 800.0),
-            || App {
-                update_rx: Some(nilos_reviewer::update::spawn()),
-                ..Default::default()
-            },
-            view::view,
-        )
+        ..AppSpec::new("Nilos Reviewer", (1280.0, 800.0), App::default, view::view)
     })
     .compositor(nilos_reviewer::fx::Gfx::default())
     .titlebar(rune::Titlebar::new(40.0));
