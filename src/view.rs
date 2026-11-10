@@ -1015,11 +1015,12 @@ fn statusbar(s: &App, k: &Kit) -> El {
                 .truncate(),
         )
         .child(el().grow(1.0))
-        .child(
-            text(format!("v{}", env!("CARGO_PKG_VERSION")))
+        .child(match &s.update_ready {
+            Some(v) => update_chip(s, k, v),
+            None => text(format!("v{}", env!("CARGO_PKG_VERSION")))
                 .font(k.ty.small)
                 .color(k.c.text_faint),
-        );
+        });
     // Right column: failures, notice, and the review actions.
     let right = row()
         .grow(1.0)
@@ -1065,6 +1066,29 @@ fn statusbar(s: &App, k: &Kit) -> El {
         .w_full()
         .child(left)
         .child(right)
+}
+
+/// The applied-update affordance — filled because it acts (click restarts),
+/// sitting in the quiet footer where muted metadata makes it pop.
+fn update_chip(_s: &App, k: &Kit, version: &str) -> El {
+    col()
+        .key("update-chip")
+        .on_layout(track("update-chip"))
+        .px(8.0)
+        .h(24.0)
+        .radius(6.0)
+        .fill(k.c.bg_accent)
+        .hover(k.c.submit_hover)
+        .border(1.0, k.c.border_strong)
+        .cursor(rune::Cursor::Pointer)
+        .on_press_tx(|s: &mut App, tx| s.restart(tx))
+        .help(format!("Updated to v{version} — restart to apply"))
+        .center()
+        .child(
+            text(format!("v{version} · restart"))
+                .font(k.ty.small)
+                .color(k.c.text_contrast),
+        )
 }
 
 fn first_line(s: &str) -> &str {

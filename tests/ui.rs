@@ -336,11 +336,14 @@ fn update_version_lands_as_notice() {
     rt.frame(0.016);
     tx_v.send("v9.9.9".to_string()).unwrap();
     rt.update(|s, tx| {
-        s.poll(0.0, tx);
-        assert_eq!(
-            s.notice.as_deref(),
-            Some("Updated to v9.9.9 — restart to apply")
+        assert!(
+            s.poll(0.0, tx),
+            "a landed update must paint — an idle window draws nothing"
         );
+        assert_eq!(s.update_ready.as_deref(), Some("v9.9.9"));
         assert!(s.update_rx.is_none());
     });
+    rt.frame(0.016);
+    rt.frame(0.016);
+    assert!(rect(&mut rt, "update-chip")[2] > 0.0, "no footer chip");
 }

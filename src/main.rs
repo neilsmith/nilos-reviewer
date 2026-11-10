@@ -47,6 +47,10 @@ fn main() {
                 s.load_fixture();
                 s.detail_tab = app::DetailTab::Files;
             }),
+            ("updated", |s| {
+                s.load_fixture();
+                s.update_ready = Some("0.2.3".into());
+            }),
             ("narrow-detail", |s| {
                 s.load_fixture();
                 s.window = [640.0, 800.0];
