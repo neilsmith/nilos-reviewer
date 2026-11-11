@@ -347,3 +347,30 @@ fn update_version_lands_as_notice() {
     rt.frame(0.016);
     assert!(rect(&mut rt, "update-chip")[2] > 0.0, "no footer chip");
 }
+
+#[test]
+fn update_chip_click_relaunches() {
+    let mut s = app();
+    s.update_ready = Some("v9.9.9".into());
+    // A path that cannot spawn: if the click reaches restart, the failure
+    // must surface the relaunch notice (not die silently).
+    s.exe_path = "/nonexistent/nilos-reviewer".into();
+    let mut rt = rt(s);
+    rt.frame(0.0);
+    rt.frame(0.016);
+    rt.frame(0.016);
+    let r = rect(&mut rt, "update-chip");
+    assert!(r[2] > 0.0, "no update chip laid out");
+    let (cx, cy) = (r[0] + r[2] / 2.0, r[1] + r[3] / 2.0);
+    rt.pointer_move(cx, cy);
+    rt.pointer_down(cx, cy);
+    rt.pointer_up(cx, cy);
+    rt.frame(0.016);
+    rt.update(|s, _| {
+        assert_eq!(
+            s.notice.as_deref(),
+            Some("Couldn't relaunch — quit and reopen to run the update"),
+            "chip click did not reach restart"
+        );
+    });
+}
