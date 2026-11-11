@@ -57,6 +57,10 @@ pub struct App {
     /// A self-update was applied; restart to run it. Renders as the footer
     /// version chip until then.
     pub update_ready: Option<String>,
+    /// Executable path captured at startup. `current_exe` read later — after
+    /// self_update's rename-over — resolves to a stale " (deleted)" path on
+    /// Linux that can't be spawned; this path still points at the new binary.
+    pub exe_path: std::path::PathBuf,
     /// "updated Ns ago" — refreshed by poll so the view reads pure state
     /// (deriving it from the clock at build time trips rune's live_only
     /// heuristic, which compares view output across builds).
@@ -124,6 +128,7 @@ impl Default for App {
             sync_failures: Vec::new(),
             notice: None,
             update_ready: None,
+            exe_path: std::env::current_exe().unwrap_or_default(),
             synced_label: String::new(),
             all_prs: Vec::new(),
             groups: Vec::new(),
@@ -580,9 +585,7 @@ impl App {
     /// Relaunch and quit so an applied self-update takes over. Inside a .app
     /// bundle, relaunch the bundle so Finder/dock routing behaves.
     pub fn restart(&mut self, tx: &mut Tx) {
-        let Ok(exe) = std::env::current_exe() else {
-            return;
-        };
+        let exe = self.exe_path.clone();
         let spawned = exe
             .ancestors()
             .find(|p| p.extension() == Some(std::ffi::OsStr::new("app")))
