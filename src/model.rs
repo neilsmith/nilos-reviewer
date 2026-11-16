@@ -162,9 +162,7 @@ pub struct QueueFilter<'a> {
     pub filter: &'a str,
     pub show_blocked: bool,
     pub show_unassigned: bool,
-    pub hide_done: bool,
     pub blocked: &'a HashSet<PrKey>,
-    pub handled: &'a HashSet<PrKey>,
 }
 
 impl PrSummary {
@@ -224,7 +222,6 @@ pub fn flattened_rows(groups: &[RepoGroup], f: &QueueFilter) -> Vec<QueueRow> {
             .filter(|pr| {
                 (f.show_blocked || !pr.is_blocked(f.blocked))
                     && (f.show_unassigned || !pr.unassigned)
-                    && (!f.hide_done || !f.handled.contains(&pr.key))
                     && pr.matches(f.filter)
             })
             .collect();
@@ -390,19 +387,13 @@ mod tests {
         }
     }
 
-    fn filter<'a>(
-        collapsed: &'a HashSet<String>,
-        blocked: &'a HashSet<PrKey>,
-        handled: &'a HashSet<PrKey>,
-    ) -> QueueFilter<'a> {
+    fn filter<'a>(collapsed: &'a HashSet<String>, blocked: &'a HashSet<PrKey>) -> QueueFilter<'a> {
         QueueFilter {
             collapsed,
             filter: "",
             show_blocked: false,
             show_unassigned: false,
-            hide_done: false,
             blocked,
-            handled,
         }
     }
 
@@ -430,8 +421,8 @@ mod tests {
             pr("a/one", 2, "open", "2026-01-02T00:00:00Z"),
             pr("b/two", 3, "other", "2026-01-03T00:00:00Z"),
         ]);
-        let (collapsed, blocked, handled) = (HashSet::new(), HashSet::new(), HashSet::new());
-        let rows = flattened_rows(&groups, &filter(&collapsed, &blocked, &handled));
+        let (collapsed, blocked) = (HashSet::new(), HashSet::new());
+        let rows = flattened_rows(&groups, &filter(&collapsed, &blocked));
         assert_eq!(
             rows,
             vec![
@@ -442,7 +433,7 @@ mod tests {
             ]
         );
         let collapsed = HashSet::from(["a/one".to_string()]);
-        let rows = flattened_rows(&groups, &filter(&collapsed, &blocked, &handled));
+        let rows = flattened_rows(&groups, &filter(&collapsed, &blocked));
         assert_eq!(
             rows,
             vec![
@@ -454,22 +445,22 @@ mod tests {
         // Show blocked reveals blocked rows, but a collapsed repo still hides its PRs.
         let f = QueueFilter {
             show_blocked: true,
-            ..filter(&collapsed, &blocked, &handled)
+            ..filter(&collapsed, &blocked)
         };
         let rows = flattened_rows(&groups, &f);
         assert_eq!(rows.len(), 3);
         let uncollapsed = HashSet::new();
         let f = QueueFilter {
             show_blocked: true,
-            ..filter(&uncollapsed, &blocked, &handled)
+            ..filter(&uncollapsed, &blocked)
         };
         assert_eq!(flattened_rows(&groups, &f).len(), 5);
     }
 
     #[test]
     fn filter_matches_words_across_fields() {
-        let (collapsed, blocked, handled) = (HashSet::new(), HashSet::new(), HashSet::new());
-        let mut f = filter(&collapsed, &blocked, &handled);
+        let (collapsed, blocked) = (HashSet::new(), HashSet::new());
+        let mut f = filter(&collapsed, &blocked);
         let groups = group_by_repository(vec![
             pr("acme/web", 1, "Fix login redirect", "2026-01-01T00:00:00Z"),
             pr(
@@ -493,8 +484,8 @@ mod tests {
             pr("a/one", 1, "a", "2026-01-01T00:00:00Z"),
             pr("a/one", 2, "b", "2026-01-02T00:00:00Z"),
         ]);
-        let (collapsed, blocked, handled) = (HashSet::new(), HashSet::new(), HashSet::new());
-        let rows = flattened_rows(&groups, &filter(&collapsed, &blocked, &handled));
+        let (collapsed, blocked) = (HashSet::new(), HashSet::new());
+        let rows = flattened_rows(&groups, &filter(&collapsed, &blocked));
         let first = PrKey::new("a/one", 2);
         let last = PrKey::new("a/one", 1);
         assert_eq!(move_cursor(&rows, None, 1), Some(first.clone()));
@@ -513,7 +504,7 @@ mod tests {
         let blocked = HashSet::from([PrKey::new("a/one", 2)]);
         let f = QueueFilter {
             show_blocked: true,
-            ..filter(&collapsed, &blocked, &handled)
+            ..filter(&collapsed, &blocked)
         };
         let rows = flattened_rows(&groups, &f);
         assert_eq!(

@@ -74,7 +74,6 @@ pub struct App {
     pub filter: TextEdit,
     pub show_blocked: bool,
     pub show_unassigned: bool,
-    pub hide_done: bool,
     pub blocked: HashSet<PrKey>,
     pub blocked_since: HashMap<PrKey, f64>,
     pub handled: HashSet<PrKey>,
@@ -137,7 +136,6 @@ impl Default for App {
             filter: TextEdit::new(""),
             show_blocked: false,
             show_unassigned: false,
-            hide_done: false,
             blocked: HashSet::new(),
             blocked_since: HashMap::new(),
             handled: HashSet::new(),
@@ -175,9 +173,7 @@ impl App {
             filter: &self.filter.text,
             show_blocked: self.show_blocked,
             show_unassigned: self.show_unassigned,
-            hide_done: self.hide_done,
             blocked: &self.blocked,
-            handled: &self.handled,
         }
     }
 

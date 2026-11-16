@@ -69,11 +69,16 @@ fn show_toggles_fit_sidebar() {
     rt.frame(0.0);
     rt.frame(0.016);
     let sidebar = rect(&mut rt, "sidebar");
-    let done = rect(&mut rt, "show-done");
-    assert!(done[2] > 0.0, "Done switch has no rect");
+    assert_eq!(
+        rect(&mut rt, "show-done"),
+        [0.0; 4],
+        "the Done switch is gone — approved rows hide behind Hide Approved"
+    );
+    let last = rect(&mut rt, "show-blocked");
+    assert!(last[2] > 0.0, "Blocked switch has no rect");
     assert!(
-        done[0] + done[2] <= sidebar[0] + sidebar[2] + 1.0,
-        "Show row overflows sidebar: done {done:?} vs sidebar {sidebar:?}"
+        last[0] + last[2] <= sidebar[0] + sidebar[2] + 1.0,
+        "Show row overflows sidebar: blocked {last:?} vs sidebar {sidebar:?}"
     );
 }
 

@@ -298,10 +298,7 @@ fn show_toggles(s: &App, k: &Kit) -> El {
         "Show blocked pull requests",
         |s| s.show_blocked = !s.show_blocked,
     );
-    let (dt, ds) = toggle("Done", !s.hide_done, "Show reviewed pull requests", |s| {
-        s.hide_done = !s.hide_done
-    });
-    let ds = ds.on_layout(track("show-done"));
+    let bs = bs.on_layout(track("show-blocked"));
     row()
         .w_full()
         .px(10.0)
@@ -312,9 +309,7 @@ fn show_toggles(s: &App, k: &Kit) -> El {
         .child(ut)
         .child(us)
         .child(bt)
-        .child(bs)
-        .child(dt)
-        .child(ds.key("show-done"))
+        .child(bs.key("show-blocked"))
 }
 
 fn group_header(s: &App, k: &Kit, repo: &str) -> El {
