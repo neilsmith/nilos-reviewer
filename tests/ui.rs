@@ -4,7 +4,7 @@
 
 use nilos_reviewer::app::{self, App, DetailTab, Pane, Sync};
 use nilos_reviewer::github::Event;
-use nilos_reviewer::model::{PrKey, ReviewKind};
+use nilos_reviewer::model::{PrKey, QueueRow, ReviewKind};
 use nilos_reviewer::view::view;
 use rune::{Env, Key, KeyEvent, Mods, Runtime};
 
@@ -74,11 +74,11 @@ fn show_toggles_fit_sidebar() {
         [0.0; 4],
         "the Done switch is gone — approved rows hide behind Hide Approved"
     );
-    let last = rect(&mut rt, "show-blocked");
-    assert!(last[2] > 0.0, "Blocked switch has no rect");
+    let last = rect(&mut rt, "hide-approved");
+    assert!(last[2] > 0.0, "Hide Approved switch has no rect");
     assert!(
         last[0] + last[2] <= sidebar[0] + sidebar[2] + 1.0,
-        "Show row overflows sidebar: blocked {last:?} vs sidebar {sidebar:?}"
+        "Show row overflows sidebar: hide-approved {last:?} vs sidebar {sidebar:?}"
     );
 }
 
@@ -97,7 +97,7 @@ fn divider_exists_and_resizes() {
     rt.pointer_up(cx + 120.0, 400.0);
     rt.update(|s, _| {
         assert!(
-            (s.sidebar_w - 420.0).abs() < 6.0,
+            (s.sidebar_w - 460.0).abs() < 6.0,
             "sidebar_w = {}",
             s.sidebar_w
         )
@@ -192,6 +192,22 @@ fn toggles_reveal_hidden_rows() {
         assert_eq!(s.visible_pr_count(), hidden + 1);
         s.show_unassigned = true;
         assert_eq!(s.visible_pr_count(), hidden + 2);
+    });
+}
+
+#[test]
+fn hide_approved_defaults_off_and_hides_rows() {
+    let mut rt = rt(app());
+    rt.frame(0.0);
+    rt.update(|s, _| {
+        assert!(!s.hide_approved, "Hide Approved defaults to off");
+        assert!(s
+            .rows()
+            .contains(&QueueRow::Pr(PrKey::new("acme/api", 131))));
+        s.hide_approved = true;
+        assert!(!s
+            .rows()
+            .contains(&QueueRow::Pr(PrKey::new("acme/api", 131))));
     });
 }
 

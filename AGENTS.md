@@ -46,6 +46,10 @@ same product, new renderer.
 - Optimistic submit → immediate advance to the NEXT row DOWN (not top).
 - Counts exclude handled/approved; unassigned (open, non-draft, no assignee)
   hides behind its own toggle.
+- `PrSummary.approved` = viewer's `latestReviews` verdict is APPROVED → row
+  ticks/dims like handled and the "Hide approved" toggle (off by default)
+  drops it. Set on scan, on Approve submit, and OR-marked by DetailLoaded
+  (never cleared there — the next scan reconciles).
 - Narrow (<780pt): single pane — queue, detail behind select + back button.
 
 ## Rune/platform gotchas (all burned once)

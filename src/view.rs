@@ -299,17 +299,27 @@ fn show_toggles(s: &App, k: &Kit) -> El {
         |s| s.show_blocked = !s.show_blocked,
     );
     let bs = bs.on_layout(track("show-blocked"));
+    let (ht, hs) = toggle(
+        "Hide approved",
+        s.hide_approved,
+        "Hide approved pull requests",
+        |s| s.hide_approved = !s.hide_approved,
+    );
+    let hs = hs.on_layout(track("hide-approved"));
     row()
         .w_full()
         .px(10.0)
         .pb(6.0)
         .gap(6.0)
         .center_y()
+        .flex_wrap()
         .key("show-toggles")
         .child(ut)
         .child(us)
         .child(bt)
         .child(bs.key("show-blocked"))
+        .child(ht)
+        .child(hs.key("hide-approved"))
 }
 
 fn group_header(s: &App, k: &Kit, repo: &str) -> El {

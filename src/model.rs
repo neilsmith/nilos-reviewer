@@ -162,6 +162,8 @@ pub struct QueueFilter<'a> {
     pub filter: &'a str,
     pub show_blocked: bool,
     pub show_unassigned: bool,
+    /// Hide rows the viewer's latest review already approves.
+    pub hide_approved: bool,
     pub blocked: &'a HashSet<PrKey>,
 }
 
@@ -222,6 +224,7 @@ pub fn flattened_rows(groups: &[RepoGroup], f: &QueueFilter) -> Vec<QueueRow> {
             .filter(|pr| {
                 (f.show_blocked || !pr.is_blocked(f.blocked))
                     && (f.show_unassigned || !pr.unassigned)
+                    && (!f.hide_approved || !pr.approved)
                     && pr.matches(f.filter)
             })
             .collect();
@@ -393,6 +396,7 @@ mod tests {
             filter: "",
             show_blocked: false,
             show_unassigned: false,
+            hide_approved: false,
             blocked,
         }
     }
@@ -455,6 +459,39 @@ mod tests {
             ..filter(&uncollapsed, &blocked)
         };
         assert_eq!(flattened_rows(&groups, &f).len(), 5);
+    }
+
+    #[test]
+    fn hide_approved_drops_approved_rows() {
+        let mut approved_pr = pr("a/one", 1, "approved", "2026-01-01T00:00:00Z");
+        approved_pr.approved = true;
+        let groups = group_by_repository(vec![
+            approved_pr,
+            pr("a/one", 2, "open", "2026-01-02T00:00:00Z"),
+            pr("b/two", 3, "other", "2026-01-03T00:00:00Z"),
+        ]);
+        let (collapsed, blocked) = (HashSet::new(), HashSet::new());
+        let mut f = filter(&collapsed, &blocked);
+        f.hide_approved = true;
+        assert_eq!(
+            flattened_rows(&groups, &f),
+            vec![
+                QueueRow::Header("a/one".into()),
+                QueueRow::Pr(PrKey::new("a/one", 2)),
+                QueueRow::Header("b/two".into()),
+                QueueRow::Pr(PrKey::new("b/two", 3)),
+            ]
+        );
+        // A repo left with only approved rows loses its header too.
+        let only_approved = group_by_repository(vec![{
+            let mut p = pr("b/two", 3, "other", "2026-01-03T00:00:00Z");
+            p.approved = true;
+            p
+        }]);
+        assert!(flattened_rows(&only_approved, &f).is_empty());
+        // Off by default — approved rows stay listed.
+        f.hide_approved = false;
+        assert_eq!(pr_rows(&flattened_rows(&groups, &f)).len(), 3);
     }
 
     #[test]
