@@ -230,22 +230,49 @@ impl App {
         self.send(Request::Unblock(key));
     }
 
-    /// PRs still needing attention — handled (submitted) reviews don't count.
+    /// PRs still needing attention — handled and already-approved reviews
+    /// don't count.
     pub fn pr_count(&self) -> usize {
         self.groups
             .iter()
             .flat_map(|g| &g.prs)
-            .filter(|p| !self.handled.contains(&p.key))
+            .filter(|p| !self.handled.contains(&p.key) && !p.approved)
             .count()
     }
 
     /// PR rows the queue shows under the current toggles and filter,
-    /// excluding handled reviews.
+    /// excluding handled and already-approved reviews.
     pub fn visible_pr_count(&self) -> usize {
+        let approved = self.approved_keys();
         let rows = crate::model::flattened_rows(&self.groups, &self.queue_filter());
         rows.iter()
-            .filter(|r| matches!(r, crate::model::QueueRow::Pr(k) if !self.handled.contains(k)))
+            .filter(|r| {
+                matches!(r, crate::model::QueueRow::Pr(k) if !self.handled.contains(k) && !approved.contains(k))
+            })
             .count()
+    }
+
+    /// Queue keys the viewer's latest review approves (server-reported or
+    /// submitted this session). `groups` holds its own copies, so the flag
+    /// is set on both.
+    fn approved_keys(&self) -> HashSet<PrKey> {
+        self.all_prs
+            .iter()
+            .filter(|p| p.approved)
+            .map(|p| p.key.clone())
+            .collect()
+    }
+
+    fn set_approved(&mut self, key: &PrKey) {
+        for pr in self
+            .all_prs
+            .iter_mut()
+            .chain(self.groups.iter_mut().flat_map(|g| g.prs.iter_mut()))
+        {
+            if &pr.key == key {
+                pr.approved = true;
+            }
+        }
     }
 
     /// The single-column breakpoint.
@@ -369,11 +396,14 @@ impl App {
     }
 
     /// The next unhandled row below the cursor, for auto-advance on submit.
+    /// Approved rows are terminal too — they need no review.
     pub fn advance(&mut self, tx: &mut Tx) {
+        let mut done = self.handled.clone();
+        done.extend(self.approved_keys());
         let next = next_unhandled(
             &self.rows(),
             self.cursor.as_ref(),
-            &self.handled,
+            &done,
             &self.blocked,
             &self.submitting,
         )
@@ -485,6 +515,18 @@ impl App {
                         pr.reasons = detail.requested.clone();
                     }
                 }
+                // Detail events are fresher than the scan: a viewer APPROVED
+                // as the latest review marks the summary (never clears — the
+                // next scan reconciles).
+                let latest = detail.events.iter().rev().find_map(|e| match &e.kind {
+                    DiscussionKind::Review(state) if e.author == self.viewer => {
+                        Some(state.as_str())
+                    }
+                    _ => None,
+                });
+                if latest == Some("APPROVED") {
+                    self.set_approved(&key);
+                }
                 self.detail_cache.insert(key.clone(), *detail.clone());
                 if self.cursor.as_ref() == Some(&key) {
                     self.set_detail(*detail);
@@ -522,6 +564,9 @@ impl App {
             } => {
                 self.submitting.remove(&key);
                 self.handled.insert(key.clone());
+                if kind == ReviewKind::Approve {
+                    self.set_approved(&key);
+                }
                 if let Some(sha) = self
                     .detail_cache
                     .get(&key)

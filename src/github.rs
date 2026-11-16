@@ -388,6 +388,7 @@ const GQL_PR: &str = r#"... on PullRequest {
   author { login }
   repository { nameWithOwner }
   labels(first: 20) { nodes { name } }
+  latestReviews(first: 100) { nodes { author { login } state } }
   reviewRequests(first: 20) { nodes { requestedReviewer {
     __typename ... on User { login } ... on Team { name }
   } } }
@@ -443,6 +444,19 @@ fn gql_pr(node: &Value, login: &str, unassigned: bool) -> Option<PrSummary> {
                 })
             })
             .unwrap_or(false),
+        // latestReviews carries each reviewer's current verdict; the
+        // viewer's APPROVED entry ticks the row like a local submit.
+        approved: node
+            .get("latestReviews")
+            .and_then(|r| r.get("nodes"))
+            .and_then(Value::as_array)
+            .map(|reviews| {
+                reviews.iter().any(|r| {
+                    r.get("author").and_then(|a| str_field(a, "login")) == Some(login)
+                        && str_field(r, "state") == Some("APPROVED")
+                })
+            })
+            .unwrap_or(false),
         unassigned,
         head_sha: String::new(),
         url: str_field(node, "url").unwrap_or("").to_string(),
@@ -466,6 +480,7 @@ fn merge_pr(prs: &mut Vec<PrSummary>, pr: PrSummary) {
             }
             existing.unassigned &= pr.unassigned;
             existing.blocked_label |= pr.blocked_label;
+            existing.approved |= pr.approved;
         }
         None => prs.push(pr),
     }
@@ -1130,6 +1145,7 @@ mod tests {
             reasons: vec![],
             unassigned,
             blocked_label: false,
+            approved: false,
             head_sha: String::new(),
             url: String::new(),
         }
@@ -1177,6 +1193,37 @@ mod tests {
         assert!(pr.unassigned);
         assert!(pr.blocked_label, "blocked label should map");
         assert!(pr.reasons.iter().any(|r| r.contains("Owners")));
+        assert!(!pr.approved);
+    }
+
+    /// The viewer's APPROVED latest review marks the summary — the queue can
+    /// then tick it like a locally-submitted approval. Other reviewers'
+    /// approvals and the viewer's non-approve verdicts don't count.
+    #[test]
+    fn gql_pr_flags_viewer_approval() {
+        assert!(
+            GQL_PR.contains("latestReviews"),
+            "the search fields must fetch latestReviews"
+        );
+        let mut node = serde_json::json!({
+            "number": 42, "title": "t", "createdAt": "2026-01-01T00:00:00Z",
+            "isDraft": false, "url": "u",
+            "author": {"login": "dev"}, "repository": {"nameWithOwner": "a/one"},
+            "labels": {"nodes": []}, "reviewRequests": {"nodes": []},
+            "latestReviews": {"nodes": [
+                {"author": {"login": "me"}, "state": "APPROVED"},
+                {"author": {"login": "other"}, "state": "CHANGES_REQUESTED"},
+            ]},
+        });
+        assert!(gql_pr(&node, "me", false).unwrap().approved);
+        node["latestReviews"]["nodes"][0]["author"]["login"] = "someone".into();
+        assert!(!gql_pr(&node, "me", false).unwrap().approved);
+        node["latestReviews"]["nodes"][0] = serde_json::json!({
+            "author": {"login": "me"}, "state": "CHANGES_REQUESTED"
+        });
+        assert!(!gql_pr(&node, "me", false).unwrap().approved);
+        node["latestReviews"] = serde_json::Value::Null;
+        assert!(!gql_pr(&node, "me", false).unwrap().approved);
     }
 
     /// Archived repos can't be reviewed — every scope excludes them.

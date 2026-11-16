@@ -381,6 +381,8 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
     let selected = s.cursor.as_ref() == Some(&key);
     let submitting = s.submitting.get(&key).copied();
     let handled = s.handled.contains(&key);
+    // Already-approved reads exactly like a locally-submitted review.
+    let done = handled || pr.approved;
     let blocked = pr.is_blocked(&s.blocked);
     let age = age_of(&pr.created_at, now_secs());
 
@@ -405,7 +407,7 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
             .child(text(kind.name()).font(k.ty.small).color(k.c.text_muted));
     } else if blocked {
         status = status.child(icon(&OCTAGON, 13.0).color(k.c.warning.fg));
-    } else if handled {
+    } else if done {
         status = status.child(icon(k.glyph.check, 13.0).color(k.c.success.fg));
     }
 
@@ -453,7 +455,7 @@ fn pr_row(s: &App, k: &Kit, pr: &PrSummary) -> El {
                 .child(
                     text(pr.title.clone())
                         .font(k.ty.ui_compact)
-                        .color(if handled || blocked {
+                        .color(if done || blocked {
                             k.c.text_muted
                         } else {
                             k.c.text_base

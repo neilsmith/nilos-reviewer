@@ -85,6 +85,7 @@ fn pr(repo: &str, n: u64, title: &str, author: &str, created: &str, reasons: &[&
         draft: false,
         reasons: reasons.iter().map(|s| s.to_string()).collect(),
         blocked_label: false,
+        approved: false,
         unassigned: false,
         head_sha: format!("{n:040x}"),
         url: format!("https://github.com/{repo}/pull/{n}"),
@@ -142,14 +143,18 @@ pub fn queue() -> Vec<RepoGroup> {
                     p.blocked_label = true;
                     p
                 },
-                pr(
-                    "acme/api",
-                    131,
-                    "Return 404 for missing fixtures",
-                    "fern",
-                    "2026-11-08T08:01:00Z",
-                    &["api-reviewers"],
-                ),
+                {
+                    let mut p = pr(
+                        "acme/api",
+                        131,
+                        "Return 404 for missing fixtures",
+                        "fern",
+                        "2026-11-08T08:01:00Z",
+                        &["api-reviewers"],
+                    );
+                    p.approved = true;
+                    p
+                },
             ],
         },
         RepoGroup {

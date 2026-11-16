@@ -37,6 +37,9 @@ pub struct PrSummary {
     pub unassigned: bool,
     /// The server carries a `blocked` label (case-insensitive).
     pub blocked_label: bool,
+    /// The viewer's latest review on the server is APPROVED — the row ticks
+    /// and dims as if we had just approved it here.
+    pub approved: bool,
     pub head_sha: String,
     pub url: String,
 }
@@ -381,6 +384,7 @@ mod tests {
             reasons: vec!["You".into()],
             unassigned: false,
             blocked_label: false,
+            approved: false,
             head_sha: "abc".into(),
             url: String::new(),
         }

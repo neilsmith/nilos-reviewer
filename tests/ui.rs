@@ -213,6 +213,67 @@ fn counts_exclude_handled() {
     });
 }
 
+#[test]
+fn approved_prs_are_marked_and_dont_count() {
+    let mut rt = rt(app());
+    rt.frame(0.0);
+    rt.update(|s, _| {
+        let approved = PrKey::new("acme/api", 131);
+        assert!(
+            s.summary(&approved).is_some_and(|p| p.approved),
+            "the fixture's already-approved PR must read as approved"
+        );
+        // 7 queued; approved ones need no attention, like handled ones.
+        assert_eq!(s.pr_count(), 6);
+        // 5 visible rows (blocked + unassigned hidden) minus the approved one.
+        assert_eq!(s.visible_pr_count(), 4);
+    });
+}
+
+#[test]
+fn approve_submit_marks_pr_approved() {
+    let mut rt = rt(app());
+    rt.frame(0.0);
+    rt.update(|s, tx| {
+        s.on_event(
+            Event::ReviewSubmitted {
+                key: PrKey::new("acme/web", 47),
+                kind: ReviewKind::Approve,
+                labelled: None,
+            },
+            tx,
+        );
+        assert!(s.summary(&PrKey::new("acme/web", 47)).unwrap().approved);
+        s.on_event(
+            Event::ReviewSubmitted {
+                key: PrKey::new("acme/docs", 9),
+                kind: ReviewKind::Comment,
+                labelled: None,
+            },
+            tx,
+        );
+        assert!(
+            !s.summary(&PrKey::new("acme/docs", 9)).unwrap().approved,
+            "only approvals mark the row approved"
+        );
+    });
+}
+
+#[test]
+fn confirm_advances_past_approved_rows() {
+    let mut rt = rt(app());
+    rt.frame(0.0);
+    rt.update(|s, tx| s.select(Some(PrKey::new("acme/docs", 9)), tx));
+    rt.update(|s, tx| {
+        s.confirming = Some(ReviewKind::Approve);
+        s.confirm_review(tx);
+    });
+    rt.update(|s, _| {
+        // docs#9 submits; api#131 is approved → advance wraps to acme/web#47.
+        assert_eq!(s.cursor, Some(PrKey::new("acme/web", 47)));
+    });
+}
+
 // ── Review flow state ────────────────────────────────────────────────────
 
 #[test]
