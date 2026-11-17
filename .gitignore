@@ -2,3 +2,19 @@
 /target-normalized
 /--at
 /rune
+
+# OS / editor
+.DS_Store
+.idea/
+*.rs.bk
+
+# dotenv secrets
+.env
+.env.*
+!.env.example
+
+# headless --snap screenshots written to cwd
+/*.png
+
+# python envs from mise tools
+.venv/
