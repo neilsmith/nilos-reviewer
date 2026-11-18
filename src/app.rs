@@ -67,6 +67,9 @@ pub struct App {
     /// (deriving it from the clock at build time trips rune's live_only
     /// heuristic, which compares view output across builds).
     pub synced_label: String,
+    /// The app clock in seconds, from `poll` (virtual in headless runs).
+    /// `blocked_since` stamps ride it so the grace period is testable.
+    pub now: std::cell::Cell<f64>,
 
     // queue
     pub all_prs: Vec<PrSummary>,
@@ -133,6 +136,7 @@ impl Default for App {
             waker: None,
             exe_path: std::env::current_exe().unwrap_or_default(),
             synced_label: String::new(),
+            now: std::cell::Cell::new(0.0),
             all_prs: Vec::new(),
             groups: Vec::new(),
             collapsed: HashSet::new(),
@@ -435,12 +439,8 @@ impl App {
             return;
         };
         if kind == ReviewKind::Blocked {
-            let now = std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .map(|d| d.as_secs_f64())
-                .unwrap_or(0.0);
             self.blocked.insert(key.clone());
-            self.blocked_since.insert(key.clone(), now);
+            self.blocked_since.insert(key.clone(), self.now.get());
         }
         self.submitting.insert(key.clone(), kind);
         self.send(Request::SubmitReview {
@@ -548,11 +548,7 @@ impl App {
             }
             Event::UnblockFailed { key, error } => {
                 self.blocked.insert(key.clone());
-                let now = std::time::SystemTime::now()
-                    .duration_since(std::time::UNIX_EPOCH)
-                    .map(|d| d.as_secs_f64())
-                    .unwrap_or(0.0);
-                self.blocked_since.insert(key.clone(), now);
+                self.blocked_since.insert(key.clone(), self.now.get());
                 if let Some(p) = self.all_prs.iter_mut().find(|p| p.key == key) {
                     p.blocked_label = true;
                 }
@@ -602,10 +598,7 @@ impl App {
     /// ago).
     fn reconcile_blocked(&mut self) {
         const GRACE: f64 = 120.0;
-        let now = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .map(|d| d.as_secs_f64())
-            .unwrap_or(0.0);
+        let now = self.now.get();
         let queued: HashSet<&PrKey> = self
             .groups
             .iter()
@@ -652,8 +645,9 @@ impl App {
     }
 
     /// Periodic poll work: drain service events, pick up update jobs, re-read
-    /// the Omarchy palette.
+    /// the Omarchy palette on the watcher's signal.
     pub fn poll(&mut self, t: f64, tx: &mut Tx) -> bool {
+        self.now.set(t);
         let mut changed = self.poll_update(t, tx);
         let events: Vec<Event> = self
             .events
@@ -674,25 +668,29 @@ impl App {
                 changed = true;
             }
         }
-        let label = self
-            .last_synced
-            .map(|t| {
-                let ago = now_secs() as f64 - t;
-                let text = if ago < 10.0 {
-                    "just now".to_string()
-                } else if ago < 60.0 {
-                    format!("{ago:.0}s ago")
-                } else if ago < 3600.0 {
-                    format!("{:.0}m ago", ago / 60.0)
-                } else {
-                    format!("{:.0}h ago", ago / 3600.0)
-                };
-                format!("updated {text}")
-            })
-            .unwrap_or_default();
-        if label != self.synced_label {
-            self.synced_label = label;
-            changed = true;
+        if let Some(t0) = self.last_synced {
+            let ago = (now_secs() as f64 - t0).max(0.0);
+            let text = if ago < 10.0 {
+                "just now".to_string()
+            } else if ago < 60.0 {
+                format!("{ago:.0}s ago")
+            } else if ago < 3600.0 {
+                format!("{:.0}m ago", ago / 60.0)
+            } else {
+                format!("{:.0}h ago", ago / 3600.0)
+            };
+            let label = format!("updated {text}");
+            if label != self.synced_label {
+                self.synced_label = label;
+                changed = true;
+            }
+            // The label ages while the window idles, so the next refresh is
+            // a scheduled wake — seconds tick over quickly at first.
+            tx.wake_after(std::time::Duration::from_secs_f64(if ago < 60.0 {
+                1.0
+            } else {
+                30.0
+            }));
         }
         changed
     }

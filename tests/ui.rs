@@ -409,6 +409,45 @@ fn review_failure_surfaces_error_and_draft() {
 }
 
 #[test]
+fn blocked_marks_expire_on_the_app_clock() {
+    let mut s = app();
+    s.scan_generation = 0;
+    let key = s.all_prs[0].key.clone();
+    s.blocked.insert(key.clone());
+    s.blocked_since.insert(key.clone(), 900.0);
+    let mut rt = rt(s);
+    // Inside the two-minute grace the local mark survives a scan reconcile.
+    rt.update(|s, tx| {
+        s.now.set(1000.0);
+        s.on_event(Event::SyncFinished { gen: 0 }, tx);
+        assert!(s.blocked.contains(&key), "mark dropped inside grace");
+    });
+    // Past it, only a server-side label would keep the mark — this PR has none.
+    rt.update(|s, tx| {
+        s.now.set(1201.0);
+        s.on_event(Event::SyncFinished { gen: 0 }, tx);
+        assert!(!s.blocked.contains(&key), "stale mark kept past grace");
+    });
+}
+
+#[test]
+fn synced_label_ages() {
+    let mut s = app();
+    s.last_synced = Some(
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|d| d.as_secs_f64() - 100.0)
+            .unwrap_or(0.0),
+    );
+    s.sync = Sync::Done;
+    let mut rt = rt(s);
+    rt.update(|s, tx| {
+        s.poll(0.0, tx);
+        assert_eq!(s.synced_label, "updated 2m ago");
+    });
+}
+
+#[test]
 fn theme_watch_flag_reloads_palette() {
     let mut s = app();
     let flag = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(true));
