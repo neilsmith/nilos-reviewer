@@ -30,7 +30,13 @@ fn main() {
         return;
     }
 
+    rune::prewarm_gpu();
     rune::set_app_id("nilos-reviewer");
+    // The Dock icon on macOS, and the taskbar icon on Windows. Linux takes
+    // the icon from the launcher entry.
+    if !cfg!(target_os = "linux") {
+        let _ = rune::set_app_icon(&include_bytes!("../assets/icon.png")[..]);
+    }
     let app = rune::App::new(AppSpec::<App> {
         min_size: Some((420.0, 420.0)),
         scenes: &[
@@ -81,6 +87,13 @@ fn main() {
         ..AppSpec::new("Nilos Reviewer", (1280.0, 800.0), App::default, view::view)
     })
     .compositor(nilos_reviewer::fx::Gfx::default())
+    // macOS: content under a transparent titlebar, the traffic lights centred
+    // in our 40-pt bar, and only .window_drag() regions move the window.
+    .chrome(rune::Chrome {
+        full_size_content: true,
+        traffic_lights: Some((14.0, 13.0)),
+        drag_regions: true,
+    })
     .titlebar(rune::Titlebar::new(40.0));
     app.run();
 }
