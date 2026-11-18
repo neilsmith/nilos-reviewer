@@ -140,18 +140,18 @@ fn watch_dir(
 ) -> Arc<AtomicBool> {
     let flag = Arc::new(AtomicBool::new(false));
     let f2 = flag.clone();
+    // Stamped here, not inside the thread: a theme that appears before the
+    // thread's first tick is still a change from when the watch was asked.
+    let mut last = theme_stamp(&theme_dir);
     let _ = std::thread::Builder::new()
         .name("nilos-theme".into())
-        .spawn(move || {
-            let mut last = theme_stamp(&theme_dir);
-            loop {
-                std::thread::sleep(period);
-                let now = theme_stamp(&theme_dir);
-                if now != last {
-                    last = now;
-                    f2.store(true, Ordering::SeqCst);
-                    wake();
-                }
+        .spawn(move || loop {
+            std::thread::sleep(period);
+            let now = theme_stamp(&theme_dir);
+            if now != last {
+                last = now;
+                f2.store(true, Ordering::SeqCst);
+                wake();
             }
         });
     flag
