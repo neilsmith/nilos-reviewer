@@ -69,5 +69,13 @@ same product, new renderer.
   maps mark→`FxLayer`, and needs `.at(rt.t)` or effects render frozen at
   phase 0 (the "non-breathing glow" bug).
 - `hex()` is `rune::color::hex(&str) -> Option<Color>`, not `Color::hex`.
+- Rune's newer revs carry `[patch.crates-io]` (vendored wgpu-hal/winit/
+  parley_engine/accesskit_windows) — a dependency's patch table does NOT
+  propagate, so on the next pin bump past rev 533a5e1 check Rune's root
+  Cargo.toml and mirror its `[patch]` section into ours (quire does this,
+  using a vendored winit with extra Wayland file-drop fixes).
+- `poll` runs only on wakes (deadlines, OS events, `Waker`) — an idle window
+  does NOT poll. Anything time-based must `tx.wake_after(d)` to fire; our
+  0.75s Omarchy re-read only works while something else keeps waking us.
 - `Button`/`Badge` look identical as chips — actions must be solid fills with
   real borders; metadata stays hollow (DESIGN.md's affordance rule).
