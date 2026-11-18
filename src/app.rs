@@ -100,7 +100,9 @@ pub struct App {
     // theme
     pub appearance: Appearance,
     pub omarchy: Option<OmarchyPalette>,
-    pub omarchy_checked_at: f64,
+    /// Set by the theme watcher thread when the Omarchy theme changes
+    /// (`theme::watch`).
+    pub theme_changed: Option<std::sync::Arc<std::sync::atomic::AtomicBool>>,
 
     // layout
     pub window: [f32; 2],
@@ -155,7 +157,7 @@ impl Default for App {
             review_error: None,
             appearance: Appearance::Auto,
             omarchy: crate::theme::current_palette(),
-            omarchy_checked_at: 0.0,
+            theme_changed: None,
             window: [1280.0, 800.0],
             sidebar_w: 340.0,
             resize_from: 340.0,
@@ -661,9 +663,11 @@ impl App {
         for event in events {
             changed |= self.on_event(event, tx);
         }
-        let now = tx.clock();
-        if now - self.omarchy_checked_at > 0.75 {
-            self.omarchy_checked_at = now;
+        if self
+            .theme_changed
+            .as_ref()
+            .is_some_and(|f| f.swap(false, std::sync::atomic::Ordering::SeqCst))
+        {
             let palette = crate::theme::current_palette();
             if palette != self.omarchy {
                 self.omarchy = palette;
@@ -702,6 +706,10 @@ pub fn setup(s: &mut App, waker: rune::Waker) {
     if rune::tooling::is_headless() {
         return;
     }
+    s.theme_changed = crate::theme::watch({
+        let w = waker.clone();
+        move || w()
+    });
     let (cmd, events) = github::spawn(move || waker());
     s.cmd = Some(cmd);
     s.events = Some(events);

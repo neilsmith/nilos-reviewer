@@ -409,6 +409,32 @@ fn review_failure_surfaces_error_and_draft() {
 }
 
 #[test]
+fn theme_watch_flag_reloads_palette() {
+    let mut s = app();
+    let flag = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(true));
+    s.theme_changed = Some(flag.clone());
+    // A stale palette forces an observable reload whether or not this host
+    // runs Omarchy.
+    s.omarchy = Some(nilos_reviewer::theme::OmarchyPalette {
+        mode: Some("bogus".into()),
+        ..Default::default()
+    });
+    let mut rt = rt(s);
+    rt.update(|s, tx| {
+        s.poll(0.0, tx);
+        assert!(
+            !flag.load(std::sync::atomic::Ordering::SeqCst),
+            "the poll left the change flag set"
+        );
+        assert_eq!(
+            s.omarchy,
+            nilos_reviewer::theme::current_palette(),
+            "the palette did not reload from disk"
+        );
+    });
+}
+
+#[test]
 fn update_check_result_shows_chip() {
     let mut s = app();
     s.update
