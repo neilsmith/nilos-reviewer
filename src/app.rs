@@ -54,9 +54,11 @@ pub struct App {
     pub sync: Sync,
     pub sync_failures: Vec<(String, String)>,
     pub notice: Option<String>,
-    /// A self-update was applied; restart to run it. Renders as the footer
-    /// version chip until then.
-    pub update_ready: Option<String>,
+    /// Update check/apply jobs (`update.rs`).
+    pub update: crate::update::UpdateState,
+    /// The event-loop waker, set by `setup`. Its presence means a real window
+    /// is running — background jobs spawn only when it's there.
+    pub waker: Option<rune::Waker>,
     /// Executable path captured at startup. `current_exe` read later — after
     /// self_update's rename-over — resolves to a stale " (deleted)" path on
     /// Linux that can't be spawned; this path still points at the new binary.
@@ -107,8 +109,6 @@ pub struct App {
 
     /// Sidebar width when the current divider drag began.
     pub resize_from: f32,
-    /// Background self-updater result channel (None in tests/fixtures).
-    pub update_rx: Option<std::sync::mpsc::Receiver<String>>,
     /// Wall-clock secs when the last scan finished (staleness display).
     pub last_synced: Option<f64>,
     /// Key → laid-out rect, for tests and layout-sensitive logic.
@@ -127,7 +127,8 @@ impl Default for App {
             sync: Sync::Idle,
             sync_failures: Vec::new(),
             notice: None,
-            update_ready: None,
+            update: Default::default(),
+            waker: None,
             exe_path: std::env::current_exe().unwrap_or_default(),
             synced_label: String::new(),
             all_prs: Vec::new(),
@@ -158,7 +159,6 @@ impl Default for App {
             window: [1280.0, 800.0],
             sidebar_w: 340.0,
             resize_from: 340.0,
-            update_rx: None,
             last_synced: None,
             rects: Default::default(),
             pane: Pane::Queue,
@@ -312,6 +312,7 @@ impl App {
         self.scan_generation += 1;
         self.sync_failures.clear();
         self.send(Request::Refresh);
+        self.check_updates();
         self.sync = Sync::Scanning {
             text: "Starting scan…".to_string(),
         };
@@ -634,7 +635,12 @@ impl App {
             .ancestors()
             .find(|p| p.extension() == Some(std::ffi::OsStr::new("app")))
             .map(|b| std::process::Command::new("open").arg("-n").arg(b).spawn())
-            .unwrap_or_else(|| std::process::Command::new(exe).spawn());
+            .unwrap_or_else(|| {
+                std::process::Command::new(exe)
+                    .args(std::env::args_os().skip(1))
+                    .stdin(std::process::Stdio::null())
+                    .spawn()
+            });
         match spawned {
             Ok(_) => tx.quit(),
             Err(_) => {
@@ -643,16 +649,10 @@ impl App {
         }
     }
 
-    /// Periodic poll work: drain service events, re-read the Omarchy palette.
-    pub fn poll(&mut self, _t: f64, tx: &mut Tx) -> bool {
-        let mut changed = false;
-        if let Some(rx) = &self.update_rx {
-            if let Ok(version) = rx.try_recv() {
-                self.update_ready = Some(version);
-                self.update_rx = None;
-                changed = true;
-            }
-        }
+    /// Periodic poll work: drain service events, pick up update jobs, re-read
+    /// the Omarchy palette.
+    pub fn poll(&mut self, t: f64, tx: &mut Tx) -> bool {
+        let mut changed = self.poll_update(t, tx);
         let events: Vec<Event> = self
             .events
             .as_ref()
@@ -698,10 +698,10 @@ impl App {
 /// first scan. Slow work lives here, not in `main` — setup runs on_ready,
 /// after the first frame.
 pub fn setup(s: &mut App, waker: rune::Waker) {
+    s.waker = Some(waker.clone());
     if rune::tooling::is_headless() {
         return;
     }
-    s.update_rx = Some(crate::update::spawn());
     let (cmd, events) = github::spawn(move || waker());
     s.cmd = Some(cmd);
     s.events = Some(events);

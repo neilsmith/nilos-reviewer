@@ -409,21 +409,24 @@ fn review_failure_surfaces_error_and_draft() {
 }
 
 #[test]
-fn update_version_lands_as_notice() {
-    let (tx_v, rx_v) = std::sync::mpsc::channel();
-    let mut rt = rt(App {
-        update_rx: Some(rx_v),
-        ..Default::default()
-    });
+fn update_check_result_shows_chip() {
+    let mut s = app();
+    s.update
+        .fake_check(Ok(Some(nilos_reviewer::update::Release {
+            version: "9.9.9".into(),
+            url: None,
+        })));
+    let mut rt = rt(s);
     rt.frame(0.016);
-    tx_v.send("v9.9.9".to_string()).unwrap();
     rt.update(|s, tx| {
         assert!(
             s.poll(0.0, tx),
-            "a landed update must paint — an idle window draws nothing"
+            "a landed update check must paint — an idle window draws nothing"
         );
-        assert_eq!(s.update_ready.as_deref(), Some("v9.9.9"));
-        assert!(s.update_rx.is_none());
+        assert_eq!(
+            s.update.available.as_ref().map(|r| r.version.as_str()),
+            Some("9.9.9")
+        );
     });
     rt.frame(0.016);
     rt.frame(0.016);
@@ -431,12 +434,48 @@ fn update_version_lands_as_notice() {
 }
 
 #[test]
-fn update_chip_click_relaunches() {
+fn update_apply_error_shows_notice() {
     let mut s = app();
-    s.update_ready = Some("v9.9.9".into());
-    // A path that cannot spawn: if the click reaches restart, the failure
-    // must surface the relaunch notice (not die silently).
+    s.update.fake_apply(Err("disk full".into()));
+    let mut rt = rt(s);
+    rt.frame(0.016);
+    rt.update(|s, tx| {
+        assert!(s.poll(0.0, tx));
+        assert!(
+            s.notice.as_deref().is_some_and(|n| n.contains("disk full")),
+            "apply failure must surface as a notice, got {:?}",
+            s.notice
+        );
+        assert!(!s.update.applying(), "the apply job is spent");
+    });
+}
+
+#[test]
+fn update_apply_done_relaunches() {
+    let mut s = app();
+    // A path that cannot spawn: the relaunch failure must surface the notice
+    // (not die silently, and not spawn the test binary again).
     s.exe_path = "/nonexistent/nilos-reviewer".into();
+    s.update.fake_apply(Ok(()));
+    let mut rt = rt(s);
+    rt.frame(0.016);
+    rt.update(|s, tx| {
+        s.poll(0.0, tx);
+        assert_eq!(
+            s.notice.as_deref(),
+            Some("Couldn't relaunch — quit and reopen to run the update"),
+            "the finished apply did not reach restart"
+        );
+    });
+}
+
+#[test]
+fn update_chip_click_updates_or_opens_page() {
+    let mut s = app();
+    s.update.available = Some(nilos_reviewer::update::Release {
+        version: "9.9.9".into(),
+        url: Some("https://example.com/asset.tar.gz".into()),
+    });
     let mut rt = rt(s);
     rt.frame(0.0);
     rt.frame(0.016);
@@ -448,11 +487,9 @@ fn update_chip_click_relaunches() {
     rt.pointer_down(cx, cy);
     rt.pointer_up(cx, cy);
     rt.frame(0.016);
+    // The test binary is a dev build: the click must NOT start a self-update
+    // (it falls back to opening the release page).
     rt.update(|s, _| {
-        assert_eq!(
-            s.notice.as_deref(),
-            Some("Couldn't relaunch — quit and reopen to run the update"),
-            "chip click did not reach restart"
-        );
+        assert!(!s.update.applying(), "a dev build started a self-update");
     });
 }

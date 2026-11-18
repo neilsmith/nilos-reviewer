@@ -10,8 +10,23 @@ use nilos_reviewer::{app, view};
 use rune::AppSpec;
 
 fn main() {
-    if std::env::args().any(|a| a == "--time-queue") {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.iter().any(|a| a == "--time-queue") {
         nilos_reviewer::github::timing_probe();
+        return;
+    }
+    // The updater verifies a downloaded binary by running `--version` on it —
+    // the output must start with the app name.
+    if args.iter().any(|a| a == "--version" || a == "-V") {
+        println!("nilos-reviewer {}", env!("CARGO_PKG_VERSION"));
+        return;
+    }
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        println!(
+            "nilos-reviewer: a GitHub PR review queue.\n\n\
+             Usage:\n  nilos-reviewer            Open the window\n  \
+             nilos-reviewer --version  Print the version"
+        );
         return;
     }
 
@@ -49,7 +64,10 @@ fn main() {
             }),
             ("updated", |s| {
                 s.load_fixture();
-                s.update_ready = Some("0.2.3".into());
+                s.update.available = Some(nilos_reviewer::update::Release {
+                    version: "0.2.3".into(),
+                    url: None,
+                });
             }),
             ("narrow-detail", |s| {
                 s.load_fixture();

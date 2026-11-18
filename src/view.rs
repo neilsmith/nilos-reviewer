@@ -1023,8 +1023,8 @@ fn statusbar(s: &App, k: &Kit) -> El {
                 .truncate(),
         )
         .child(el().grow(1.0))
-        .child(match &s.update_ready {
-            Some(v) => update_chip(s, k, v),
+        .child(match &s.update.available {
+            Some(rel) => update_chip(s, k, rel),
             None => text(format!("v{}", env!("CARGO_PKG_VERSION")))
                 .font(k.ty.small)
                 .color(k.c.text_faint),
@@ -1077,27 +1077,38 @@ fn statusbar(s: &App, k: &Kit) -> El {
         .child(right)
 }
 
-/// The applied-update affordance — filled because it acts (click restarts),
-/// sitting in the quiet footer where muted metadata makes it pop.
-fn update_chip(_s: &App, k: &Kit, version: &str) -> El {
-    col()
+/// The update affordance — filled because it acts (click downloads, verifies,
+/// swaps and restarts), sitting in the quiet footer where muted metadata makes
+/// it pop. Greyed while the apply runs.
+fn update_chip(s: &App, k: &Kit, rel: &crate::update::Release) -> El {
+    let busy = s.update.applying();
+    let help = if rel.url.is_some() {
+        format!("v{} is out — update and restart", rel.version)
+    } else {
+        format!("v{} is out — open the release page", rel.version)
+    };
+    let mut c = col()
         .key("update-chip")
         .on_layout(track("update-chip"))
         .px(8.0)
         .h(24.0)
         .radius(6.0)
         .fill(k.c.bg_accent)
-        .hover(k.c.submit_hover)
         .border(1.0, k.c.border_strong)
-        .cursor(rune::Cursor::Pointer)
-        .on_press_tx(|s: &mut App, tx| s.restart(tx))
-        .help(format!("Updated to v{version} — restart to apply"))
+        .help(help)
         .center()
         .child(
-            text(format!("v{version} · restart"))
+            text(if busy { "Updating…" } else { "Update" })
                 .font(k.ty.small)
                 .color(k.c.text_contrast),
-        )
+        );
+    if !busy {
+        c = c
+            .hover(k.c.submit_hover)
+            .cursor(rune::Cursor::Pointer)
+            .on_press_tx(|s: &mut App, tx| s.start_update(tx));
+    }
+    c
 }
 
 fn first_line(s: &str) -> &str {

@@ -25,7 +25,14 @@ same product, new renderer.
 - `src/fx.rs` — tiny rune-fx compositor: one GLOW mark for the loading state; `animating()` true only while an effect slot exists (window still idles)
 - `src/theme.rs` — `Kit::neutral` or `Kit::from_palette` from Omarchy colors.toml
 - `src/fixtures.rs` — fictional acme/* data for scenes/tests (never real bodies)
-- `src/update.rs` — `self_update = "=1.3.2"` against release tarballs `nilos-reviewer-{target}.tar.gz`; `asset_matcher` must stay EXACT name match (the `.sha256` sibling collides on substring)
+- `src/update.rs` — quire-style flow on `self_update` primitives: background
+  check (`get_newer_releases`) → "Update" chip → `Job` downloads, runs
+  `--version` on the new binary to verify, renames into place, restarts.
+  Dev builds (`target/release|debug` in path) and unwritable dirs refuse and
+  fall back to the release page. Assets matched EXACTLY (`asset_url`) — the
+  `.sha256` and `.app.tar.gz` siblings collide on substring; macOS in a
+  `.app` bundle swaps the whole bundle, not just the Mach-O. `--version`
+  output must keep starting with `nilos-reviewer` — it's the verify handshake
 - `tests/ui.rs` — Runtime-driven tests: real wheel dispatch, layout rects via `on_layout` into `App::rects`, key/click events, event injection
 - `packaging/macos/Info.plist` + `assets/icon.png` — the `.app` bundle bits the release workflow assembles + ad-hoc codesigns
 
